@@ -31,8 +31,14 @@ window.Sync = (function () {
   };
 
   function sessionId() {
+    // explicit override wins: mobile.html?s=20260625_FD_FG  → same room as the deck
+    var q = new URLSearchParams(location.search);
+    var s = q.get('s') || q.get('room');
+    if (s) return s;
+    // otherwise derive from filename, stripping a / -mobile / -join suffix
+    // so e.g. "20260625_FD_FG" and mobile.html?s=20260625_FD_FG share one room
     var f = (location.pathname.split('/').pop() || 'session').replace(/\.html?$/i, '');
-    return f || 'session';
+    return f.replace(/[-_](|mobile|join)$/i, '') || 'session';
   }
 
   var configured = !!FIREBASE_CONFIG.databaseURL
@@ -42,7 +48,8 @@ window.Sync = (function () {
   if (configured) {
     try {
       firebase.initializeApp(FIREBASE_CONFIG);
-      var base = firebase.database().ref('sessions/' + sessionId());
+      var db = firebase.database();
+      var base = db.ref('sessions/' + sessionId());
       console.info('[Sync] Online — room "' + sessionId() + '".');
       return {
         online: true,
@@ -51,7 +58,8 @@ window.Sync = (function () {
         push: function (path, item) { return base.child(path).push(item); },
         set: function (path, val) { return base.child(path).set(val); },
         transaction: function (path, fn) { return base.child(path).transaction(fn); },
-        remove: function (path) { return base.child(path).remove(); }
+        remove: function (path) { return base.child(path).remove(); },
+        connected: function (cb) { db.ref('.info/connected').on('value', function (s) { cb(s.val() === true); }); }
       };
     } catch (e) { console.warn('[Sync] Firebase init failed — local-only mode.', e); }
   } else {
@@ -76,6 +84,7 @@ window.Sync = (function () {
     push: function (path, item) { var id = 'loc' + (++seq); put(path + '/' + id, item); fireAll(); return Promise.resolve({ key: id }); },
     set: function (path, val) { put(path, val); fireAll(); return Promise.resolve(); },
     transaction: function (path, fn) { put(path, fn(get(path))); fireAll(); return Promise.resolve(); },
-    remove: function (path) { put(path, null); fireAll(); return Promise.resolve(); }
+    remove: function (path) { put(path, null); fireAll(); return Promise.resolve(); },
+    connected: function (cb) { cb(false); }   // local-only: never "connected"
   };
 })();

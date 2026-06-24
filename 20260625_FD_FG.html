@@ -26,6 +26,17 @@ body{font-family:'Inter',sans-serif;color:var(--dark);display:flex;flex-directio
 .nav-label{font-size:11px;color:rgba(255,255,255,0.28);font-weight:500;padding:0 10px;min-width:120px;text-align:center;}
 .nav-arr{width:30px;height:28px;border-radius:7px;border:none;cursor:pointer;background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.4);font-size:14px;transition:all .2s;}
 .nav-arr:hover{background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.85);}
+#sync-dot{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2);transition:background .3s,box-shadow .3s;}
+#sync-dot.on{background:var(--teal);box-shadow:0 0 8px var(--teal);}
+#sync-dot.off{background:var(--orange);}
+#sync-dot.local{background:var(--light);}
+/* Presenter-only: hidden on a passive (?view) screen — timer, controls, delete buttons */
+body:not(.presenter) .op-timer,
+body:not(.presenter) .pres-only,
+body:not(.presenter) .resp-del,
+body:not(.presenter) .note-del,
+body:not(.presenter) .c-del,
+body:not(.presenter) .opt-del-btn{display:none !important;}
 
 /* SCALE WRAPPER */
 #scale-wrap{
@@ -86,9 +97,13 @@ body{font-family:'Inter',sans-serif;color:var(--dark);display:flex;flex-directio
 .ag-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:10px;flex-shrink:0;}
 .ag-top h1{font-size:20px;font-weight:800;color:var(--dark);letter-spacing:-.4px;}
 .ag-top h1 em{font-style:normal;color:var(--yellow);}
-.ag-top .right{text-align:right;}
+.ag-top .right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
 .ag-top .right strong{display:block;font-size:13px;font-weight:700;color:var(--dark);}
-.ag-top .right span{font-size:11px;color:var(--mid);}
+.ag-top .right>span{font-size:11px;color:var(--mid);}
+.join-qr{display:flex;flex-direction:column;align-items:center;gap:3px;background:#fff;padding:6px;border-radius:8px;margin-top:2px;box-shadow:0 1px 4px rgba(0,0,0,.15);}
+.join-qr #qr-code{width:140px;height:140px;}
+.join-qr #qr-code img,.join-qr #qr-code canvas{display:block;width:140px !important;height:140px !important;}
+.join-qr>span{font-size:8px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--dark);}
 
 .ag-grid{display:flex;gap:8px;flex:1;overflow:hidden;}
 .ag-slot{display:flex;flex-direction:column;border-radius:10px;overflow:hidden;position:relative;}
@@ -373,6 +388,7 @@ body{font-family:'Inter',sans-serif;color:var(--dark);display:flex;flex-directio
     <div class="right">
       <strong id="live-time">--:--</strong>
       <span>All regions present</span>
+      <div class="join-qr"><div id="qr-code"></div><span>Scan to join</span></div>
     </div>
   </div>
 
@@ -492,7 +508,7 @@ body{font-family:'Inter',sans-serif;color:var(--dark);display:flex;flex-directio
     <input class="inp" id="resp-name" placeholder="Their name…" style="width:140px;">
     <input class="inp" id="resp-text" placeholder="What did they tell you they were proud of?…" style="width:380px;">
     <button class="btn btn-yel" onclick="addResp()">Add ↵</button>
-    <button class="btn btn-ghost" onclick="clearResps()">Clear all</button>
+    <button class="btn btn-ghost pres-only" onclick="clearResps()">Clear all</button>
   </div>
 
   <div class="divider"></div>
@@ -581,7 +597,7 @@ body{font-family:'Inter',sans-serif;color:var(--dark);display:flex;flex-directio
     <input class="inp" id="note-text" placeholder="Type a post-it…" style="width:300px;">
     <button class="btn btn-yel" onclick="addNote('offer')">💡 We can offer</button>
     <button class="btn btn-blue" onclick="addNote('miss')">🔁 We're missing</button>
-    <button class="btn btn-ghost" onclick="clearWall()">Clear all</button>
+    <button class="btn btn-ghost pres-only" onclick="clearWall()">Clear all</button>
   </div>
 
   <div class="divider"></div>
@@ -624,21 +640,21 @@ body{font-family:'Inter',sans-serif;color:var(--dark);display:flex;flex-directio
       <div class="slide-title">Which approach do we commit to?</div>
     </div>
     <div class="mode-row">
-      <button class="mtbtn active" id="mb-disc" onclick="setDirMode('disc')">💬 Discussion</button>
+      <button class="mtbtn active pres-only" id="mb-disc" onclick="setDirMode('disc')">💬 Discussion</button>
       <div class="op-timer chip" data-seconds="1080" title="Discussion — click to start / pause">
         <span class="op-timer-icon">⏱</span>
         <span class="op-timer-val">18:00</span>
         <span class="op-timer-hint">discussion</span>
         <button class="op-timer-reset" title="Reset">↺</button>
       </div>
-      <button class="mtbtn" id="mb-vote" onclick="setDirMode('vote')">🟡 Dot voting</button>
+      <button class="mtbtn pres-only" id="mb-vote" onclick="setDirMode('vote')">🟡 Dot voting</button>
       <div class="op-timer chip" data-seconds="180" title="Dot voting — click to start / pause">
         <span class="op-timer-icon">⏱</span>
         <span class="op-timer-val">3:00</span>
         <span class="op-timer-hint">voting</span>
         <button class="op-timer-reset" title="Reset">↺</button>
       </div>
-      <span class="reset-lnk" onclick="resetDirVotes()">reset votes</span>
+      <span class="reset-lnk pres-only" onclick="resetDirVotes()">reset votes</span>
     </div>
   </div>
 
@@ -652,7 +668,7 @@ body{font-family:'Inter',sans-serif;color:var(--dark);display:flex;flex-directio
     <input class="add-opt-inp" id="opt-desc"  placeholder="Short description…" style="width:280px;">
     <button class="add-opt-btn" onclick="addLiveIdea()">Add ↵</button>
     <div style="width:1px;height:20px;background:var(--bg);margin:0 4px;flex-shrink:0;"></div>
-    <button id="reveal-next-btn" class="btn btn-dark" style="font-size:11px;padding:7px 14px;flex-shrink:0;" onclick="revealPreset()" disabled>Reveal next option</button>
+    <button id="reveal-next-btn" class="btn btn-dark pres-only" style="font-size:11px;padding:7px 14px;flex-shrink:0;" onclick="revealPreset()" disabled>Reveal next option</button>
   </div>
 </div>
 <div class="slide-num">5 / 6</div>
@@ -681,7 +697,7 @@ body{font-family:'Inter',sans-serif;color:var(--dark);display:flex;flex-directio
     <input class="inp" id="c-who"  placeholder="Who does it" style="width:150px;">
     <input class="inp" id="c-when" placeholder="By when" style="width:120px;">
     <button class="btn btn-dark" onclick="addCommit()">Add ↵</button>
-    <button class="btn btn-ghost" onclick="clearCommits()">Clear</button>
+    <button class="btn btn-ghost pres-only" onclick="clearCommits()">Clear</button>
   </div>
 
   <div class="divider"></div>
@@ -715,11 +731,13 @@ body{font-family:'Inter',sans-serif;color:var(--dark);display:flex;flex-directio
 <!-- Realtime sync: Firebase compat SDK + shared sync layer -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="sync.js"></script>
 <script>
 /* ── NAV ── */
 let current = 0;
 const labels = ['Agenda','Opening','Diagnosis','Post-it wall','Directions','Commitment'];
+const IS_PRESENTER = /[?&]present\b/.test(location.search);   // open the deck with ?present to drive the room
 function goSlide(n) {
   n = Math.max(0, Math.min(5, n));
   document.getElementById('slide-'+current).classList.remove('active');
@@ -728,6 +746,7 @@ function goSlide(n) {
   document.getElementById('slide-'+current).classList.add('active');
   document.getElementById('nd'+current).classList.add('active');
   document.getElementById('nav-label').textContent = labels[current];
+  if (IS_PRESENTER) Sync.set('present/slide', current);       // participants' phones follow this
 }
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT') return;
@@ -1115,6 +1134,32 @@ Sync.subscribe('commitments', function(data){
     list.appendChild(row);
   });
 });
+
+/* ── PRESENTER: drive the room + sync-status indicator ── */
+document.body.classList.toggle('presenter', IS_PRESENTER);   // gates destructive controls (CSS)
+const syncDot = document.createElement('div');
+syncDot.id = 'sync-dot';
+syncDot.title = 'Realtime sync status';
+document.querySelector('.nav').appendChild(syncDot);
+function setSyncDot(state){ syncDot.className = state; }      // 'on' | 'off' | 'local'
+if (Sync.online) {
+  setSyncDot('off');
+  Sync.connected(function(ok){ setSyncDot(ok ? 'on' : 'off'); });
+} else {
+  setSyncDot('local');
+}
+if (IS_PRESENTER) {
+  Sync.set('present/slide', current);     // publish the starting slide
+  Sync.set('dir/presets', presets);       // share the option texts so phones can show them
+}
+
+/* ── Join QR → mobile.html in the same folder, same room ── */
+(function(){
+  var joinUrl = location.origin + location.pathname.replace(/[^/]+$/, 'mobile.html') + '?s=' + Sync.sessionId();
+  var box = document.getElementById('qr-code');
+  if (box && window.QRCode) new QRCode(box, { text: joinUrl, width:140, height:140, correctLevel: QRCode.CorrectLevel.L });
+  else if (box) box.parentElement.style.display = 'none';   // hide if the QR lib didn't load
+})();
 </script>
 </body>
 </html>

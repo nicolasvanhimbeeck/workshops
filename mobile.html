@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Join · Workshop</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --yellow:#EFAF39;--blue:#00B2DD;--teal:#0DBFA4;--orange:#F8763D;
+  --dark:#413D3B;--mid:#978D87;--light:#C5BDB5;--bg:#F2F0EA;--white:#ffffff;
+}
+html,body{background:#1a1917;color:var(--white);font-family:'Inter',sans-serif;-webkit-text-size-adjust:100%;}
+body{min-height:100dvh;display:flex;flex-direction:column;}
+
+/* header */
+.hdr{position:sticky;top:0;z-index:10;background:rgba(26,25,23,.97);backdrop-filter:blur(8px);
+  padding:14px 18px calc(14px + env(safe-area-inset-top,0));padding-top:max(14px,env(safe-area-inset-top));
+  border-bottom:1px solid rgba(255,255,255,.08);}
+.hdr-top{display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(255,255,255,.4);font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);flex-shrink:0;}
+.dot.on{background:var(--teal);box-shadow:0 0 7px var(--teal);}
+.dot.off{background:var(--orange);}
+.dot.local{background:var(--light);}
+.activity{font-size:22px;font-weight:800;letter-spacing:-.4px;margin-top:6px;}
+.activity .step{color:var(--yellow);}
+
+/* body */
+main{flex:1;padding:18px;display:flex;flex-direction:column;gap:14px;max-width:600px;width:100%;margin:0 auto;}
+.lead{font-size:14px;color:rgba(255,255,255,.55);line-height:1.5;}
+.card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:16px;}
+label{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px;}
+input,textarea{width:100%;font-family:inherit;font-size:16px;color:var(--white);background:rgba(255,255,255,.07);
+  border:1.5px solid rgba(255,255,255,.14);border-radius:10px;padding:13px 14px;outline:none;transition:border-color .15s;}
+input:focus,textarea:focus{border-color:var(--yellow);}
+input::placeholder,textarea::placeholder{color:rgba(255,255,255,.3);}
+textarea{resize:none;min-height:78px;line-height:1.45;}
+.field+.field{margin-top:10px;}
+.btn{width:100%;border:none;border-radius:11px;padding:15px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .08s;}
+.btn:active{transform:scale(.98);opacity:.85;}
+.btn-yel{background:var(--yellow);color:#1a1917;}
+.btn-row{display:flex;gap:10px;margin-top:10px;}
+.btn-row .btn{flex:1;}
+.btn-blue{background:var(--blue);color:#fff;}
+.btn-dark{background:var(--dark);color:#fff;}
+.btn-mt{margin-top:12px;}
+
+/* lists */
+.list{display:flex;flex-direction:column;gap:9px;}
+.list-title{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.4);margin:4px 0 2px;display:flex;align-items:center;gap:7px;}
+.list-title .cnt{background:rgba(255,255,255,.12);border-radius:20px;padding:1px 8px;font-size:11px;}
+.item{background:rgba(255,255,255,.05);border-radius:10px;padding:11px 13px;font-size:14px;line-height:1.45;}
+.item .who{font-weight:700;font-size:12px;color:var(--yellow);display:block;margin-bottom:2px;}
+.item.offer{border-left:3px solid var(--yellow);}
+.item.miss{border-left:3px solid var(--blue);}
+.empty{font-size:13px;color:rgba(255,255,255,.3);font-style:italic;padding:8px 2px;}
+
+/* option / voting cards */
+.opt{background:rgba(255,255,255,.05);border-radius:12px;padding:13px 14px;display:flex;flex-direction:column;gap:6px;}
+.opt-head{display:flex;align-items:baseline;gap:8px;}
+.opt-ltr{font-size:11px;font-weight:800;color:var(--yellow);letter-spacing:.05em;flex-shrink:0;}
+.opt-title{font-size:15px;font-weight:700;}
+.opt-desc{font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.45;}
+.opt-foot{display:flex;align-items:center;gap:12px;margin-top:4px;}
+.opt-votes{font-size:13px;font-weight:700;color:var(--teal);}
+.vote-btn{margin-left:auto;border:none;border-radius:9px;padding:9px 16px;font-family:inherit;font-size:14px;font-weight:700;background:var(--teal);color:#08312a;cursor:pointer;}
+.vote-btn:active{opacity:.8;transform:scale(.97);}
+
+.banner{background:var(--orange);color:#fff;font-size:13px;font-weight:600;padding:11px 16px;text-align:center;line-height:1.4;}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--teal);color:#08312a;
+  font-weight:700;font-size:14px;padding:11px 20px;border-radius:30px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:50;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div id="no-room" class="banner" style="display:none;">⚠ No session in the link. Add <b>?s=SESSION-ID</b> to the URL.</div>
+
+<header class="hdr">
+  <div class="hdr-top"><span class="dot" id="dot"></span><span id="status">connecting…</span><span style="margin-left:auto" id="room"></span></div>
+  <div class="activity"><span class="step" id="step"></span> <span id="activity">Waiting for the presenter…</span></div>
+</header>
+
+<main id="panel">
+  <div class="lead">Hang tight — the workshop will appear here automatically.</div>
+</main>
+
+<div class="toast" id="toast">Added ✓</div>
+
+<!-- Realtime sync: Firebase compat SDK + shared sync layer -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="sync.js"></script>
+<script>
+function esc(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1100);}
+
+var LABELS=['Agenda','Opening','Diagnosis','Post-it wall','Directions','Commitment'];
+
+/* warn if no room was passed */
+var qp=new URLSearchParams(location.search);
+if(!(qp.get('s')||qp.get('room'))) document.getElementById('no-room').style.display='block';
+document.getElementById('room').textContent='room: '+Sync.sessionId();
+
+/* sync-status dot */
+var dot=document.getElementById('dot'), statusEl=document.getElementById('status');
+if(Sync.online){ dot.className='dot off'; statusEl.textContent='connecting…';
+  Sync.connected(function(ok){ dot.className='dot '+(ok?'on':'off'); statusEl.textContent=ok?'live':'reconnecting…'; });
+} else { dot.className='dot local'; statusEl.textContent='offline (local only)'; }
+
+/* ── data caches ── */
+var slide=-1, builtSlide=-1;
+var respData={}, notesData={}, ideasData={}, dirData={presets:[],presetsShown:0,mode:'disc',presetVotes:{}}, commitData={};
+
+/* ── panel skeletons (built once per slide so inputs keep focus) ── */
+function setActivity(){
+  document.getElementById('step').textContent = slide>=0 ? ('0'+(slide+1)).slice(-2) : '';
+  document.getElementById('activity').textContent = slide>=0 ? LABELS[slide] : 'Waiting for the presenter…';
+}
+function buildPanel(){
+  var p=document.getElementById('panel'); p.innerHTML='';
+  if(slide===1){                                   // Opening — responses
+    p.appendChild(el('div','lead','Talk to someone you don’t know well. Then capture what they shared.'));
+    var c=el('div','card');
+    c.appendChild(el('label',null,'Their name (optional)'));
+    var n=el('input'); n.id='f-name'; n.placeholder='Their name…'; c.appendChild(wrap(n));
+    c.appendChild(el('label','btn-mt','What are they quietly proud of?'));
+    var t=el('textarea'); t.id='f-text'; t.placeholder='What did they tell you?…'; c.appendChild(wrap(t));
+    var b=el('button','btn btn-yel btn-mt','Share ✓'); b.onclick=addResp; c.appendChild(b);
+    p.appendChild(c);
+    p.appendChild(listBox('what we’re hearing','resp-list'));
+  } else if(slide===3){                            // Post-it wall — notes
+    p.appendChild(el('div','lead','Add a post-it to either column.'));
+    var c2=el('div','card');
+    c2.appendChild(el('label',null,'Your post-it'));
+    var nt=el('textarea'); nt.id='f-note'; nt.placeholder='Type your post-it…'; c2.appendChild(wrap(nt));
+    var row=el('div','btn-row');
+    var o=el('button','btn btn-yel','💡 We can offer'); o.onclick=function(){addNote('offer');};
+    var m=el('button','btn btn-blue','🔁 We’re missing'); m.onclick=function(){addNote('miss');};
+    row.appendChild(o); row.appendChild(m); c2.appendChild(row);
+    p.appendChild(c2);
+    p.appendChild(listBox('what we can offer','offer-list'));
+    p.appendChild(listBox('what we’re missing','miss-list'));
+  } else if(slide===4){                            // Directions — vote + add idea
+    p.appendChild(el('div','lead','Vote for the directions you believe in. Each tap = one dot.'));
+    p.appendChild(listBox('the options','opt-list'));
+    var c3=el('div','card');
+    c3.appendChild(el('label',null,'Got another idea?'));
+    var it=el('input'); it.id='f-idea'; it.placeholder='Title…'; c3.appendChild(wrap(it));
+    var idd=el('input'); idd.id='f-idea-desc'; idd.placeholder='Short description (optional)…'; var fw=wrap(idd); fw.className='field'; c3.appendChild(fw);
+    var ib=el('button','btn btn-dark btn-mt','Add idea ✓'); ib.onclick=addIdea; c3.appendChild(ib);
+    p.appendChild(c3);
+  } else if(slide===5){                            // Commitment
+    p.appendChild(el('div','lead','One action. One name. One date.'));
+    var c4=el('div','card');
+    c4.appendChild(el('label',null,'What will happen'));
+    var w=el('input'); w.id='f-what'; w.placeholder='What will happen…'; c4.appendChild(wrap(w));
+    var who=el('input'); who.id='f-who'; who.placeholder='Who does it'; var w1=wrap(who); w1.className='field'; c4.appendChild(w1);
+    var whn=el('input'); whn.id='f-when'; whn.placeholder='By when'; var w2=wrap(whn); w2.className='field'; c4.appendChild(w2);
+    var cb=el('button','btn btn-yel btn-mt','Commit ✓'); cb.onclick=addCommit; c4.appendChild(cb);
+    p.appendChild(c4);
+    p.appendChild(listBox('our commitments','commit-list'));
+  } else {                                         // Agenda / Diagnosis / anything else
+    p.appendChild(el('div','lead', slide===2
+      ? 'Write your answers on physical post-its now — we’ll capture them on the next screen. Keep an eye on the main screen for the two questions.'
+      : 'Follow along on the main screen. This page will open up when it’s your turn to contribute.'));
+  }
+  p.querySelectorAll('input').forEach(function(i){i.maxLength=200;});
+  p.querySelectorAll('textarea').forEach(function(i){i.maxLength=600;});
+  builtSlide=slide;
+  renderList();
+}
+function wrap(node){var f=el('div','field');f.appendChild(node);return f;}
+function listBox(title,id){
+  var box=el('div'); box.appendChild(el('div','list-title','<span>'+esc(title)+'</span><span class="cnt" id="'+id+'-cnt">0</span>'));
+  var l=el('div','list'); l.id=id; box.appendChild(l); return box;
+}
+
+/* ── list rendering (on every data change) ── */
+function renderList(){
+  if(slide===1) renderResp();
+  else if(slide===3) renderNotes();
+  else if(slide===4) renderOpts();
+  else if(slide===5) renderCommits();
+}
+function fill(listId, items, emptyMsg){
+  var l=document.getElementById(listId); if(!l) return;
+  var cnt=document.getElementById(listId+'-cnt'); if(cnt) cnt.textContent=items.length;
+  l.innerHTML='';
+  if(!items.length){ l.appendChild(el('div','empty',emptyMsg)); return; }
+  items.forEach(function(node){ l.appendChild(node); });
+}
+function renderResp(){
+  var ids=Object.keys(respData);
+  fill('resp-list', ids.map(function(id){var r=respData[id]||{};
+    return el('div','item',(r.name?'<span class="who">'+esc(r.name)+'</span>':'')+esc(r.text||''));
+  }), 'Be the first to share something.');
+}
+function renderNotes(){
+  var ids=Object.keys(notesData);
+  fill('offer-list', ids.filter(function(id){return (notesData[id]||{}).col!=='miss';}).map(function(id){return el('div','item offer',esc((notesData[id]||{}).text||''));}),'Nothing yet.');
+  fill('miss-list',  ids.filter(function(id){return (notesData[id]||{}).col==='miss';}).map(function(id){return el('div','item miss',esc((notesData[id]||{}).text||''));}),'Nothing yet.');
+}
+function renderOpts(){
+  var presets=dirData.presets||[]; var shown=dirData.presetsShown||0; var pv=dirData.presetVotes||{}; var voting=dirData.mode==='vote';
+  var opts=[];
+  Object.keys(ideasData).forEach(function(id){var o=ideasData[id]||{};opts.push({title:o.title,desc:o.desc,votes:o.votes||0,type:'live',key:id});});
+  (Array.isArray(presets)?presets:[]).slice(0,shown).forEach(function(o,i){opts.push({title:o.title,desc:o.desc,votes:pv[i]||0,type:'preset',key:i});});
+  var L='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  fill('opt-list', opts.map(function(o,gi){
+    var card=el('div','opt');
+    card.appendChild(el('div','opt-head','<span class="opt-ltr">'+L[gi%26]+'</span><span class="opt-title">'+esc(o.title)+'</span>'));
+    if(o.desc) card.appendChild(el('div','opt-desc',esc(o.desc)));
+    var foot=el('div','opt-foot','<span class="opt-votes">'+o.votes+' vote'+(o.votes===1?'':'s')+'</span>');
+    if(voting){ var vb=el('button','vote-btn','+ vote'); vb.onclick=function(){vote(o.type,o.key);}; foot.appendChild(vb); }
+    card.appendChild(foot);
+    return card;
+  }), voting ? 'No options revealed yet.' : 'Voting opens when the presenter starts it.');
+}
+function renderCommits(){
+  var ids=Object.keys(commitData);
+  fill('commit-list', ids.map(function(id){var c=commitData[id]||{};
+    return el('div','item','<span class="who">'+esc(c.who||'—')+' · '+esc(c.when||'—')+'</span>'+esc(c.what||''));
+  }),'No commitments yet.');
+}
+
+/* ── writes ── */
+function val(id){var e=document.getElementById(id);return e?e.value.trim():'';}
+function clr(){[].slice.call(arguments).forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});}
+function addResp(){var t=val('f-text');if(!t)return;Sync.push('responses',{name:val('f-name'),text:t});clr('f-name','f-text');toast('Shared ✓');}
+function addNote(col){var t=val('f-note');if(!t)return;Sync.push('notes',{col:(col==='miss'?'miss':'offer'),text:t});clr('f-note');toast('Posted ✓');}
+function addIdea(){var t=val('f-idea');if(!t)return;Sync.push('ideas',{title:t,desc:val('f-idea-desc'),votes:0});clr('f-idea','f-idea-desc');toast('Idea added ✓');}
+function addCommit(){var w=val('f-what');if(!w)return;Sync.push('commitments',{what:w,who:val('f-who')||'—',when:val('f-when')||'—'});clr('f-what','f-who','f-when');toast('Committed ✓');}
+function vote(type,key){
+  if(type==='live') Sync.transaction('ideas/'+key+'/votes',function(v){return (v||0)+1;});
+  else              Sync.transaction('dir/presetVotes/'+key,function(v){return (v||0)+1;});
+  toast('Vote counted ✓');
+}
+
+/* ── subscriptions ── */
+Sync.subscribe('present/slide', function(v){ var n=(v==null?0:v|0); if(n!==slide){ slide=n; setActivity(); buildPanel(); } });
+Sync.subscribe('responses',  function(d){ respData=d||{};  if(slide===1) renderList(); });
+Sync.subscribe('notes',      function(d){ notesData=d||{}; if(slide===3) renderList(); });
+Sync.subscribe('ideas',      function(d){ ideasData=d||{}; if(slide===4) renderList(); });
+Sync.subscribe('dir',        function(d){ dirData=d||{presets:[],presetsShown:0,mode:'disc',presetVotes:{}}; if(slide===4){ renderList(); } });
+Sync.subscribe('commitments',function(d){ commitData=d||{}; if(slide===5) renderList(); });
+</script>
+</body>
+</html>
