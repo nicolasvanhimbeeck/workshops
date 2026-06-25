@@ -39,6 +39,7 @@ body{font-family:'Inter',sans-serif;color:var(--dark);display:flex;flex-directio
 #sync-dot.on{background:var(--teal);box-shadow:0 0 8px var(--teal);}
 #sync-dot.off{background:var(--orange);}
 #sync-dot.local{background:var(--light);}
+#pcount{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:rgba(255,255,255,0.4);}
 /* Presenter-only: hidden on a passive (?view) screen — timer, controls, delete buttons */
 body:not(.presenter) .op-timer,
 body:not(.presenter) .pres-only,
@@ -379,7 +380,8 @@ body:not(.presenter) .opt-del-btn{display:none !important;}
   <button class="nav-dot" onclick="goSlide(5)" id="nd5">✅</button>
   <button class="nav-arr" onclick="goSlide(current+1)">&#8594;</button>
   <span class="nav-label" id="nav-label">Agenda</span>
-  <button class="nav-reset pres-only" onclick="resetSession()" title="Export to PDF, then clear this session">⤓ reset</button>
+  <button class="nav-reset pres-only" onclick="exportSession()" title="Export everything to PDF (keeps the data)">⤓ PDF</button>
+  <button class="nav-reset pres-only" onclick="resetSession()" title="Export to PDF, then clear this session">⟲ reset</button>
 </nav>
 
 <div id="scale-wrap">
@@ -758,8 +760,10 @@ body:not(.presenter) .opt-del-btn{display:none !important;}
 let current = 0;
 const labels = ['Agenda','Opening','Diagnosis','Post-it wall','Directions','Commitment'];
 const IS_PRESENTER = /[?&]present\b/.test(location.search);   // open the deck with ?present to drive the room
+const TIMERS = [];                                            // each timer registers its pause() here
 function goSlide(n) {
   n = Math.max(0, Math.min(5, n));
+  TIMERS.forEach(function(pause){ pause(); });                // leaving a slide pauses any running timer
   document.getElementById('slide-'+current).classList.remove('active');
   document.getElementById('nd'+current).classList.remove('active');
   current = n;
@@ -952,6 +956,7 @@ function createTimer(el){
   plus .addEventListener('click', e=>{ e.stopPropagation(); adjust(60); });
   el.addEventListener('click', ()=> int?pause():start());   // clock toggles, never resets
   el.querySelector('.op-timer-reset').addEventListener('click', e=>{ e.stopPropagation(); reset(); });
+  TIMERS.push(pause);                  // so goSlide() can pause it when the presenter moves on
   render();
 }
 document.querySelectorAll('.op-timer').forEach(createTimer);
@@ -1175,6 +1180,15 @@ if (Sync.online) {
 } else {
   setSyncDot('local');
 }
+// live participant count (phones connected) — the deck only counts, it doesn't register itself
+const pcount = document.createElement('div');
+pcount.id = 'pcount';
+pcount.textContent = '👥 0';
+document.querySelector('.nav').appendChild(pcount);
+Sync.subscribe('present/online', function(d){
+  var n = d ? Object.keys(d).length : 0;
+  pcount.textContent = '👥 ' + n;
+});
 if (IS_PRESENTER) {
   // resume where the room left off → a presenter reload no longer kicks everyone back to the Agenda
   Sync.once('present/slide').then(function(v){
@@ -1240,6 +1254,10 @@ function exportPdf(responses, notes, ideas, dir, commitments){
 
   doc.save('workshop-'+Sync.sessionId()+'-'+new Date().toISOString().slice(0,10)+'.pdf');
   return true;
+}
+function exportSession(){    // PDF only — keeps all data
+  Promise.all([Sync.once('responses'),Sync.once('notes'),Sync.once('ideas'),Sync.once('dir'),Sync.once('commitments')])
+    .then(function(r){ exportPdf(r[0],r[1],r[2],r[3],r[4]); });
 }
 function resetSession(){
   if (!confirm('Export everything to PDF and then CLEAR all contributions for this session?')) return;

@@ -114,6 +114,9 @@ if(Sync.online){ dot.className='dot off'; statusEl.textContent='connecting…';
   Sync.connected(function(ok){ dot.className='dot '+(ok?'on':'off'); statusEl.textContent=ok?'live':'reconnecting…'; });
 } else { dot.className='dot local'; statusEl.textContent='offline (local only)'; }
 
+/* register as a connected participant (auto-removed on disconnect) */
+if (Sync.presence) Sync.presence({ role:'phone' });
+
 /* ── data caches ── */
 var slide=-1, builtSlide=-1;
 var respData={}, notesData={}, ideasData={}, dirData={presets:[],presetsShown:0,mode:'disc',presetVotes:{}}, commitData={};

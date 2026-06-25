@@ -60,7 +60,14 @@ window.Sync = (function () {
         transaction: function (path, fn) { return base.child(path).transaction(fn); },
         remove: function (path) { return base.child(path).remove(); },
         once: function (path) { return base.child(path).once('value').then(function (s) { return s.val(); }); },
-        connected: function (cb) { db.ref('.info/connected').on('value', function (s) { cb(s.val() === true); }); }
+        connected: function (cb) { db.ref('.info/connected').on('value', function (s) { cb(s.val() === true); }); },
+        presence: function (meta) {                       // register this client; auto-removed on disconnect
+          var ref = base.child('present/online').push();
+          db.ref('.info/connected').on('value', function (s) {
+            if (s.val() === true) { ref.onDisconnect().remove(); ref.set(meta || true); }
+          });
+          return ref;
+        }
       };
     } catch (e) { console.warn('[Sync] Firebase init failed — local-only mode.', e); }
   } else {
@@ -87,6 +94,7 @@ window.Sync = (function () {
     transaction: function (path, fn) { put(path, fn(get(path))); fireAll(); return Promise.resolve(); },
     remove: function (path) { put(path, null); fireAll(); return Promise.resolve(); },
     once: function (path) { return Promise.resolve(clone(get(path))); },
-    connected: function (cb) { cb(false); }   // local-only: never "connected"
+    connected: function (cb) { cb(false); },  // local-only: never "connected"
+    presence: function () { return null; }    // local-only: no presence
   };
 })();
