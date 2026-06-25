@@ -24,6 +24,15 @@ body{font-family:'Inter',sans-serif;color:var(--dark);display:flex;flex-directio
 .nav-dot:hover{background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.65);}
 .nav-dot.active{background:var(--yellow);color:var(--dark);}
 .nav-label{font-size:11px;color:rgba(255,255,255,0.28);font-weight:500;padding:0 10px;min-width:120px;text-align:center;}
+.nav-reset{margin-left:8px;border:none;border-radius:7px;padding:6px 11px;cursor:pointer;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);background:rgba(255,255,255,0.07);transition:all .2s;}
+.nav-reset:hover{background:rgba(248,118,61,.85);color:#fff;}
+#join-overlay{position:fixed;inset:0;z-index:3000;background:rgba(20,19,17,.94);display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;cursor:pointer;}
+.jo-card{background:#fff;padding:26px 30px;border-radius:18px;display:flex;flex-direction:column;align-items:center;gap:14px;}
+.jo-title{font-size:18px;font-weight:800;color:var(--dark);letter-spacing:.01em;}
+#jo-qr{width:300px;height:300px;}
+#jo-qr img,#jo-qr canvas{display:block;width:300px !important;height:300px !important;}
+.jo-url{font-size:12px;color:var(--mid);word-break:break-all;max-width:340px;text-align:center;}
+.jo-hint{font-size:12px;color:rgba(255,255,255,.5);font-weight:600;letter-spacing:.04em;}
 .nav-arr{width:30px;height:28px;border-radius:7px;border:none;cursor:pointer;background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.4);font-size:14px;transition:all .2s;}
 .nav-arr:hover{background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.85);}
 #sync-dot{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2);transition:background .3s,box-shadow .3s;}
@@ -370,6 +379,7 @@ body:not(.presenter) .opt-del-btn{display:none !important;}
   <button class="nav-dot" onclick="goSlide(5)" id="nd5">✅</button>
   <button class="nav-arr" onclick="goSlide(current+1)">&#8594;</button>
   <span class="nav-label" id="nav-label">Agenda</span>
+  <button class="nav-reset pres-only" onclick="resetSession()" title="Export to PDF, then clear this session">⤓ reset</button>
 </nav>
 
 <div id="scale-wrap">
@@ -388,7 +398,7 @@ body:not(.presenter) .opt-del-btn{display:none !important;}
     <div class="right">
       <strong id="live-time">--:--</strong>
       <span>All regions present</span>
-      <div class="join-qr"><div id="qr-code"></div><span>Scan to join</span></div>
+      <div class="join-qr pres-only"><div id="qr-code"></div><span>Scan to join</span></div>
     </div>
   </div>
 
@@ -728,10 +738,20 @@ body:not(.presenter) .opt-del-btn{display:none !important;}
 </div><!-- /slides -->
 </div><!-- /scale-wrap -->
 
+<div id="join-overlay">
+  <div class="jo-card">
+    <div class="jo-title">Scan to join on your phone</div>
+    <div id="jo-qr"></div>
+    <div class="jo-url" id="jo-url"></div>
+  </div>
+  <div class="jo-hint">Press Q (or tap) to close</div>
+</div>
+
 <!-- Realtime sync: Firebase compat SDK + shared sync layer -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="sync.js"></script>
 <script>
 /* ── NAV ── */
@@ -752,6 +772,10 @@ document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT') return;
   if (e.key==='ArrowRight'||e.key==='ArrowDown') goSlide(current+1);
   if (e.key==='ArrowLeft'||e.key==='ArrowUp') goSlide(current-1);
+  if ((e.key==='q'||e.key==='Q') && IS_PRESENTER){
+    if (current===0){ var q=document.querySelector('.join-qr'); if(q) q.style.display=(q.style.display==='none'?'':'none'); }  // agenda: just hide/show the corner QR
+    else if (window.toggleJoin) window.toggleJoin();                                                                          // other slides: full-screen overlay
+  }
 });
 
 /* ── SCALE — fit entire slide in available space ── */
@@ -873,7 +897,10 @@ function createTimer(el){
   function render(){ const m=Math.floor(sec/60),s=sec%60; valEl.textContent=m+':'+String(s).padStart(2,'0'); }
   function stopAlarm(){ alarm.forEach(o=>{try{o.stop();}catch(_){}}); alarm=[];
     clearTimeout(quietTimer); quietTimer=null; el.classList.remove('quiet'); }
-  function updateGlow(){ screenGlow(el, !!int && sec>0 && sec<=10); }   // last 10s only
+  function updateGlow(){
+    screenGlow(el, !!int && sec>0 && sec<=10);                 // last 10s only
+    if (IS_PRESENTER) Sync.set('present/timer', { sec: sec, running: !!int });  // mirror to phones
+  }
   function finish(){
     clearInterval(int); int=null;
     el.classList.remove('running','quiet'); el.classList.add('done');
@@ -1149,17 +1176,81 @@ if (Sync.online) {
   setSyncDot('local');
 }
 if (IS_PRESENTER) {
-  Sync.set('present/slide', current);     // publish the starting slide
+  // resume where the room left off → a presenter reload no longer kicks everyone back to the Agenda
+  Sync.once('present/slide').then(function(v){
+    if (typeof v === 'number' && v >= 0 && v <= 5) goSlide(v);
+    else Sync.set('present/slide', current);
+  });
   Sync.set('dir/presets', presets);       // share the option texts so phones can show them
 }
 
-/* ── Join QR → mobile.html in the same folder, same room ── */
+/* ── Join QR: small on the agenda + a full-screen overlay toggled with Q (any slide) ── */
 (function(){
   var joinUrl = location.origin + location.pathname.replace(/[^/]+$/, 'mobile.html') + '?s=' + Sync.sessionId();
   var box = document.getElementById('qr-code');
   if (box && window.QRCode) new QRCode(box, { text: joinUrl, width:140, height:140, correctLevel: QRCode.CorrectLevel.L });
-  else if (box) box.parentElement.style.display = 'none';   // hide if the QR lib didn't load
+  else if (box) box.parentElement.style.display = 'none';
+  var ov = document.getElementById('join-overlay');
+  if (ov) {
+    document.getElementById('jo-url').textContent = joinUrl;
+    if (window.QRCode) new QRCode(document.getElementById('jo-qr'), { text: joinUrl, width:300, height:300, correctLevel: QRCode.CorrectLevel.L });
+    window.toggleJoin = function(){ ov.style.display = (ov.style.display==='flex' ? 'none' : 'flex'); };
+    ov.addEventListener('click', function(){ ov.style.display='none'; });
+  }
 })();
+
+/* ── Reset session: export everything to PDF, then wipe the room (presenter only) ── */
+function exportPdf(responses, notes, ideas, dir, commitments){
+  if (!(window.jspdf && window.jspdf.jsPDF)) { alert('PDF library not loaded — export aborted, nothing was cleared.'); return false; }
+  var doc = new window.jspdf.jsPDF({unit:'pt', format:'a4'});
+  var M=48, W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight(), y=M;
+  function nl(h){ y+=h; if(y>H-M){ doc.addPage(); y=M; } }
+  function heading(t){ nl(8); doc.setFont('helvetica','bold'); doc.setFontSize(14); doc.setTextColor(40); doc.text(t,M,y); nl(6); doc.setDrawColor(205); doc.line(M,y,W-M,y); nl(16); }
+  function line(t,o){ o=o||{}; doc.setFont('helvetica',o.bold?'bold':'normal'); doc.setFontSize(o.size||10); doc.setTextColor(o.color!=null?o.color:60);
+    doc.splitTextToSize(t, W-2*M-(o.indent||0)).forEach(function(w){ doc.text(w, M+(o.indent||0), y); nl((o.size||10)+4); }); }
+  doc.setFont('helvetica','bold'); doc.setFontSize(20); doc.setTextColor(20); doc.text('Workshop export', M, y); nl(24);
+  doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(120);
+  doc.text('Room: '+Sync.sessionId()+'   ·   '+new Date().toLocaleString(), M, y); nl(18);
+
+  heading('Opening — what we heard');
+  var rk=responses?Object.keys(responses):[]; if(!rk.length) line('(none)',{color:150});
+  rk.forEach(function(id){ var r=responses[id]||{}; line('• '+(r.name?r.name+': ':'')+(r.text||'')); });
+
+  heading('Post-it wall');
+  var nk=notes?Object.keys(notes):[];
+  line('We can offer', {bold:true});
+  var off=nk.filter(function(id){return (notes[id]||{}).col!=='miss';});
+  if(!off.length) line('(none)',{color:150,indent:14}); else off.forEach(function(id){ line('• '+(notes[id].text||''),{indent:14}); });
+  line('We’re missing', {bold:true});
+  var mis=nk.filter(function(id){return (notes[id]||{}).col==='miss';});
+  if(!mis.length) line('(none)',{color:150,indent:14}); else mis.forEach(function(id){ line('• '+(notes[id].text||''),{indent:14}); });
+
+  heading('Directions — options & votes');
+  var opts=[];
+  if(ideas) Object.keys(ideas).forEach(function(id){var o=ideas[id]||{};opts.push({t:o.title,d:o.desc,v:o.votes||0});});
+  var pa=(dir&&dir.presets)||[], pv=(dir&&dir.presetVotes)||{}, shown=(dir&&dir.presetsShown)||0;
+  (Array.isArray(pa)?pa:[]).slice(0,shown).forEach(function(o,i){opts.push({t:o.title,d:o.desc,v:pv[i]||0});});
+  opts.sort(function(a,b){return b.v-a.v;});
+  if(!opts.length) line('(none)',{color:150});
+  opts.forEach(function(o){ line(o.v+' vote'+(o.v===1?'':'s')+'  —  '+(o.t||''),{bold:true}); if(o.d) line(o.d,{indent:14,color:110}); });
+
+  heading('Commitments');
+  var ck=commitments?Object.keys(commitments):[]; if(!ck.length) line('(none)',{color:150});
+  ck.forEach(function(id){var c=commitments[id]||{}; line('• '+(c.what||'')+'   ['+(c.who||'—')+' · '+(c.when||'—')+']'); });
+
+  doc.save('workshop-'+Sync.sessionId()+'-'+new Date().toISOString().slice(0,10)+'.pdf');
+  return true;
+}
+function resetSession(){
+  if (!confirm('Export everything to PDF and then CLEAR all contributions for this session?')) return;
+  Promise.all([Sync.once('responses'),Sync.once('notes'),Sync.once('ideas'),Sync.once('dir'),Sync.once('commitments')])
+    .then(function(r){
+      if (exportPdf(r[0],r[1],r[2],r[3],r[4]) === false) return;   // export failed → keep data
+      Sync.remove('responses'); Sync.remove('notes'); Sync.remove('ideas'); Sync.remove('commitments');
+      Sync.set('dir', { presets: presets, presetsShown:0, mode:'disc', presetVotes:{} });   // fresh, keep option texts
+      alert('Exported to PDF and cleared — a fresh session is ready.');
+    });
+}
 </script>
 </body>
 </html>

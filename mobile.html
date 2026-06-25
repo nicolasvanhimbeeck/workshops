@@ -25,6 +25,10 @@ body{min-height:100dvh;display:flex;flex-direction:column;}
 .dot.local{background:var(--light);}
 .activity{font-size:22px;font-weight:800;letter-spacing:-.4px;margin-top:6px;}
 .activity .step{color:var(--yellow);}
+.timer-line{margin-top:9px;display:inline-flex;align-items:center;gap:7px;font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;background:rgba(239,175,57,.16);color:var(--yellow);padding:6px 13px;border-radius:9px;}
+.timer-line .timer-cap{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.7;}
+.timer-line.warn{background:rgba(248,118,61,.22);color:var(--orange);animation:tpulse 1s ease-in-out infinite;}
+@keyframes tpulse{0%,100%{opacity:1;}50%{opacity:.45;}}
 
 /* body */
 main{flex:1;padding:18px;display:flex;flex-direction:column;gap:14px;max-width:600px;width:100%;margin:0 auto;}
@@ -79,6 +83,7 @@ textarea{resize:none;min-height:78px;line-height:1.45;}
 <header class="hdr">
   <div class="hdr-top"><span class="dot" id="dot"></span><span id="status">connecting…</span><span style="margin-left:auto" id="room"></span></div>
   <div class="activity"><span class="step" id="step"></span> <span id="activity">Waiting for the presenter…</span></div>
+  <div class="timer-line" id="timer-line" style="display:none;">⏱ <span id="timer-val">0:00</span> <span class="timer-cap">left</span></div>
 </header>
 
 <main id="panel">
@@ -245,6 +250,15 @@ Sync.subscribe('notes',      function(d){ notesData=d||{}; if(slide===3) renderL
 Sync.subscribe('ideas',      function(d){ ideasData=d||{}; if(slide===4) renderList(); });
 Sync.subscribe('dir',        function(d){ dirData=d||{presets:[],presetsShown:0,mode:'disc',presetVotes:{}}; if(slide===4){ renderList(); } });
 Sync.subscribe('commitments',function(d){ commitData=d||{}; if(slide===5) renderList(); });
+Sync.subscribe('present/timer', function(t){
+  var line=document.getElementById('timer-line'), v=document.getElementById('timer-val');
+  if(t && t.running && typeof t.sec==='number' && t.sec>0){
+    var m=Math.floor(t.sec/60), s=t.sec%60;
+    v.textContent=m+':'+String(s).padStart(2,'0');
+    line.style.display='inline-flex';
+    line.classList.toggle('warn', t.sec<=10);
+  } else { line.style.display='none'; }
+});
 </script>
 </body>
 </html>
