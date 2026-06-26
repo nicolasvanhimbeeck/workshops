@@ -33,6 +33,19 @@ body{font-family:'Inter',sans-serif;color:var(--dark);display:flex;flex-directio
 #jo-qr img,#jo-qr canvas{display:block;width:300px !important;height:300px !important;}
 .jo-url{font-size:12px;color:var(--mid);word-break:break-all;max-width:340px;text-align:center;}
 .jo-hint{font-size:12px;color:rgba(255,255,255,.5);font-weight:600;letter-spacing:.04em;}
+/* Idea detail modal (read in view mode, editable in present mode) */
+#idea-modal{position:fixed;inset:0;z-index:3500;background:rgba(20,19,17,.9);display:none;align-items:center;justify-content:center;padding:24px;}
+#idea-modal.show{display:flex;}
+.im-card{background:#fff;border-radius:16px;padding:26px 28px;width:min(560px,92vw);display:flex;flex-direction:column;gap:13px;box-shadow:0 30px 90px rgba(0,0,0,.55);}
+.im-eyebrow{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);}
+.im-title{font-size:22px;font-weight:800;color:var(--dark);border:none;outline:none;font-family:'Inter',sans-serif;padding:2px 0;background:transparent;}
+.im-desc{font-size:15px;line-height:1.6;color:var(--dark);border:none;outline:none;resize:none;min-height:150px;font-family:'Inter',sans-serif;background:transparent;}
+body.presenter .im-title,body.presenter .im-desc{background:var(--bg);border-radius:8px;padding:9px 11px;}
+.im-foot{display:flex;align-items:center;gap:10px;margin-top:4px;}
+.im-votes{font-size:13px;font-weight:700;color:var(--teal);margin-right:auto;}
+.im-btn{border:none;border-radius:9px;padding:10px 18px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;}
+.im-save{background:var(--yellow);color:#1a1917;}
+.im-close{background:rgba(0,0,0,.07);color:var(--mid);}
 .nav-arr{width:30px;height:28px;border-radius:7px;border:none;cursor:pointer;background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.4);font-size:14px;transition:all .2s;}
 .nav-arr:hover{background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.85);}
 #sync-dot{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2);transition:background .3s,box-shadow .3s;}
@@ -287,42 +300,40 @@ body:not(.presenter) .opt-del-btn{display:none !important;}
 
 /* Options grid — wraps naturally */
 .dir-grid{
-  flex:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;
-  align-content:start;overflow-y:auto;margin-top:10px;min-height:0;
+  flex:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;
+  align-content:start;align-items:start;overflow-y:auto;margin-top:10px;min-height:0;padding-right:2px;
 }
 .dir-grid::-webkit-scrollbar{width:3px;}
 .dir-grid::-webkit-scrollbar-thumb{background:var(--light);border-radius:2px;}
 
 .dir-card{
-  border:1.5px solid var(--bg);border-radius:12px;
-  padding:14px 14px 12px;display:flex;flex-direction:column;
-  position:relative;transition:border-color .2s;overflow:hidden;
+  background:#fff;border:1.5px solid var(--bg);border-top:3px solid var(--bg);border-radius:14px;
+  padding:13px 15px 15px;display:flex;flex-direction:column;gap:7px;
+  position:relative;transition:border-color .2s,box-shadow .2s;
   animation:reveal .35s ease;min-width:0;
 }
-.dir-card:hover{border-color:var(--light);}
+.dir-card:hover{box-shadow:0 6px 16px rgba(0,0,0,.07);}
 @keyframes reveal{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-.dir-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 
 /* Accent colours cycle: yellow, blue, teal, orange, purple, green … */
-.dc-0::before{background:#EFAF39;} .dc-0 .dir-ltr{color:#EFAF39;}
-.dc-0 .vote-num{color:#EFAF39;} .dc-0 .vdot{border-color:#EFAF39;} .dc-0 .vdot.on{background:#EFAF39;}
-.dc-1::before{background:#00B2DD;} .dc-1 .dir-ltr{color:#00B2DD;}
-.dc-1 .vote-num{color:#00B2DD;} .dc-1 .vdot{border-color:#00B2DD;} .dc-1 .vdot.on{background:#00B2DD;}
-.dc-2::before{background:#0DBFA4;} .dc-2 .dir-ltr{color:#0DBFA4;}
-.dc-2 .vote-num{color:#0DBFA4;} .dc-2 .vdot{border-color:#0DBFA4;} .dc-2 .vdot.on{background:#0DBFA4;}
-.dc-3::before{background:#F8763D;} .dc-3 .dir-ltr{color:#F8763D;}
-.dc-3 .vote-num{color:#F8763D;} .dc-3 .vdot{border-color:#F8763D;} .dc-3 .vdot.on{background:#F8763D;}
-.dc-4::before{background:#8B5CF6;} .dc-4 .dir-ltr{color:#8B5CF6;}
-.dc-4 .vote-num{color:#8B5CF6;} .dc-4 .vdot{border-color:#8B5CF6;} .dc-4 .vdot.on{background:#8B5CF6;}
-.dc-5::before{background:#22C55E;} .dc-5 .dir-ltr{color:#22C55E;}
-.dc-5 .vote-num{color:#22C55E;} .dc-5 .vdot{border-color:#22C55E;} .dc-5 .vdot.on{background:#22C55E;}
+.dc-0{border-top-color:#EFAF39;} .dc-0 .dir-ltr{color:#EFAF39;} .dc-0 .vdot{border-color:#EFAF39;} .dc-0 .vdot.on{background:#EFAF39;}
+.dc-1{border-top-color:#00B2DD;} .dc-1 .dir-ltr{color:#00B2DD;} .dc-1 .vdot{border-color:#00B2DD;} .dc-1 .vdot.on{background:#00B2DD;}
+.dc-2{border-top-color:#0DBFA4;} .dc-2 .dir-ltr{color:#0DBFA4;} .dc-2 .vdot{border-color:#0DBFA4;} .dc-2 .vdot.on{background:#0DBFA4;}
+.dc-3{border-top-color:#F8763D;} .dc-3 .dir-ltr{color:#F8763D;} .dc-3 .vdot{border-color:#F8763D;} .dc-3 .vdot.on{background:#F8763D;}
+.dc-4{border-top-color:#8B5CF6;} .dc-4 .dir-ltr{color:#8B5CF6;} .dc-4 .vdot{border-color:#8B5CF6;} .dc-4 .vdot.on{background:#8B5CF6;}
+.dc-5{border-top-color:#22C55E;} .dc-5 .dir-ltr{color:#22C55E;} .dc-5 .vdot{border-color:#22C55E;} .dc-5 .vdot.on{background:#22C55E;}
 
-.dir-ltr{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
-.dir-icon{font-size:18px;margin-bottom:5px;line-height:1;}
-.dir-title{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:5px;line-height:1.2;}
-.dir-desc{font-size:11px;color:var(--mid);line-height:1.5;flex:1;}
+.dir-ltr{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;gap:6px;}
+.dir-votes{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;letter-spacing:0;background:rgba(0,0,0,.05);padding:3px 9px;border-radius:20px;white-space:nowrap;}
+.dir-votes .bdot{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;}
+.dir-votes .dv-num{font-size:11px;font-weight:800;}
+.dir-head{display:flex;align-items:center;gap:8px;}
+.dir-icon{font-size:18px;line-height:1;flex-shrink:0;}
+.dir-title{font-size:13px;font-weight:700;color:var(--dark);line-height:1.2;flex:1;min-width:0;}
+.dir-desc{font-size:11px;color:var(--mid);line-height:1.5;}
+.dir-desc.empty{font-style:italic;color:var(--light);}
 
-.vote-zone{display:none;margin-top:8px;padding-top:8px;border-top:1px solid var(--bg);text-align:center;}
+.vote-zone{display:none;margin-top:1px;padding-top:9px;border-top:1px solid var(--bg);text-align:center;}
 .vote-zone.show{display:block;}
 .vote-num{font-size:18px;font-weight:800;}
 .vote-sub{font-size:8px;color:var(--mid);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;}
@@ -380,6 +391,7 @@ body:not(.presenter) .opt-del-btn{display:none !important;}
   <button class="nav-dot" onclick="goSlide(5)" id="nd5">✅</button>
   <button class="nav-arr" onclick="goSlide(current+1)">&#8594;</button>
   <span class="nav-label" id="nav-label">Agenda</span>
+  <button class="nav-reset pres-only" onclick="exportSlides()" title="Export a branded slide deck (.pptx)">⤓ Slides</button>
   <button class="nav-reset pres-only" onclick="exportSession()" title="Export everything to PDF (keeps the data)">⤓ PDF</button>
   <button class="nav-reset pres-only" onclick="resetSession()" title="Export to PDF, then clear this session">⟲ reset</button>
 </nav>
@@ -614,6 +626,10 @@ body:not(.presenter) .opt-del-btn{display:none !important;}
 
   <div class="divider"></div>
 
+  <div class="pres-only" style="display:flex;justify-content:center;margin-bottom:8px;">
+    <input class="inp" id="note-search" placeholder="🔍 Search post-its…" oninput="renderWall()" style="width:360px;max-width:90%;">
+  </div>
+
   <div class="wall-cols">
     <div class="wall-col">
       <div class="wcol-hdr">
@@ -749,11 +765,25 @@ body:not(.presenter) .opt-del-btn{display:none !important;}
   <div class="jo-hint">Press Q (or tap) to close</div>
 </div>
 
+<div id="idea-modal" onclick="closeIdeaModal()">
+  <div class="im-card" onclick="event.stopPropagation()">
+    <div class="im-eyebrow" id="im-eyebrow">Option</div>
+    <input id="im-title" class="im-title" placeholder="Title">
+    <textarea id="im-desc" class="im-desc" placeholder="Description…"></textarea>
+    <div class="im-foot">
+      <span class="im-votes" id="im-votes"></span>
+      <button class="im-btn im-save pres-only" onclick="saveIdeaModal()">Save</button>
+      <button class="im-btn im-close" onclick="closeIdeaModal()">Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- Realtime sync: Firebase compat SDK + shared sync layer -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 <script src="sync.js"></script>
 <script>
 /* ── NAV ── */
@@ -773,7 +803,8 @@ function goSlide(n) {
   if (IS_PRESENTER) Sync.set('present/slide', current);       // participants' phones follow this
 }
 document.addEventListener('keydown', e => {
-  if (e.target.tagName === 'INPUT') return;
+  if (e.key==='Escape') closeIdeaModal();
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
   if (e.key==='ArrowRight'||e.key==='ArrowDown') goSlide(current+1);
   if (e.key==='ArrowLeft'||e.key==='ArrowUp') goSlide(current-1);
   if ((e.key==='q'||e.key==='Q') && IS_PRESENTER){
@@ -975,24 +1006,29 @@ function clearWall(){
   if(!confirm('Clear all post-its?')) return;
   Sync.remove('notes');
 }
-Sync.subscribe('notes', function(data){
+var notesCache={};
+function renderWall(){
+  const data=notesCache;
   const cols={offer:document.getElementById('col-offer'), miss:document.getElementById('col-miss')};
+  const se=document.getElementById('note-search');
+  const f=(se?se.value:'').trim().toLowerCase();
   const counts={offer:0,miss:0};
   cols.offer.innerHTML=''; cols.miss.innerHTML='';
-  const ids=data?Object.keys(data):[];
-  ids.forEach(function(id){
-    const n=data[id]||{}; const col=(n.col==='miss')?'miss':'offer';
+  Object.keys(data).forEach(function(id){
+    const n=data[id]||{}; const col=(n.col==='miss')?'miss':'offer'; const text=n.text||'';
+    if(f && text.toLowerCase().indexOf(f)===-1) return;          // search filter
     counts[col]++;
     const note=document.createElement('div'); note.className='note note-'+col;
-    note.innerHTML='<span class="note-del" title="Remove">✕</span>'+esc(n.text||'');
+    note.innerHTML='<span class="note-del" title="Remove">✕</span>'+esc(text);
     note.querySelector('.note-del').addEventListener('click',function(){ removeNote(id); });
     cols[col].appendChild(note);
   });
-  if(counts.offer===0) cols.offer.innerHTML='<div class="wall-empty" id="he-offer">Post-its from question 1 —<br>knowledge & skills we have to share.</div>';
-  if(counts.miss===0)  cols.miss.innerHTML='<div class="wall-empty" id="he-miss">Post-its from question 2 —<br>moments where knowledge wasn\'t shared.</div>';
+  if(counts.offer===0) cols.offer.innerHTML='<div class="wall-empty" id="he-offer">'+(f?'No matches':'Post-its from question 1 —<br>knowledge & skills we have to share.')+'</div>';
+  if(counts.miss===0)  cols.miss.innerHTML='<div class="wall-empty" id="he-miss">'+(f?'No matches':'Post-its from question 2 —<br>moments where knowledge wasn\'t shared.')+'</div>';
   document.getElementById('cnt-offer').textContent=counts.offer;
   document.getElementById('cnt-miss').textContent=counts.miss;
-});
+}
+Sync.subscribe('notes', function(data){ notesCache=data||{}; renderWall(); });
 
 /* ── SLIDE 5: DIRECTIONS (synced) ── */
 var LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -1063,7 +1099,7 @@ function renderDirGrid() {
     var o = ideasData[id] || {};
     return { title:o.title, desc:o.desc, votes:o.votes||0, type:'live', key:id };
   });
-  var shown = presets.slice(0, dirState.presetsShown).map(function(o,i){
+  var shown = (dirState.presets||presets).slice(0, dirState.presetsShown).map(function(o,i){
     return { title:o.title, desc:o.desc, votes:(dirState.presetVotes[i]||0), type:'preset', key:i };
   });
   var all = live.concat(shown);
@@ -1088,30 +1124,29 @@ function renderDirGrid() {
     card.dataset.type = opt.type;
     card.dataset.key  = opt.key;
 
-    var dotsHtml = buildDots(votes);
+    var badgeDots = '';
+    for (var bd = 0; bd < Math.min(votes, 6); bd++) badgeDots += '<span class="bdot"></span>';
     var voteHtml = '<div class="vote-zone' + (dirState.mode === 'vote' ? ' show' : '') + '">'
-      + '<div class="vote-num">' + votes + '</div>'
-      + '<div class="vote-sub">votes</div>'
-      + '<div class="vote-dots">' + dotsHtml + '</div>'
       + '<div class="vote-btns">'
       + '<button class="vbtn dir-vote-add">+ vote</button>'
       + '<button class="vbtn dir-vote-rem">−</button>'
       + '</div></div>';
 
     card.innerHTML =
-      '<div class="dir-ltr">Option ' + letter + '</div>'
-      + '<div class="dir-icon">' + emoji + '</div>'
-      + '<div class="dir-title">' + esc(opt.title) + '</div>'
-      + '<div class="dir-desc">' + esc(opt.desc || '') + '</div>'
+      '<div class="dir-ltr"><span>Option ' + letter + '</span><span class="dir-votes">' + badgeDots + '<span class="dv-num">' + votes + '</span></span></div>'
+      + '<div class="dir-head"><span class="dir-icon">' + emoji + '</span><span class="dir-title">' + esc(opt.title) + '</span></div>'
+      + '<div class="dir-desc' + (opt.desc ? '' : ' empty') + '">' + (opt.desc ? esc(opt.desc) : 'No description added') + '</div>'
       + voteHtml
       + (isLive ? '<span class="opt-del-btn" style="position:absolute;top:7px;right:9px;font-size:9px;color:var(--light);cursor:pointer;opacity:0;transition:opacity .15s;">&#x2715;</span>' : '');
 
-    card.querySelector('.dir-vote-add').addEventListener('click', function(){ addDirVote(opt.type, opt.key); });
-    card.querySelector('.dir-vote-rem').addEventListener('click', function(){ remDirVote(opt.type, opt.key); });
+    card.querySelector('.dir-vote-add').addEventListener('click', function(e){ e.stopPropagation(); addDirVote(opt.type, opt.key); });
+    card.querySelector('.dir-vote-rem').addEventListener('click', function(e){ e.stopPropagation(); remDirVote(opt.type, opt.key); });
+    card.style.cursor='pointer';
+    card.addEventListener('click', function(){ openIdeaModal(opt, letter); });   // open detail modal (read / edit)
 
     if (isLive) {
       var del = card.querySelector('.opt-del-btn');
-      del.addEventListener('click', function(){ removeLiveIdea(opt.key); });
+      del.addEventListener('click', function(e){ e.stopPropagation(); removeLiveIdea(opt.key); });
       card.addEventListener('mouseenter', function(){ del.style.opacity='1'; });
       card.addEventListener('mouseleave', function(){ del.style.opacity='0'; });
     }
@@ -1128,10 +1163,32 @@ function buildDots(count) {
   return h;
 }
 
+/* ── Idea detail modal: read it bigger; edit it in present mode ── */
+var imTarget = null;
+function openIdeaModal(opt, letter){
+  imTarget = { type: opt.type, key: opt.key };
+  document.getElementById('im-eyebrow').textContent = 'Option ' + letter + (opt.type==='preset' ? ' · suggestion' : '');
+  var t = document.getElementById('im-title'), d = document.getElementById('im-desc');
+  t.value = opt.title || ''; d.value = opt.desc || '';
+  t.readOnly = !IS_PRESENTER; d.readOnly = !IS_PRESENTER;
+  document.getElementById('im-votes').textContent = (opt.votes||0) + ' vote' + ((opt.votes||0)===1?'':'s');
+  document.getElementById('idea-modal').classList.add('show');
+}
+function closeIdeaModal(){ var m=document.getElementById('idea-modal'); if(m) m.classList.remove('show'); imTarget=null; }
+function saveIdeaModal(){
+  if(!IS_PRESENTER || !imTarget) return;
+  var t = document.getElementById('im-title').value.trim();
+  var d = document.getElementById('im-desc').value.trim();
+  if(!t){ document.getElementById('im-title').focus(); return; }
+  if(imTarget.type==='live'){ Sync.set('ideas/'+imTarget.key+'/title', t); Sync.set('ideas/'+imTarget.key+'/desc', d); }
+  else                      { Sync.set('dir/presets/'+imTarget.key+'/title', t); Sync.set('dir/presets/'+imTarget.key+'/desc', d); }
+  closeIdeaModal();
+}
+
 Sync.subscribe('ideas', function(data){ ideasData = data || {}; renderDirGrid(); });
 Sync.subscribe('dir', function(data){
   data = data || {};
-  dirState = { mode:data.mode||'disc', presetsShown:data.presetsShown||0, presetVotes:data.presetVotes||{} };
+  dirState = { mode:data.mode||'disc', presetsShown:data.presetsShown||0, presetVotes:data.presetVotes||{}, presets:(data.presets||presets) };
   updateModeButtons(); updateRevealBtn(); renderDirGrid();
 });
 
@@ -1195,7 +1252,7 @@ if (IS_PRESENTER) {
     if (typeof v === 'number' && v >= 0 && v <= 5) goSlide(v);
     else Sync.set('present/slide', current);
   });
-  Sync.set('dir/presets', presets);       // share the option texts so phones can show them
+  Sync.once('dir/presets').then(function(v){ if(!v) Sync.set('dir/presets', presets); });  // seed once; keep edits
 }
 
 /* ── Join QR: small on the agenda + a full-screen overlay toggled with Q (any slide) ── */
@@ -1258,6 +1315,113 @@ function exportPdf(responses, notes, ideas, dir, commitments){
 function exportSession(){    // PDF only — keeps all data
   Promise.all([Sync.once('responses'),Sync.once('notes'),Sync.once('ideas'),Sync.once('dir'),Sync.once('commitments')])
     .then(function(r){ exportPdf(r[0],r[1],r[2],r[3],r[4]); });
+}
+
+/* ── Branded slide deck (.pptx) export (presenter only) ── */
+function exportSlides(){
+  if(!window.PptxGenJS){ alert('Slide library not loaded — need internet (it loads from a CDN). Are you online?'); return; }
+  Promise.all([Sync.once('responses'),Sync.once('notes'),Sync.once('ideas'),Sync.once('dir'),Sync.once('commitments')])
+    .then(function(r){
+      var p;
+      try { p = buildSlides(r[0],r[1],r[2],r[3],r[4]); }
+      catch(e){ console.error('[Slides] build failed:', e); alert('Slide export failed while building: '+e.message); return; }
+      if (p && p.catch) p.catch(function(e){ console.error('[Slides] download failed:', e); alert('Slide download failed: '+e.message); });
+    })
+    .catch(function(e){ console.error('[Slides] data read failed:', e); alert('Could not read session data: '+e.message); });
+}
+function buildSlides(responses, notes, ideas, dir, commitments){
+  var Y='EFAF39',B='00B2DD',T='0DBFA4',O='F8763D',D='413D3B',MID='978D87',LIGHT='C5BDB5',INK='1A1917',W='FFFFFF';
+  var pptx=new PptxGenJS(); pptx.layout='LAYOUT_WIDE'; var PW=13.33;
+  function chunk(a,n){var o=[];for(var i=0;i<a.length;i+=n)o.push(a.slice(i,i+n));return o;}
+  function sec(title,band,eyebrow){
+    var s=pptx.addSlide(); s.background={color:W};
+    s.addShape(pptx.ShapeType.rect,{x:0,y:0,w:PW,h:0.16,fill:{color:band}});
+    if(eyebrow) s.addText(eyebrow.toUpperCase(),{x:0.7,y:0.5,w:12,h:0.3,fontFace:'Inter',fontSize:11,bold:true,color:MID});
+    s.addText(title,{x:0.7,y:0.8,w:12,h:0.7,fontFace:'Inter',fontSize:28,bold:true,color:INK});
+    return s;
+  }
+  // ── gather data ──
+  var resp=Object.keys(responses||{}).map(function(id){return responses[id]||{};});
+  var nk=notes?Object.keys(notes):[];
+  var offers=nk.filter(function(id){return (notes[id]||{}).col!=='miss';}).map(function(id){return notes[id].text||'';});
+  var misses=nk.filter(function(id){return (notes[id]||{}).col==='miss';}).map(function(id){return notes[id].text||'';});
+  var opts=[]; if(ideas) Object.keys(ideas).forEach(function(id){var o=ideas[id]||{};opts.push({t:o.title,d:o.desc,v:o.votes||0});});
+  var pa=(dir&&dir.presets)||[], pv=(dir&&dir.presetVotes)||{}, shown=(dir&&dir.presetsShown)||0;
+  (Array.isArray(pa)?pa:[]).slice(0,shown).forEach(function(o,i){opts.push({t:o.title,d:o.desc,v:pv[i]||0});});
+  opts.sort(function(a,b){return b.v-a.v;});
+  var comm=Object.keys(commitments||{}).map(function(id){return commitments[id]||{};});
+  var dateStr=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+  // ── cover ──
+  var c=pptx.addSlide(); c.background={color:INK};
+  c.addShape(pptx.ShapeType.rect,{x:0.7,y:2.35,w:1.1,h:0.09,fill:{color:Y}});
+  c.addText('FLEXSO DIGITAL · TEAM DAY',{x:0.7,y:2.55,w:12,h:0.4,fontFace:'Inter',fontSize:13,bold:true,color:Y});
+  c.addText('Knowledge Sharing — Focus Groups',{x:0.7,y:3.0,w:12,h:1.2,fontFace:'Inter',fontSize:40,bold:true,color:W});
+  c.addText(dateStr+'   ·   '+resp.length+' stories · '+(offers.length+misses.length)+' post-its · '+comm.length+' commitments',
+    {x:0.7,y:4.35,w:12,h:0.5,fontFace:'Inter',fontSize:14,color:LIGHT});
+
+  // ── opening ──
+  if(resp.length) chunk(resp,8).forEach(function(ch,i,arr){
+    var s=sec('What we’re quietly proud of',Y,'Opening'+(arr.length>1?' · '+(i+1)+'/'+arr.length:''));
+    var runs=[];
+    ch.forEach(function(r){
+      if(r.name){ runs.push({text:r.name+' — ',options:{bold:true,color:INK,fontSize:14,bullet:true,breakLine:false}});
+        runs.push({text:r.text||'',options:{color:D,fontSize:14,breakLine:true}}); }
+      else runs.push({text:r.text||'',options:{color:D,fontSize:14,bullet:true,breakLine:true}});
+    });
+    s.addText(runs,{x:0.7,y:1.75,w:12,h:5.3,valign:'top',lineSpacingMultiple:1.35});
+  });
+
+  // ── post-it wall ──
+  if(offers.length||misses.length){
+    var pgs=Math.max(1,Math.ceil(offers.length/10),Math.ceil(misses.length/10));
+    var col=function(s,title,color,items,x){
+      s.addShape(pptx.ShapeType.roundRect,{x:x,y:1.7,w:5.7,h:0.5,fill:{color:color},rectRadius:0.08});
+      s.addText(title,{x:x,y:1.7,w:5.7,h:0.5,align:'center',valign:'middle',bold:true,fontSize:14,fontFace:'Inter',color:(color===Y?INK:W)});
+      var runs=items.length?items.map(function(t){return {text:t,options:{bullet:true,breakLine:true,fontSize:12,color:D}};})
+                          :[{text:'(none)',options:{italic:true,color:MID,fontSize:12}}];
+      s.addText(runs,{x:x,y:2.35,w:5.7,h:4.7,valign:'top',lineSpacingMultiple:1.2});
+    };
+    for(var p=0;p<pgs;p++){
+      var s=sec('Post-it wall',Y,'Shared diagnosis'+(pgs>1?' · '+(p+1)+'/'+pgs:''));
+      col(s,'What we can offer',Y,offers.slice(p*10,p*10+10),0.7);
+      col(s,'What we’re missing',B,misses.slice(p*10,p*10+10),6.95);
+    }
+  }
+
+  // ── directions (vote chart) ──
+  if(opts.length){
+    var sd=sec('Which direction we chose',T,'The vote');
+    var top=opts.slice(0,12);
+    try{
+      sd.addChart(pptx.ChartType.bar,[{name:'Votes',labels:top.map(function(o){return o.t||'(untitled)';}),values:top.map(function(o){return o.v;})}],
+        {x:0.7,y:1.7,w:12,h:5.0,barDir:'bar',chartColors:[T],showValue:true,showLegend:false,catAxisLabelColor:D,valAxisLabelColor:MID,dataLabelColor:D,catAxisLabelFontSize:11,valAxisLabelFontSize:9});
+    }catch(e){
+      sd.addText(top.map(function(o){return {text:o.v+' — '+(o.t||''),options:{bullet:true,breakLine:true,fontSize:15,color:D}};}),{x:0.7,y:1.8,w:12,h:5,valign:'top'});
+    }
+    if(top[0]) sd.addText('★ '+(top[0].t||'')+'  —  '+top[0].v+' vote'+(top[0].v===1?'':'s'),{x:0.7,y:6.8,w:12,h:0.4,fontSize:13,bold:true,color:T,fontFace:'Inter'});
+  }
+
+  // ── commitments ──
+  if(comm.length){
+    var hdr={bold:true,color:W,fill:{color:D},fontSize:13,valign:'middle',fontFace:'Inter'};
+    var hdrC={bold:true,color:W,fill:{color:D},fontSize:13,valign:'middle',align:'center',fontFace:'Inter'};
+    var cell={fontSize:12,color:D,valign:'middle',fontFace:'Inter'};
+    var cellC={fontSize:12,color:D,valign:'middle',align:'center',fontFace:'Inter'};
+    chunk(comm,8).forEach(function(ch,i,arr){
+      var s=sec('Our commitments',O,'Commitment'+(arr.length>1?' · '+(i+1)+'/'+arr.length:''));
+      var rows=[[{text:'What',options:hdr},{text:'Who',options:hdrC},{text:'By when',options:hdrC}]];
+      ch.forEach(function(x){ rows.push([{text:x.what||'',options:cell},{text:x.who||'—',options:cellC},{text:x.when||'—',options:cellC}]); });
+      s.addTable(rows,{x:0.7,y:1.75,w:11.9,colW:[7.3,2.3,2.3],border:{type:'solid',color:'E5E1DA',pt:1},rowH:0.5});
+    });
+  }
+
+  // ── closing ──
+  var cl=pptx.addSlide(); cl.background={color:INK};
+  cl.addText('One action. One name. One date.',{x:0.7,y:2.9,w:12,h:1,fontFace:'Inter',fontSize:34,bold:true,color:W,align:'center'});
+  cl.addText('Thank you — keep sharing across regions.',{x:0.7,y:4.0,w:12,h:0.5,fontFace:'Inter',fontSize:15,color:LIGHT,align:'center'});
+
+  return pptx.writeFile({fileName:'workshop-'+Sync.sessionId()+'-'+new Date().toISOString().slice(0,10)+'.pptx'});
 }
 function resetSession(){
   if (!confirm('Export everything to PDF and then CLEAR all contributions for this session?')) return;
