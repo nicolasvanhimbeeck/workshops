@@ -10,7 +10,12 @@
       "Grep(*)",
       "WebFetch(*)",
       "WebSearch(*)",
-      "mcp__ide__*"
+      "mcp__ide__*",
+      "Bash(grep -nE \"'[A-Za-z][A-Za-z ,.&/\\(\\)'’?!:%-]{3,}'|\\\\\"[A-Za-z][A-Za-z ,.&/\\(\\)'’?!:%-]{3,}\\\\\"\" YYYYMMDD_CENTRAL_ROADMAP.html)",
+      "Bash(grep -nE \"'[A-Za-z][A-Za-z ’,.&/\\(\\)?!:%-]{4,}'|\\\\\"[A-Za-z][A-Za-z ’,.&/\\(\\)?!:%-]{4,}\\\\\"\" YYYYMMDD_CENTRAL_ROADMAP.html)",
+      "Bash(grep -nE \"sessionId|\\\\.replace\\\\\\(/\\\\[-_\\\\]\" sync.js)",
+      "Bash(node \"C:/Users/vanhini/AppData/Local/Temp/claude/c--Users-vanhini-Projects-workshops/6ce1a8c1-ebab-40ef-8250-525c2dbae24c/scratchpad/check.js\" YYYYMMDD_CENTRAL_ROADMAP.html YYYYMMDD_CENTRAL_ROADMAP-mobile.html sync.js)",
+      "Bash(node \"C:/Users/vanhini/AppData/Local/Temp/claude/c--Users-vanhini-Projects-workshops/6ce1a8c1-ebab-40ef-8250-525c2dbae24c/scratchpad/check.js\" YYYYMMDD_CENTRAL_ROADMAP.html YYYYMMDD_CENTRAL_ROADMAP-mobile.html)"
     ]
   }
 }

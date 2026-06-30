@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>FD Workshop — Knowledge Sharing · 25 June 2026</title>
+<title>Centraal Team — Roadmap & Prioritering</title>
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="workshop.css">
 </head>
@@ -18,9 +18,9 @@
   <button class="nav-dot" onclick="goSlide(5)" id="nd5">✅</button>
   <button class="nav-arr" onclick="goSlide(current+1)">&#8594;</button>
   <span class="nav-label" id="nav-label">Agenda</span>
-  <button class="nav-reset pres-only" onclick="exportSlides()" title="Export a branded slide deck (.pptx)">⤓ Slides</button>
-  <button class="nav-reset pres-only" onclick="exportSession()" title="Export everything to PDF (keeps the data)">⤓ PDF</button>
-  <button class="nav-reset pres-only" onclick="resetSession()" title="Export to PDF, then clear this session">⟲ reset</button>
+  <button class="nav-reset pres-only" onclick="exportSlides()" title="Exporteer een gebrande slide-deck (.pptx)">⤓ Slides</button>
+  <button class="nav-reset pres-only" onclick="exportSession()" title="Exporteer alles naar PDF (data blijft bewaard)">⤓ PDF</button>
+  <button class="nav-reset pres-only" onclick="resetSession()" title="Exporteer naar PDF en wis daarna deze sessie">⟲ wissen</button>
 </nav>
 
 <div id="scale-wrap">
@@ -33,84 +33,72 @@
 <div class="slide-inner">
   <div class="ag-top">
     <div>
-      <h1>Flexso <em>Digital</em> — Team Day</h1>
-      <div style="font-size:10px;color:var(--mid);margin-top:2px;letter-spacing:.08em;font-weight:600;text-transform:uppercase;">Thursday 25 June 2026</div>
+      <h1>Centraal Team — <em>Roadmap &amp; Prioritering</em></h1>
+      <div style="font-size:10px;color:var(--mid);margin-top:2px;letter-spacing:.08em;font-weight:600;text-transform:uppercase;">Datum nog te bepalen · ±2u30</div>
     </div>
     <div class="right">
       <strong id="live-time">--:--</strong>
-      <span>All regions present</span>
-      <div class="join-qr pres-only"><div id="qr-code"></div><span>Scan to join</span></div>
+      <span>HR · Wagenpark · Facturatie · Timesheets</span>
+      <div class="join-qr pres-only"><div id="qr-code"></div><span>Scan om deel te nemen</span></div>
     </div>
   </div>
 
   <div class="ag-grid">
 
-    <div class="ag-slot ag-intro d60">
+    <div class="ag-slot ag-intro d30">
       <div class="ag-body">
-        <div class="ag-time">13:00</div>
-        <div class="ag-pill">60 min</div>
-        <div class="ag-title">Intro & FD Goals</div>
-        <div style="font-size:22px;margin:6px 0;text-align:center;">🎯</div>
-        <div class="ag-sub"><ul><li>Direction</li><li>Key initiatives & priorities</li><li>Where are we?</li></ul></div>
-        <div class="fg-blocks" style="flex:none;">
-          <div class="fg-blk"><div class="fg-blk-dot"></div><div class="fg-blk-txt"><span class="fg-blk-lbl">Facilitators</span>David · Patrick · Nicolas</div></div>
-        </div>
+        <div class="ag-time">0:00</div>
+        <div class="ag-pill">10 min</div>
+        <div class="ag-title">Opening</div>
+        <div style="font-size:22px;margin:6px 0;text-align:center;">👋</div>
+        <div class="ag-sub"><ul><li>Inchecken per domein</li><li>Wat vroeg de afgelopen 6 maanden tijd?</li></ul></div>
       </div>
       <div class="slot-prog"><div class="slot-prog-fill" id="sp0" style="width:0%"></div></div>
     </div>
 
     <div class="ag-slot ag-focus d60">
       <div class="ag-body">
-        <div class="ag-time">14:00</div>
-        <div class="ag-pill">60 min</div>
-        <div class="ag-title">Focus Groups</div>
-        <div class="ag-sub">Practice areas: what we're building, where we're headed.</div>
+        <div class="ag-time">0:10</div>
+        <div class="ag-pill">30 min</div>
+        <div class="ag-title">Diagnose</div>
+        <div class="ag-sub">Post-its: grootste pijnpunten én grootste kansen — per domein.</div>
         <div class="fg-blocks">
-          <div class="fg-blk"><div class="fg-blk-dot"></div><div class="fg-blk-txt"><span class="fg-blk-lbl">S/4 Development</span>Stijn Verdoodt · Wim Verschueren</div></div>
-          <div class="fg-blk"><div class="fg-blk-dot"></div><div class="fg-blk-txt"><span class="fg-blk-lbl">BTP</span>Jules Decock · Stijn Verhaegen</div></div>
-          <div class="fg-blk"><div class="fg-blk-dot"></div><div class="fg-blk-txt"><span class="fg-blk-lbl">Integration</span>Stef Noyens · Thomas Dewaele</div></div>
+          <div class="fg-blk"><div class="fg-blk-dot"></div><div class="fg-blk-txt"><span class="fg-blk-lbl">Pijnpunten</span>Wat wringt vandaag?</div></div>
+          <div class="fg-blk"><div class="fg-blk-dot"></div><div class="fg-blk-txt"><span class="fg-blk-lbl">Kansen</span>Wat laten we liggen?</div></div>
         </div>
       </div>
       <div class="slot-prog"><div class="slot-prog-fill" id="sp1" style="width:0%"></div></div>
     </div>
 
-    <div class="ag-slot ag-break d30">
-      <div class="ag-body">
-        <div class="ag-time">15:00</div>
-        <div class="ag-pill">30 min</div>
-        <div class="ag-title">Break & buffer</div>
-        <div style="font-size:22px;margin:6px 0;text-align:center;">☕</div>
-        <div class="ag-sub"><ul><li>Coffee</li><li>Stretch</li><li>Catch up</li></ul></div>
-      </div>
-      <div class="slot-prog" style="background:rgba(0,0,0,.07);"><div class="slot-prog-fill" id="sp2" style="width:0%;background:rgba(0,0,0,.25);"></div></div>
-    </div>
-
     <div class="ag-slot ag-region d60">
       <div class="ag-body">
-        <div class="ag-time">15:30</div>
-        <div class="ag-pill">60 min</div>
-        <div class="ag-title">Regional Teams</div>
-        <div class="ag-sub">Each region: what they're working on, what they've learned, who they are.</div>
-        <div class="fg-blocks">
-          <div class="fg-blk"><div class="fg-blk-dot"></div><div class="fg-blk-txt"><span class="fg-blk-lbl">Louvain-La-Neuve</span>Denis Galand · Frédéric Smeyers</div></div>
-          <div class="fg-blk"><div class="fg-blk-dot"></div><div class="fg-blk-txt"><span class="fg-blk-lbl">Netherlands</span>Jermaine Ramsaransing</div></div>
-          <div class="fg-blk"><div class="fg-blk-dot"></div><div class="fg-blk-txt"><span class="fg-blk-lbl">Luxembourg</span>Constantin Miron</div></div>
-          <div class="fg-blk"><div class="fg-blk-dot"></div><div class="fg-blk-txt"><span class="fg-blk-lbl">Manila</span>Michael De Poorter</div></div>
-        </div>
+        <div class="ag-time">0:40</div>
+        <div class="ag-pill">25 min</div>
+        <div class="ag-title">Muur clusteren</div>
+        <div class="ag-sub">Samen patronen zoeken over HR, wagenpark, facturatie en timesheets heen.</div>
       </div>
-      <div class="slot-prog"><div class="slot-prog-fill" id="sp3" style="width:0%"></div></div>
+      <div class="slot-prog"><div class="slot-prog-fill" id="sp2" style="width:0%"></div></div>
+    </div>
+
+    <div class="ag-slot ag-break d30">
+      <div class="ag-body">
+        <div class="ag-time">1:05</div>
+        <div class="ag-pill">15 min</div>
+        <div class="ag-title">Pauze</div>
+        <div style="font-size:22px;margin:6px 0;text-align:center;">☕</div>
+        <div class="ag-sub"><ul><li>Koffie</li><li>Even bekomen</li></ul></div>
+      </div>
+      <div class="slot-prog" style="background:rgba(0,0,0,.07);"><div class="slot-prog-fill" id="sp3" style="width:0%;background:rgba(0,0,0,.25);"></div></div>
     </div>
 
     <div class="ag-slot ag-ws d60">
       <div class="ag-body">
-        <div class="ag-time">16:30</div>
-        <div class="ag-pill">60 min</div>
-        <div class="ag-title">Knowledge Sharing Workshop</div>
+        <div class="ag-time">1:20</div>
+        <div class="ag-pill">55 min</div>
+        <div class="ag-title">Richtingen &amp; dot-voting</div>
         <div class="ws-blocks">
-          <div class="ws-blk ws-b1"><div class="ws-blk-dot"></div><div class="ws-blk-txt"><span class="ws-blk-lbl">16:30 — Opening (5')</span>Find someone you don't know well.<br />60 sec each, something you're quietly proud of.</div></div>
-          <div class="ws-blk ws-b2"><div class="ws-blk-dot"></div><div class="ws-blk-txt"><span class="ws-blk-lbl">16:35 — Shared diagnosis (15')</span>Post-its: what can we offer? What are we missing?<br />Two columns, look for patterns.</div></div>
-          <div class="ws-blk ws-b3"><div class="ws-blk-dot"></div><div class="ws-blk-txt"><span class="ws-blk-lbl">16:50 — Choose a direction (25')</span>3 options revealed one by one · group discusses · dot voting decides.</div></div>
-          <div class="ws-blk ws-b4"><div class="ws-blk-dot"></div><div class="ws-blk-txt"><span class="ws-blk-lbl">17:15 — Commitment (15')</span>One action · one name · one date.<br />Visible on screen.<br />Photo = the record.</div></div>
+          <div class="ws-blk ws-b1"><div class="ws-blk-dot"></div><div class="ws-blk-txt"><span class="ws-blk-lbl">Bespreken</span>Roadmap-opties één voor één onthuld en besproken.</div></div>
+          <div class="ws-blk ws-b3"><div class="ws-blk-dot"></div><div class="ws-blk-txt"><span class="ws-blk-lbl">Stemmen</span>Dot-voting bepaalt de prioriteit.</div></div>
         </div>
       </div>
       <div class="slot-prog" style="background:rgba(65,61,59,.1);"><div class="slot-prog-fill" id="sp4" style="width:0%;background:rgba(65,61,59,.4);"></div></div>
@@ -118,18 +106,18 @@
 
     <div class="ag-slot ag-dinner d-dn">
       <div class="ag-body">
-        <div class="ag-time">17:30</div>
-        <div class="ag-pill">Evening</div>
-        <div class="ag-title">Dinner</div>
-        <div style="font-size:22px;margin:6px 0;">🍽</div>
-        <div class="ag-sub" style="text-align:left;"><ul><li>FAIM</li><li>Food & drinks</li><li>Networking</li><li>Unwind & connect</li></ul></div>
+        <div class="ag-time">2:15</div>
+        <div class="ag-pill">15 min</div>
+        <div class="ag-title">Commitment</div>
+        <div style="font-size:22px;margin:6px 0;">✅</div>
+        <div class="ag-sub" style="text-align:left;"><ul><li>Eén actie</li><li>Eén eigenaar</li><li>Eén datum</li></ul></div>
       </div>
     </div>
 
   </div>
 
   <div class="ag-footer">
-    <div class="ag-footer-lbl">Day progress</div>
+    <div class="ag-footer-lbl">Voortgang</div>
     <div class="ag-prog-bar"><div class="ag-prog-fill" id="day-prog" style="width:0%"></div></div>
     <div class="ag-prog-time" id="prog-now">--:--</div>
   </div>
@@ -150,33 +138,33 @@
     <button class="op-timer-reset" title="Reset">↺</button>
   </div>
   <div style="text-align:center;">
-    <div class="eyebrow">Block 1 · 16:30 · Opening activation</div>
-    <div class="slide-title">Find someone you don't know well</div>
-    <div class="slide-sub">60 seconds each — then share what you heard with the group</div>
+    <div class="eyebrow">Blok 1 · Opening · inchecken</div>
+    <div class="slide-title">Wat vroeg de afgelopen 6 maanden het meeste tijd in jouw werk?</div>
+    <div class="slide-sub">En wat had je liever gedaan met die tijd?</div>
   </div>
 
   <div class="input-zone">
-    <input class="inp" id="resp-name" placeholder="Their name…" style="width:140px;">
-    <input class="inp" id="resp-text" placeholder="What did they tell you they were proud of?…" style="width:380px;">
-    <button class="btn btn-yel" onclick="addResp()">Add ↵</button>
-    <button class="btn btn-ghost pres-only" onclick="clearResps()">Clear all</button>
+    <input class="inp" id="resp-name" placeholder="Domein…" style="width:140px;">
+    <input class="inp" id="resp-text" placeholder="Wat vroeg tijd — en wat had je liever gedaan?…" style="width:380px;">
+    <button class="btn btn-yel" onclick="addResp()">Toevoegen ↵</button>
+    <button class="btn btn-ghost pres-only" onclick="clearResps()">Alles wissen</button>
   </div>
 
   <div class="divider"></div>
 
   <div class="opening-body">
     <div class="op-prompt">
-      <div class="op-lbl">The prompt</div>
-      <div class="op-txt">Tell them something you worked on recently that you're <strong>quietly proud of</strong> — but that the others here <strong>probably don't know about</strong>.</div>
-      <div class="op-hint">⏱ 60 seconds per person · then switch</div>
+      <div class="op-lbl">De vraag</div>
+      <div class="op-txt">Vertel kort waar je de <strong>afgelopen 6 maanden</strong> het meeste tijd aan kwijt was in je werk — en wat je <strong>liever met die tijd had gedaan</strong>.</div>
+      <div class="op-hint">⏱ ±60 seconden per persoon · dan doorgeven</div>
     </div>
     <div class="resp-panel">
       <div class="resp-hdr">
-        <div class="resp-hdr-title">What did we hear?</div>
+        <div class="resp-hdr-title">Wat hoorden we?</div>
         <div class="resp-cnt" id="resp-cnt">0</div>
       </div>
       <div class="resp-grid" id="resp-grid">
-        <div class="resp-empty" id="resp-empty">Stories appear here as people share<br>what they heard from their partner.</div>
+        <div class="resp-empty" id="resp-empty">Antwoorden verschijnen hier<br>terwijl iedereen incheckt.</div>
       </div>
     </div>
   </div>
@@ -190,37 +178,37 @@
 ══════════════════════════════════════════ -->
 <div class="slide s-diag" id="slide-2">
 <div class="slide-inner">
-  <div class="op-timer chip corner" data-seconds="300" title="Click to start / pause">
+  <div class="op-timer chip corner" data-seconds="600" title="Klik om te starten / pauzeren">
     <span class="op-timer-icon">⏱</span>
-    <span class="op-timer-val">5:00</span>
-    <span class="op-timer-hint">click to start</span>
+    <span class="op-timer-val">10:00</span>
+    <span class="op-timer-hint">klik om te starten</span>
     <button class="op-timer-reset" title="Reset">↺</button>
   </div>
   <div style="text-align:center;">
-    <div class="eyebrow">Block 2 · 16:35 · Shared diagnosis</div>
-    <div class="slide-title">What's actually missing?</div>
-    <div class="slide-sub">Write each answer on a separate post-it · take 5 minutes</div>
+    <div class="eyebrow">Blok 2 · Diagnose</div>
+    <div class="slide-title">Waar zit de pijn — en waar de kans?</div>
+    <div class="slide-sub">Eén idee per post-it · neem ±10 minuten</div>
   </div>
 
   <div class="diag-cards">
     <div class="diag-card dc1">
-      <div class="dc-num">Question 1</div>
-      <div class="dc-icon">💡</div>
-      <div class="dc-q">Something I know or do that a colleague in another region could really benefit from.</div>
-      <div class="dc-hint">A tool, method, shortcut, or lesson you've figured out that others in another region might not know about.</div>
+      <div class="dc-num">Vraag 1</div>
+      <div class="dc-icon">🔧</div>
+      <div class="dc-q">Het grootste pijnpunt of de grootste friction in mijn werk vandaag.</div>
+      <div class="dc-hint">Wat kost telkens tijd, frustreert gebruikers, of houdt je tegen? Bugs, manueel werk, trage flows, tech-debt…</div>
     </div>
     <div class="diag-card dc2">
-      <div class="dc-num">Question 2</div>
-      <div class="dc-icon">🔁</div>
-      <div class="dc-q">A moment where I had to figure something out — that someone else already knew.</div>
-      <div class="dc-hint">A time you reinvented the wheel. A project lesson that existed somewhere but wasn't shared. Solved twice.</div>
+      <div class="dc-num">Vraag 2</div>
+      <div class="dc-icon">🚀</div>
+      <div class="dc-q">De meest waardevolle kans die we nú niet oppakken.</div>
+      <div class="dc-hint">Iets dat echt verschil zou maken voor HR, wagenpark, facturatie of timesheets — maar waar we nog niet aan toe komen.</div>
     </div>
   </div>
 
   <div class="diag-footer">
     <span style="font-size:16px;">📝</span>
-    <div class="diag-ft"><strong>One idea per post-it.</strong> We'll cluster them together on the next screen.</div>
-    <div class="diag-timer">⏱ 5 minutes</div>
+    <div class="diag-ft"><strong>Eén idee per post-it.</strong> We clusteren ze samen op het volgende scherm.</div>
+    <div class="diag-timer">⏱ 10 minuten</div>
   </div>
 </div>
 <div class="slide-num">3 / 6</div>
@@ -239,43 +227,43 @@
     <button class="op-timer-reset" title="Reset">↺</button>
   </div>
   <div style="text-align:center;">
-    <div class="eyebrow">Block 2 · Post-it wall</div>
-    <div class="slide-title">What did we hear?</div>
-    <div class="slide-sub">Type each post-it and place it in the right column</div>
+    <div class="eyebrow">Blok 2 · Post-it muur</div>
+    <div class="slide-title">Wat zien we terugkomen?</div>
+    <div class="slide-sub">Typ elke post-it en plaats hem in de juiste kolom</div>
   </div>
 
   <div class="input-zone">
-    <input class="inp" id="note-text" placeholder="Type a post-it…" style="width:300px;">
-    <button class="btn btn-yel" onclick="addNote('offer')">💡 We can offer</button>
-    <button class="btn btn-blue" onclick="addNote('miss')">🔁 We're missing</button>
-    <button class="btn btn-ghost pres-only" onclick="clearWall()">Clear all</button>
+    <input class="inp" id="note-text" placeholder="Typ een post-it…" style="width:300px;">
+    <button class="btn btn-yel" onclick="addNote('offer')">🔧 Pijnpunt</button>
+    <button class="btn btn-blue" onclick="addNote('miss')">🚀 Kans</button>
+    <button class="btn btn-ghost pres-only" onclick="clearWall()">Alles wissen</button>
   </div>
 
   <div class="divider"></div>
 
   <div class="pres-only" style="display:flex;justify-content:center;margin-bottom:8px;">
-    <input class="inp" id="note-search" placeholder="🔍 Search post-its…" oninput="renderWall()" style="width:360px;max-width:90%;">
+    <input class="inp" id="note-search" placeholder="🔍 Zoek in post-its…" oninput="renderWall()" style="width:360px;max-width:90%;">
   </div>
 
   <div class="wall-cols">
     <div class="wall-col">
       <div class="wcol-hdr">
         <div class="wcol-dot" style="background:var(--yellow);"></div>
-        <div class="wcol-title" style="color:var(--dark);">What we can offer</div>
+        <div class="wcol-title" style="color:var(--dark);">🔧 Pijnpunten</div>
         <div class="wcol-cnt" id="cnt-offer">0</div>
       </div>
       <div class="notes-area" id="col-offer">
-        <div class="wall-empty" id="he-offer">Post-its from question 1 —<br>knowledge & skills we have to share.</div>
+        <div class="wall-empty" id="he-offer">Post-its uit vraag 1 —<br>wat wringt vandaag in ons werk.</div>
       </div>
     </div>
     <div class="wall-col">
       <div class="wcol-hdr">
         <div class="wcol-dot" style="background:var(--blue);"></div>
-        <div class="wcol-title" style="color:var(--dark);">What we're missing</div>
+        <div class="wcol-title" style="color:var(--dark);">🚀 Kansen</div>
         <div class="wcol-cnt" id="cnt-miss">0</div>
       </div>
       <div class="notes-area" id="col-miss">
-        <div class="wall-empty" id="he-miss">Post-its from question 2 —<br>moments where knowledge wasn't shared.</div>
+        <div class="wall-empty" id="he-miss">Post-its uit vraag 2 —<br>kansen die we nog laten liggen.</div>
       </div>
     </div>
   </div>
@@ -291,25 +279,25 @@
 <div class="slide-inner">
   <div style="display:flex;align-items:flex-end;justify-content:space-between;">
     <div>
-      <div class="eyebrow">Block 3 · 16:50 · Choose a direction</div>
-      <div class="slide-title">Which approach do we commit to?</div>
+      <div class="eyebrow">Blok 3 · Kies een richting</div>
+      <div class="slide-title">Welke richting prioriteren we?</div>
     </div>
     <div class="mode-row">
-      <button class="mtbtn active pres-only" id="mb-disc" onclick="setDirMode('disc')">💬 Discussion</button>
-      <div class="op-timer chip" data-seconds="1080" title="Discussion — click to start / pause">
+      <button class="mtbtn active pres-only" id="mb-disc" onclick="setDirMode('disc')">💬 Discussie</button>
+      <div class="op-timer chip" data-seconds="1800" title="Discussie — klik om te starten / pauzeren">
         <span class="op-timer-icon">⏱</span>
-        <span class="op-timer-val">18:00</span>
-        <span class="op-timer-hint">discussion</span>
+        <span class="op-timer-val">30:00</span>
+        <span class="op-timer-hint">discussie</span>
         <button class="op-timer-reset" title="Reset">↺</button>
       </div>
-      <button class="mtbtn pres-only" id="mb-vote" onclick="setDirMode('vote')">🟡 Dot voting</button>
-      <div class="op-timer chip" data-seconds="180" title="Dot voting — click to start / pause">
+      <button class="mtbtn pres-only" id="mb-vote" onclick="setDirMode('vote')">🟡 Dot-voting</button>
+      <div class="op-timer chip" data-seconds="300" title="Dot-voting — klik om te starten / pauzeren">
         <span class="op-timer-icon">⏱</span>
-        <span class="op-timer-val">3:00</span>
-        <span class="op-timer-hint">voting</span>
+        <span class="op-timer-val">5:00</span>
+        <span class="op-timer-hint">stemmen</span>
         <button class="op-timer-reset" title="Reset">↺</button>
       </div>
-      <span class="reset-lnk pres-only" onclick="resetDirVotes()">reset votes</span>
+      <span class="reset-lnk pres-only" onclick="resetDirVotes()">stemmen wissen</span>
     </div>
   </div>
 
@@ -318,12 +306,12 @@
 
   <!-- Bottom bar: add option + reveal -->
   <div class="add-option-bar">
-    <span style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--light);">Add idea</span>
-    <input class="add-opt-inp" id="opt-title" placeholder="Title…" style="width:180px;">
-    <input class="add-opt-inp" id="opt-desc"  placeholder="Short description…" style="width:280px;">
-    <button class="add-opt-btn" onclick="addLiveIdea()">Add ↵</button>
+    <span style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--light);">Idee toevoegen</span>
+    <input class="add-opt-inp" id="opt-title" placeholder="Titel…" style="width:180px;">
+    <input class="add-opt-inp" id="opt-desc"  placeholder="Korte beschrijving…" style="width:280px;">
+    <button class="add-opt-btn" onclick="addLiveIdea()">Toevoegen ↵</button>
     <div style="width:1px;height:20px;background:var(--bg);margin:0 4px;flex-shrink:0;"></div>
-    <button id="reveal-next-btn" class="btn btn-dark pres-only" style="font-size:11px;padding:7px 14px;flex-shrink:0;" onclick="revealPreset()" disabled>Reveal next option</button>
+    <button id="reveal-next-btn" class="btn btn-dark pres-only" style="font-size:11px;padding:7px 14px;flex-shrink:0;" onclick="revealPreset()" disabled>Volgende optie tonen</button>
   </div>
 </div>
 <div class="slide-num">5 / 6</div>
@@ -342,39 +330,39 @@
     <button class="op-timer-reset" title="Reset">↺</button>
   </div>
   <div style="text-align:center;">
-    <div class="eyebrow">Block 4 · 17:15 · Commitment</div>
-    <div class="slide-title">One action. One name. One date.</div>
-    <div class="slide-sub">Who does something with this before we go to dinner?</div>
+    <div class="eyebrow">Blok 4 · Commitment</div>
+    <div class="slide-title">Eén actie. Eén eigenaar. Eén datum.</div>
+    <div class="slide-sub">Wat zetten we hierna effectief in gang?</div>
   </div>
 
   <div class="input-zone">
-    <input class="inp" id="c-what" placeholder="What will happen…" style="width:280px;">
-    <input class="inp" id="c-who"  placeholder="Who does it" style="width:150px;">
-    <input class="inp" id="c-when" placeholder="By when" style="width:120px;">
-    <button class="btn btn-dark" onclick="addCommit()">Add ↵</button>
-    <button class="btn btn-ghost pres-only" onclick="clearCommits()">Clear</button>
+    <input class="inp" id="c-what" placeholder="Wat gaat er gebeuren…" style="width:280px;">
+    <input class="inp" id="c-who"  placeholder="Wie doet het" style="width:150px;">
+    <input class="inp" id="c-when" placeholder="Tegen wanneer" style="width:120px;">
+    <button class="btn btn-dark" onclick="addCommit()">Toevoegen ↵</button>
+    <button class="btn btn-ghost pres-only" onclick="clearCommits()">Wissen</button>
   </div>
 
   <div class="divider"></div>
 
   <div class="col-heads">
-    <div class="col-hd">What</div>
-    <div class="col-hd">Who</div>
-    <div class="col-hd">By when</div>
+    <div class="col-hd">Wat</div>
+    <div class="col-hd">Wie</div>
+    <div class="col-hd">Tegen wanneer</div>
     <div></div>
   </div>
 
   <div id="c-empty" class="c-empty">
-    <div class="c-empty-q">"Who does something with this<br>before we go to dinner?"</div>
-    <div class="c-empty-s">One action · one name · one date.</div>
+    <div class="c-empty-q">"Wat zetten we hierna<br>effectief in gang?"</div>
+    <div class="c-empty-s">Eén actie · één eigenaar · één datum.</div>
   </div>
 
   <div class="c-list" id="c-list" style="display:none;"></div>
 
   <div class="c-footer hidden" id="c-footer">
     <span style="font-size:14px;">✅</span>
-    <div class="cf-txt">These commitments belong to <strong>the team</strong>. Take a photo before dinner — that's the record.</div>
-    <div class="cf-pill" id="c-pill">0 commitments</div>
+    <div class="cf-txt">Deze acties zijn van <strong>het team</strong>. Neem een foto op het einde — dat is de neerslag.</div>
+    <div class="cf-pill" id="c-pill">0 acties</div>
   </div>
 </div>
 <div class="slide-num">6 / 6</div>
@@ -385,22 +373,22 @@
 
 <div id="join-overlay">
   <div class="jo-card">
-    <div class="jo-title">Scan to join on your phone</div>
+    <div class="jo-title">Scan om mee te doen op je telefoon</div>
     <div id="jo-qr"></div>
     <div class="jo-url" id="jo-url"></div>
   </div>
-  <div class="jo-hint">Press Q (or tap) to close</div>
+  <div class="jo-hint">Druk op Q (of tik) om te sluiten</div>
 </div>
 
 <div id="idea-modal" onclick="closeIdeaModal()">
   <div class="im-card" onclick="event.stopPropagation()">
-    <div class="im-eyebrow" id="im-eyebrow">Option</div>
-    <input id="im-title" class="im-title" placeholder="Title">
-    <textarea id="im-desc" class="im-desc" placeholder="Description…"></textarea>
+    <div class="im-eyebrow" id="im-eyebrow">Optie</div>
+    <input id="im-title" class="im-title" placeholder="Titel">
+    <textarea id="im-desc" class="im-desc" placeholder="Beschrijving…"></textarea>
     <div class="im-foot">
       <span class="im-votes" id="im-votes"></span>
-      <button class="im-btn im-save pres-only" onclick="saveIdeaModal()">Save</button>
-      <button class="im-btn im-close" onclick="closeIdeaModal()">Close</button>
+      <button class="im-btn im-save pres-only" onclick="saveIdeaModal()">Bewaren</button>
+      <button class="im-btn im-close" onclick="closeIdeaModal()">Sluiten</button>
     </div>
   </div>
 </div>
@@ -415,7 +403,7 @@
 <script>
 /* ── NAV ── */
 let current = 0;
-const labels = ['Agenda','Opening','Diagnosis','Post-it wall','Directions','Commitment'];
+const labels = ['Agenda','Opening','Diagnose','Post-it muur','Richtingen','Commitment'];
 const IS_PRESENTER = /[?&]present\b/.test(location.search);   // open the deck with ?present to drive the room
 const TIMERS = [];                                            // each timer registers its pause() here
 function goSlide(n) {
@@ -460,13 +448,16 @@ function updateClock() {
   document.getElementById('live-time').textContent = t;
   document.getElementById('prog-now').textContent = t;
   const nowMin = now.getHours()*60 + now.getMinutes();
-  const dayStart = 13*60, dayEnd = 17*60+30;
+  const START = 9*60;                                 // ← workshop-startuur (uur*60+min). Pas aan aan het echte startmoment.
+  const dayStart = START, dayEnd = START + 150;        // 2u30 totaal
   const dayPct = Math.max(0,Math.min(100,(nowMin-dayStart)/(dayEnd-dayStart)*100));
   document.getElementById('day-prog').style.width = dayPct.toFixed(1)+'%';
   const slots=[
-    {id:'sp0',s:13*60,e:14*60},{id:'sp1',s:14*60,e:15*60},
-    {id:'sp2',s:15*60,e:15*60+30},{id:'sp3',s:15*60+30,e:16*60+30},
-    {id:'sp4',s:16*60+30,e:17*60+30}
+    {id:'sp0',s:START,    e:START+10},                 // Opening
+    {id:'sp1',s:START+10, e:START+40},                 // Diagnose
+    {id:'sp2',s:START+40, e:START+65},                 // Muur clusteren
+    {id:'sp3',s:START+65, e:START+80},                 // Pauze
+    {id:'sp4',s:START+80, e:START+135}                 // Richtingen & dot-voting
   ];
   slots.forEach(sl=>{
     const p = Math.max(0,Math.min(100,(nowMin-sl.s)/(sl.e-sl.s)*100));
@@ -491,7 +482,7 @@ function addResp(){
 }
 function removeResp(id){ Sync.remove('responses/'+id); }
 function clearResps(){
-  if(!confirm('Clear all responses?')) return;
+  if(!confirm('Alle antwoorden wissen?')) return;
   Sync.remove('responses');
 }
 Sync.subscribe('responses', function(data){
@@ -499,7 +490,7 @@ Sync.subscribe('responses', function(data){
   const ids=data?Object.keys(data):[];
   document.getElementById('resp-cnt').textContent=ids.length;
   if(ids.length===0){
-    grid.innerHTML='<div class="resp-empty" id="resp-empty">Stories appear here as people share<br>what they heard from their partner.</div>';
+    grid.innerHTML='<div class="resp-empty" id="resp-empty">Antwoorden verschijnen hier<br>terwijl iedereen incheckt.</div>';
     return;
   }
   grid.innerHTML='';
@@ -630,7 +621,7 @@ function addNote(col){
 }
 function removeNote(id){ Sync.remove('notes/'+id); }
 function clearWall(){
-  if(!confirm('Clear all post-its?')) return;
+  if(!confirm('Alle post-its wissen?')) return;
   Sync.remove('notes');
 }
 var notesCache={};
@@ -650,8 +641,8 @@ function renderWall(){
     note.querySelector('.note-del').addEventListener('click',function(){ removeNote(id); });
     cols[col].appendChild(note);
   });
-  if(counts.offer===0) cols.offer.innerHTML='<div class="wall-empty" id="he-offer">'+(f?'No matches':'Post-its from question 1 —<br>knowledge & skills we have to share.')+'</div>';
-  if(counts.miss===0)  cols.miss.innerHTML='<div class="wall-empty" id="he-miss">'+(f?'No matches':'Post-its from question 2 —<br>moments where knowledge wasn\'t shared.')+'</div>';
+  if(counts.offer===0) cols.offer.innerHTML='<div class="wall-empty" id="he-offer">'+(f?'Geen resultaten':'Post-its uit vraag 1 —<br>wat wringt vandaag in ons werk.')+'</div>';
+  if(counts.miss===0)  cols.miss.innerHTML='<div class="wall-empty" id="he-miss">'+(f?'Geen resultaten':'Post-its uit vraag 2 —<br>kansen die we nog laten liggen.')+'</div>';
   document.getElementById('cnt-offer').textContent=counts.offer;
   document.getElementById('cnt-miss').textContent=counts.miss;
 }
@@ -662,9 +653,10 @@ var LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var EMOJIS  = ['💡','📣','🗺️','🤝','🔗','🌱','⚡','🎯','🔍','📚','🛠️','🚀'];
 var COLORS  = [0,1,2,3,4,5];
 var presets = [
-  { title: 'Buddy system', desc: 'Each region pairs one person with a fixed buddy in another region. A short monthly check-in, no agenda, just staying in touch.' },
-  { title: 'Monthly knowledge session', desc: 'Once a month, one region or colleague shares something they have learned. 20 minutes, online, open to everyone.' },
-  { title: 'Who knows what', desc: 'A simple living page where everyone lists what they are strong at. Not a CV, but call me if you need this.' }
+  { title: 'Tech-debt & stabiliteit eerst', desc: 'Minder bugs, betere fundamenten. We pakken eerst de zwakke plekken aan zodat alles stabieler draait en sneller te onderhouden is.' },
+  { title: 'Gedeelde bouwstenen', desc: 'Eén login, gedeelde rapportage en herbruikbare UI-componenten over HR, wagenpark, facturatie en timesheets heen — minder duplicatie.' },
+  { title: 'Eén domein versnellen', desc: 'We kiezen het domein met de grootste pijn of waarde en pakken dat diepgaand aan, in plaats van overal een beetje.' },
+  { title: 'Self-service & automatisering', desc: 'Minder manueel werk: flows automatiseren in HR, facturatie en timesheets zodat gebruikers meer zelf kunnen.' }
 ];
 var ideasData = {};                                   // synced live ideas  {id:{title,desc,votes}}
 var dirState  = { mode:'disc', presetsShown:0, presetVotes:{} };  // synced shared state
@@ -690,8 +682,8 @@ function revealPreset() {
 function updateRevealBtn() {
   var btn = document.getElementById('reveal-next-btn');
   var left = presets.length - dirState.presetsShown;
-  if (left <= 0) { btn.textContent = 'All suggestions shown ✓'; btn.disabled = true; }
-  else { btn.textContent = 'Suggest option (' + left + ' left)'; btn.disabled = false; }
+  if (left <= 0) { btn.textContent = 'Alle suggesties getoond ✓'; btn.disabled = true; }
+  else { btn.textContent = 'Suggestie tonen (' + left + ' over)'; btn.disabled = false; }
 }
 
 /* key = idea id (live) or preset index (preset) */
@@ -704,7 +696,7 @@ function remDirVote(type, key) {
   else                 Sync.transaction('dir/presetVotes/' + key, function(v){ return Math.max(0,(v||0) - 1); });
 }
 function resetDirVotes() {
-  if (!confirm('Reset all votes?')) return;
+  if (!confirm('Alle stemmen wissen?')) return;
   Object.keys(ideasData).forEach(function(id){ Sync.set('ideas/' + id + '/votes', 0); });
   Sync.set('dir/presetVotes', {});
 }
@@ -755,14 +747,14 @@ function renderDirGrid() {
     for (var bd = 0; bd < Math.min(votes, 6); bd++) badgeDots += '<span class="bdot"></span>';
     var voteHtml = '<div class="vote-zone' + (dirState.mode === 'vote' ? ' show' : '') + '">'
       + '<div class="vote-btns">'
-      + '<button class="vbtn dir-vote-add">+ vote</button>'
+      + '<button class="vbtn dir-vote-add">+ stem</button>'
       + '<button class="vbtn dir-vote-rem">−</button>'
       + '</div></div>';
 
     card.innerHTML =
-      '<div class="dir-ltr"><span>Option ' + letter + '</span><span class="dir-votes">' + badgeDots + '<span class="dv-num">' + votes + '</span></span></div>'
+      '<div class="dir-ltr"><span>Optie ' + letter + '</span><span class="dir-votes">' + badgeDots + '<span class="dv-num">' + votes + '</span></span></div>'
       + '<div class="dir-head"><span class="dir-icon">' + emoji + '</span><span class="dir-title">' + esc(opt.title) + '</span></div>'
-      + '<div class="dir-desc' + (opt.desc ? '' : ' empty') + '">' + (opt.desc ? esc(opt.desc) : 'No description added') + '</div>'
+      + '<div class="dir-desc' + (opt.desc ? '' : ' empty') + '">' + (opt.desc ? esc(opt.desc) : 'Geen beschrijving toegevoegd') + '</div>'
       + voteHtml
       + (isLive ? '<span class="opt-del-btn" style="position:absolute;top:7px;right:9px;font-size:9px;color:var(--light);cursor:pointer;opacity:0;transition:opacity .15s;">&#x2715;</span>' : '');
 
@@ -794,11 +786,11 @@ function buildDots(count) {
 var imTarget = null;
 function openIdeaModal(opt, letter){
   imTarget = { type: opt.type, key: opt.key };
-  document.getElementById('im-eyebrow').textContent = 'Option ' + letter + (opt.type==='preset' ? ' · suggestion' : '');
+  document.getElementById('im-eyebrow').textContent = 'Optie ' + letter + (opt.type==='preset' ? ' · suggestie' : '');
   var t = document.getElementById('im-title'), d = document.getElementById('im-desc');
   t.value = opt.title || ''; d.value = opt.desc || '';
   t.readOnly = !IS_PRESENTER; d.readOnly = !IS_PRESENTER;
-  document.getElementById('im-votes').textContent = (opt.votes||0) + ' vote' + ((opt.votes||0)===1?'':'s');
+  document.getElementById('im-votes').textContent = (opt.votes||0) + ' stem' + ((opt.votes||0)===1?'':'men');
   document.getElementById('idea-modal').classList.add('show');
 }
 function closeIdeaModal(){ var m=document.getElementById('idea-modal'); if(m) m.classList.remove('show'); imTarget=null; }
@@ -831,7 +823,7 @@ function addCommit(){
   document.getElementById('c-what').focus();
 }
 function removeCommit(id){ Sync.remove('commitments/'+id); }
-function clearCommits(){ if(!confirm('Clear all commitments?'))return; Sync.remove('commitments'); }
+function clearCommits(){ if(!confirm('Alle acties wissen?'))return; Sync.remove('commitments'); }
 Sync.subscribe('commitments', function(data){
   const list=document.getElementById('c-list');
   const empty=document.getElementById('c-empty');
@@ -840,7 +832,7 @@ Sync.subscribe('commitments', function(data){
   const ids=data?Object.keys(data):[];
   if(ids.length===0){list.style.display='none';empty.style.display='flex';footer.classList.add('hidden');list.innerHTML='';return;}
   empty.style.display='none';list.style.display='flex';footer.classList.remove('hidden');
-  pill.textContent=ids.length+' commitment'+(ids.length!==1?'s':'');
+  pill.textContent=ids.length+(ids.length!==1?' acties':' actie');
   list.innerHTML='';
   ids.forEach(function(id){
     const c=data[id]||{};
@@ -884,7 +876,8 @@ if (IS_PRESENTER) {
 
 /* ── Join QR: small on the agenda + a full-screen overlay toggled with Q (any slide) ── */
 (function(){
-  var joinUrl = location.origin + location.pathname.replace(/[^/]+$/, 'mobile.html') + '?s=' + Sync.sessionId();
+  // gedeelde join-pagina mobile.html, met workshop-config via ?w= (zelfde room dankzij sync.js)
+  var joinUrl = location.origin + location.pathname.replace(/[^/]+$/, 'mobile.html') + '?w=roadmap&s=' + Sync.sessionId();
   var box = document.getElementById('qr-code');
   if (box && window.QRCode) new QRCode(box, { text: joinUrl, width:140, height:140, correctLevel: QRCode.CorrectLevel.L });
   else if (box) box.parentElement.style.display = 'none';
@@ -899,41 +892,41 @@ if (IS_PRESENTER) {
 
 /* ── Reset session: export everything to PDF, then wipe the room (presenter only) ── */
 function exportPdf(responses, notes, ideas, dir, commitments){
-  if (!(window.jspdf && window.jspdf.jsPDF)) { alert('PDF library not loaded — export aborted, nothing was cleared.'); return false; }
+  if (!(window.jspdf && window.jspdf.jsPDF)) { alert('PDF-bibliotheek niet geladen — export afgebroken, er werd niets gewist.'); return false; }
   var doc = new window.jspdf.jsPDF({unit:'pt', format:'a4'});
   var M=48, W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight(), y=M;
   function nl(h){ y+=h; if(y>H-M){ doc.addPage(); y=M; } }
   function heading(t){ nl(8); doc.setFont('helvetica','bold'); doc.setFontSize(14); doc.setTextColor(40); doc.text(t,M,y); nl(6); doc.setDrawColor(205); doc.line(M,y,W-M,y); nl(16); }
   function line(t,o){ o=o||{}; doc.setFont('helvetica',o.bold?'bold':'normal'); doc.setFontSize(o.size||10); doc.setTextColor(o.color!=null?o.color:60);
     doc.splitTextToSize(t, W-2*M-(o.indent||0)).forEach(function(w){ doc.text(w, M+(o.indent||0), y); nl((o.size||10)+4); }); }
-  doc.setFont('helvetica','bold'); doc.setFontSize(20); doc.setTextColor(20); doc.text('Workshop export', M, y); nl(24);
+  doc.setFont('helvetica','bold'); doc.setFontSize(20); doc.setTextColor(20); doc.text('Workshop-export', M, y); nl(24);
   doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(120);
-  doc.text('Room: '+Sync.sessionId()+'   ·   '+new Date().toLocaleString(), M, y); nl(18);
+  doc.text('Sessie: '+Sync.sessionId()+'   ·   '+new Date().toLocaleString('nl-BE'), M, y); nl(18);
 
-  heading('Opening — what we heard');
+  heading('Opening — wat we hoorden');
   var rk=responses?Object.keys(responses):[]; if(!rk.length) line('(none)',{color:150});
   rk.forEach(function(id){ var r=responses[id]||{}; line('• '+(r.name?r.name+': ':'')+(r.text||'')); });
 
-  heading('Post-it wall');
+  heading('Post-it muur');
   var nk=notes?Object.keys(notes):[];
-  line('We can offer', {bold:true});
+  line('Pijnpunten', {bold:true});
   var off=nk.filter(function(id){return (notes[id]||{}).col!=='miss';});
-  if(!off.length) line('(none)',{color:150,indent:14}); else off.forEach(function(id){ line('• '+(notes[id].text||''),{indent:14}); });
-  line('We’re missing', {bold:true});
+  if(!off.length) line('(geen)',{color:150,indent:14}); else off.forEach(function(id){ line('• '+(notes[id].text||''),{indent:14}); });
+  line('Kansen', {bold:true});
   var mis=nk.filter(function(id){return (notes[id]||{}).col==='miss';});
-  if(!mis.length) line('(none)',{color:150,indent:14}); else mis.forEach(function(id){ line('• '+(notes[id].text||''),{indent:14}); });
+  if(!mis.length) line('(geen)',{color:150,indent:14}); else mis.forEach(function(id){ line('• '+(notes[id].text||''),{indent:14}); });
 
-  heading('Directions — options & votes');
+  heading('Richtingen — opties & stemmen');
   var opts=[];
   if(ideas) Object.keys(ideas).forEach(function(id){var o=ideas[id]||{};opts.push({t:o.title,d:o.desc,v:o.votes||0});});
   var pa=(dir&&dir.presets)||[], pv=(dir&&dir.presetVotes)||{}, shown=(dir&&dir.presetsShown)||0;
   (Array.isArray(pa)?pa:[]).slice(0,shown).forEach(function(o,i){opts.push({t:o.title,d:o.desc,v:pv[i]||0});});
   opts.sort(function(a,b){return b.v-a.v;});
-  if(!opts.length) line('(none)',{color:150});
-  opts.forEach(function(o){ line(o.v+' vote'+(o.v===1?'':'s')+'  —  '+(o.t||''),{bold:true}); if(o.d) line(o.d,{indent:14,color:110}); });
+  if(!opts.length) line('(geen)',{color:150});
+  opts.forEach(function(o){ line(o.v+' stem'+(o.v===1?'':'men')+'  —  '+(o.t||''),{bold:true}); if(o.d) line(o.d,{indent:14,color:110}); });
 
-  heading('Commitments');
-  var ck=commitments?Object.keys(commitments):[]; if(!ck.length) line('(none)',{color:150});
+  heading('Acties');
+  var ck=commitments?Object.keys(commitments):[]; if(!ck.length) line('(geen)',{color:150});
   ck.forEach(function(id){var c=commitments[id]||{}; line('• '+(c.what||'')+'   ['+(c.who||'—')+' · '+(c.when||'—')+']'); });
 
   doc.save('workshop-'+Sync.sessionId()+'-'+new Date().toISOString().slice(0,10)+'.pdf');
@@ -946,15 +939,15 @@ function exportSession(){    // PDF only — keeps all data
 
 /* ── Branded slide deck (.pptx) export (presenter only) ── */
 function exportSlides(){
-  if(!window.PptxGenJS){ alert('Slide library not loaded — need internet (it loads from a CDN). Are you online?'); return; }
+  if(!window.PptxGenJS){ alert('Slide-bibliotheek niet geladen — internet nodig (laadt van een CDN). Ben je online?'); return; }
   Promise.all([Sync.once('responses'),Sync.once('notes'),Sync.once('ideas'),Sync.once('dir'),Sync.once('commitments')])
     .then(function(r){
       var p;
       try { p = buildSlides(r[0],r[1],r[2],r[3],r[4]); }
-      catch(e){ console.error('[Slides] build failed:', e); alert('Slide export failed while building: '+e.message); return; }
-      if (p && p.catch) p.catch(function(e){ console.error('[Slides] download failed:', e); alert('Slide download failed: '+e.message); });
+      catch(e){ console.error('[Slides] build failed:', e); alert('Slide-export mislukt tijdens opbouw: '+e.message); return; }
+      if (p && p.catch) p.catch(function(e){ console.error('[Slides] download failed:', e); alert('Slide-download mislukt: '+e.message); });
     })
-    .catch(function(e){ console.error('[Slides] data read failed:', e); alert('Could not read session data: '+e.message); });
+    .catch(function(e){ console.error('[Slides] data read failed:', e); alert('Kon sessiegegevens niet lezen: '+e.message); });
 }
 function buildSlides(responses, notes, ideas, dir, commitments){
   var Y='EFAF39',B='00B2DD',T='0DBFA4',O='F8763D',D='413D3B',MID='978D87',LIGHT='C5BDB5',INK='1A1917',W='FFFFFF';
@@ -977,19 +970,19 @@ function buildSlides(responses, notes, ideas, dir, commitments){
   (Array.isArray(pa)?pa:[]).slice(0,shown).forEach(function(o,i){opts.push({t:o.title,d:o.desc,v:pv[i]||0});});
   opts.sort(function(a,b){return b.v-a.v;});
   var comm=Object.keys(commitments||{}).map(function(id){return commitments[id]||{};});
-  var dateStr=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  var dateStr=new Date().toLocaleDateString('nl-BE',{day:'numeric',month:'long',year:'numeric'});
 
   // ── cover ──
   var c=pptx.addSlide(); c.background={color:INK};
   c.addShape(pptx.ShapeType.rect,{x:0.7,y:2.35,w:1.1,h:0.09,fill:{color:Y}});
-  c.addText('FLEXSO DIGITAL · TEAM DAY',{x:0.7,y:2.55,w:12,h:0.4,fontFace:'Inter',fontSize:13,bold:true,color:Y});
-  c.addText('Knowledge Sharing — Focus Groups',{x:0.7,y:3.0,w:12,h:1.2,fontFace:'Inter',fontSize:40,bold:true,color:W});
-  c.addText(dateStr+'   ·   '+resp.length+' stories · '+(offers.length+misses.length)+' post-its · '+comm.length+' commitments',
+  c.addText('CENTRAAL TEAM · ROADMAP',{x:0.7,y:2.55,w:12,h:0.4,fontFace:'Inter',fontSize:13,bold:true,color:Y});
+  c.addText('Roadmap & Prioritering',{x:0.7,y:3.0,w:12,h:1.2,fontFace:'Inter',fontSize:40,bold:true,color:W});
+  c.addText(dateStr+'   ·   '+resp.length+' antwoorden · '+(offers.length+misses.length)+' post-its · '+comm.length+' acties',
     {x:0.7,y:4.35,w:12,h:0.5,fontFace:'Inter',fontSize:14,color:LIGHT});
 
   // ── opening ──
   if(resp.length) chunk(resp,8).forEach(function(ch,i,arr){
-    var s=sec('What we’re quietly proud of',Y,'Opening'+(arr.length>1?' · '+(i+1)+'/'+arr.length:''));
+    var s=sec('Waar ging onze tijd naartoe?',Y,'Opening'+(arr.length>1?' · '+(i+1)+'/'+arr.length:''));
     var runs=[];
     ch.forEach(function(r){
       if(r.name){ runs.push({text:r.name+' — ',options:{bold:true,color:INK,fontSize:14,bullet:true,breakLine:false}});
@@ -1006,27 +999,27 @@ function buildSlides(responses, notes, ideas, dir, commitments){
       s.addShape(pptx.ShapeType.roundRect,{x:x,y:1.7,w:5.7,h:0.5,fill:{color:color},rectRadius:0.08});
       s.addText(title,{x:x,y:1.7,w:5.7,h:0.5,align:'center',valign:'middle',bold:true,fontSize:14,fontFace:'Inter',color:(color===Y?INK:W)});
       var runs=items.length?items.map(function(t){return {text:t,options:{bullet:true,breakLine:true,fontSize:12,color:D}};})
-                          :[{text:'(none)',options:{italic:true,color:MID,fontSize:12}}];
+                          :[{text:'(geen)',options:{italic:true,color:MID,fontSize:12}}];
       s.addText(runs,{x:x,y:2.35,w:5.7,h:4.7,valign:'top',lineSpacingMultiple:1.2});
     };
     for(var p=0;p<pgs;p++){
-      var s=sec('Post-it wall',Y,'Shared diagnosis'+(pgs>1?' · '+(p+1)+'/'+pgs:''));
-      col(s,'What we can offer',Y,offers.slice(p*10,p*10+10),0.7);
-      col(s,'What we’re missing',B,misses.slice(p*10,p*10+10),6.95);
+      var s=sec('Post-it muur',Y,'Diagnose'+(pgs>1?' · '+(p+1)+'/'+pgs:''));
+      col(s,'Pijnpunten',Y,offers.slice(p*10,p*10+10),0.7);
+      col(s,'Kansen',B,misses.slice(p*10,p*10+10),6.95);
     }
   }
 
   // ── directions (vote chart) ──
   if(opts.length){
-    var sd=sec('Which direction we chose',T,'The vote');
+    var sd=sec('Welke richting kozen we?',T,'De stemming');
     var top=opts.slice(0,12);
     try{
-      sd.addChart(pptx.ChartType.bar,[{name:'Votes',labels:top.map(function(o){return o.t||'(untitled)';}),values:top.map(function(o){return o.v;})}],
+      sd.addChart(pptx.ChartType.bar,[{name:'Stemmen',labels:top.map(function(o){return o.t||'(geen titel)';}),values:top.map(function(o){return o.v;})}],
         {x:0.7,y:1.7,w:12,h:5.0,barDir:'bar',chartColors:[T],showValue:true,showLegend:false,catAxisLabelColor:D,valAxisLabelColor:MID,dataLabelColor:D,catAxisLabelFontSize:11,valAxisLabelFontSize:9});
     }catch(e){
       sd.addText(top.map(function(o){return {text:o.v+' — '+(o.t||''),options:{bullet:true,breakLine:true,fontSize:15,color:D}};}),{x:0.7,y:1.8,w:12,h:5,valign:'top'});
     }
-    if(top[0]) sd.addText('★ '+(top[0].t||'')+'  —  '+top[0].v+' vote'+(top[0].v===1?'':'s'),{x:0.7,y:6.8,w:12,h:0.4,fontSize:13,bold:true,color:T,fontFace:'Inter'});
+    if(top[0]) sd.addText('★ '+(top[0].t||'')+'  —  '+top[0].v+' stem'+(top[0].v===1?'':'men'),{x:0.7,y:6.8,w:12,h:0.4,fontSize:13,bold:true,color:T,fontFace:'Inter'});
   }
 
   // ── commitments ──
@@ -1036,8 +1029,8 @@ function buildSlides(responses, notes, ideas, dir, commitments){
     var cell={fontSize:12,color:D,valign:'middle',fontFace:'Inter'};
     var cellC={fontSize:12,color:D,valign:'middle',align:'center',fontFace:'Inter'};
     chunk(comm,8).forEach(function(ch,i,arr){
-      var s=sec('Our commitments',O,'Commitment'+(arr.length>1?' · '+(i+1)+'/'+arr.length:''));
-      var rows=[[{text:'What',options:hdr},{text:'Who',options:hdrC},{text:'By when',options:hdrC}]];
+      var s=sec('Onze acties',O,'Actie'+(arr.length>1?' · '+(i+1)+'/'+arr.length:''));
+      var rows=[[{text:'Wat',options:hdr},{text:'Wie',options:hdrC},{text:'Tegen wanneer',options:hdrC}]];
       ch.forEach(function(x){ rows.push([{text:x.what||'',options:cell},{text:x.who||'—',options:cellC},{text:x.when||'—',options:cellC}]); });
       s.addTable(rows,{x:0.7,y:1.75,w:11.9,colW:[7.3,2.3,2.3],border:{type:'solid',color:'E5E1DA',pt:1},rowH:0.5});
     });
@@ -1045,19 +1038,19 @@ function buildSlides(responses, notes, ideas, dir, commitments){
 
   // ── closing ──
   var cl=pptx.addSlide(); cl.background={color:INK};
-  cl.addText('One action. One name. One date.',{x:0.7,y:2.9,w:12,h:1,fontFace:'Inter',fontSize:34,bold:true,color:W,align:'center'});
-  cl.addText('Thank you — keep sharing across regions.',{x:0.7,y:4.0,w:12,h:0.5,fontFace:'Inter',fontSize:15,color:LIGHT,align:'center'});
+  cl.addText('Eén actie. Eén eigenaar. Eén datum.',{x:0.7,y:2.9,w:12,h:1,fontFace:'Inter',fontSize:34,bold:true,color:W,align:'center'});
+  cl.addText('Bedankt — laten we deze prioriteiten waarmaken.',{x:0.7,y:4.0,w:12,h:0.5,fontFace:'Inter',fontSize:15,color:LIGHT,align:'center'});
 
   return pptx.writeFile({fileName:'workshop-'+Sync.sessionId()+'-'+new Date().toISOString().slice(0,10)+'.pptx'});
 }
 function resetSession(){
-  if (!confirm('Export everything to PDF and then CLEAR all contributions for this session?')) return;
+  if (!confirm('Alles naar PDF exporteren en daarna ALLE bijdragen van deze sessie WISSEN?')) return;
   Promise.all([Sync.once('responses'),Sync.once('notes'),Sync.once('ideas'),Sync.once('dir'),Sync.once('commitments')])
     .then(function(r){
       if (exportPdf(r[0],r[1],r[2],r[3],r[4]) === false) return;   // export failed → keep data
       Sync.remove('responses'); Sync.remove('notes'); Sync.remove('ideas'); Sync.remove('commitments');
       Sync.set('dir', { presets: presets, presetsShown:0, mode:'disc', presetVotes:{} });   // fresh, keep option texts
-      alert('Exported to PDF and cleared — a fresh session is ready.');
+      alert('Geëxporteerd naar PDF en gewist — een verse sessie staat klaar.');
     });
 }
 </script>

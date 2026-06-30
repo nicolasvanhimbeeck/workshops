@@ -4,13 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Join · Workshop</title>
+<link rel="stylesheet" href="theme.css">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --yellow:#EFAF39;--blue:#00B2DD;--teal:#0DBFA4;--orange:#F8763D;
-  --dark:#413D3B;--mid:#978D87;--light:#C5BDB5;--bg:#F2F0EA;--white:#ffffff;
-}
 html,body{background:#1a1917;color:var(--white);font-family:'Inter',sans-serif;-webkit-text-size-adjust:100%;}
 body{min-height:100dvh;display:flex;flex-direction:column;}
 
@@ -78,19 +73,19 @@ textarea{resize:none;min-height:78px;line-height:1.45;}
 </style>
 </head>
 <body>
-<div id="no-room" class="banner" style="display:none;">⚠ No session in the link. Add <b>?s=SESSION-ID</b> to the URL.</div>
+<div id="no-room" class="banner" style="display:none;"></div>
 
 <header class="hdr">
-  <div class="hdr-top"><span class="dot" id="dot"></span><span id="status">connecting…</span><span style="margin-left:auto" id="room"></span></div>
-  <div class="activity"><span class="step" id="step"></span> <span id="activity">Waiting for the presenter…</span></div>
-  <div class="timer-line" id="timer-line" style="display:none;">⏱ <span id="timer-val">0:00</span> <span class="timer-cap">left</span></div>
+  <div class="hdr-top"><span class="dot" id="dot"></span><span id="status"></span><span style="margin-left:auto" id="room"></span></div>
+  <div class="activity"><span class="step" id="step"></span> <span id="activity"></span></div>
+  <div class="timer-line" id="timer-line" style="display:none;">⏱ <span id="timer-val">0:00</span> <span class="timer-cap" id="timer-cap"></span></div>
 </header>
 
 <main id="panel">
-  <div class="lead">Hang tight — the workshop will appear here automatically.</div>
+  <div class="lead" id="initial-lead"></div>
 </main>
 
-<div class="toast" id="toast">Added ✓</div>
+<div class="toast" id="toast"></div>
 
 <!-- Realtime sync: Firebase compat SDK + shared sync layer -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -101,18 +96,83 @@ function esc(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'
 function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
 function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1100);}
 
-var LABELS=['Agenda','Opening','Diagnosis','Post-it wall','Directions','Commitment'];
+/* ── per-workshop copy ───────────────────────────────────────────────
+   One mobile.html serves every workshop. The desktop deck passes its
+   key in the join URL (?w=<key>); without it we fall back to 'fg'.
+   Each deck links to: mobile.html?w=<key>&s=<session>                  */
+var CONFIGS = {
+  fg: {
+    htmlLang:'en', title:'Join · Workshop',
+    noRoom:'⚠ No session in the link. Add <b>?s=SESSION-ID</b> to the URL.',
+    roomPrefix:'room: ',
+    connecting:'connecting…', live:'live', reconnecting:'reconnecting…', offlineLocal:'offline (local only)',
+    waiting:'Waiting for the presenter…', timerCap:'left',
+    initialLead:'Hang tight — the workshop will appear here automatically.',
+    labels:['Agenda','Opening','Diagnosis','Post-it wall','Directions','Commitment'],
+    s1:{lead:'Talk to someone you don’t know well. Then capture what they shared.',
+        nameLabel:'Their name (optional)', namePh:'Their name…',
+        textLabel:'What are they quietly proud of?', textPh:'What did they tell you?…',
+        btn:'Share ✓', listTitle:'what we’re hearing', empty:'Be the first to share something.', toast:'Shared ✓'},
+    s3:{lead:'Add a post-it to either column.', noteLabel:'Your post-it', notePh:'Type your post-it…',
+        offerBtn:'💡 We can offer', missBtn:'🔁 We’re missing',
+        offerTitle:'what we can offer', missTitle:'what we’re missing', empty:'Nothing yet.', toast:'Posted ✓'},
+    s4:{lead:'Vote for the directions you believe in. Each tap = one dot.', optsTitle:'the options',
+        ideaLabel:'Got another idea?', ideaPh:'Title…', ideaDescPh:'Short description (optional)…', ideaBtn:'Add idea ✓',
+        emptyVoting:'No options revealed yet.', emptyClosed:'Voting opens when the presenter starts it.',
+        voteOne:'vote', voteMany:'votes', voteBtn:'+ vote', ideaToast:'Idea added ✓', voteToast:'Vote counted ✓'},
+    s5:{lead:'One action. One name. One date.', whatLabel:'What will happen', whatPh:'What will happen…',
+        whoPh:'Who does it', whenPh:'By when', btn:'Commit ✓', listTitle:'our commitments',
+        empty:'No commitments yet.', toast:'Committed ✓'},
+    diagnosisLead:'Write your answers on physical post-its now — we’ll capture them on the next screen. Keep an eye on the main screen for the two questions.',
+    followLead:'Follow along on the main screen. This page will open up when it’s your turn to contribute.'
+  },
+  roadmap: {
+    htmlLang:'nl', title:'Meedoen · Workshop',
+    noRoom:'⚠ Geen sessie in de link. Voeg <b>?s=SESSIE-ID</b> toe aan de URL.',
+    roomPrefix:'sessie: ',
+    connecting:'verbinden…', live:'live', reconnecting:'opnieuw verbinden…', offlineLocal:'offline (enkel lokaal)',
+    waiting:'Wachten op de presentator…', timerCap:'resterend',
+    initialLead:'Even geduld — de workshop verschijnt hier vanzelf.',
+    labels:['Agenda','Opening','Diagnose','Post-it muur','Richtingen','Commitment'],
+    s1:{lead:'Deel waar je de afgelopen 6 maanden het meeste tijd aan kwijt was — en wat je liever met die tijd had gedaan.',
+        nameLabel:'Domein (optioneel)', namePh:'Domein…',
+        textLabel:'Wat vroeg tijd — en wat had je liever gedaan?', textPh:'Jouw antwoord…',
+        btn:'Delen ✓', listTitle:'wat we horen', empty:'Wees de eerste om iets te delen.', toast:'Gedeeld ✓'},
+    s3:{lead:'Voeg een post-it toe aan een van beide kolommen.', noteLabel:'Je post-it', notePh:'Typ je post-it…',
+        offerBtn:'🔧 Pijnpunt', missBtn:'🚀 Kans',
+        offerTitle:'pijnpunten', missTitle:'kansen', empty:'Nog niets.', toast:'Geplaatst ✓'},
+    s4:{lead:'Stem op de richtingen waar je in gelooft. Elke tik = één stem.', optsTitle:'de opties',
+        ideaLabel:'Nog een idee?', ideaPh:'Titel…', ideaDescPh:'Korte beschrijving (optioneel)…', ideaBtn:'Idee toevoegen ✓',
+        emptyVoting:'Nog geen opties getoond.', emptyClosed:'Stemmen opent zodra de presentator start.',
+        voteOne:'stem', voteMany:'stemmen', voteBtn:'+ stem', ideaToast:'Idee toegevoegd ✓', voteToast:'Stem geteld ✓'},
+    s5:{lead:'Eén actie. Eén eigenaar. Eén datum.', whatLabel:'Wat gaat er gebeuren', whatPh:'Wat gaat er gebeuren…',
+        whoPh:'Wie doet het', whenPh:'Tegen wanneer', btn:'Vastleggen ✓', listTitle:'onze acties',
+        empty:'Nog geen acties.', toast:'Vastgelegd ✓'},
+    diagnosisLead:'Schrijf je antwoorden nu op fysieke post-its — we verzamelen ze op het volgende scherm. Hou het hoofdscherm in de gaten voor de twee vragen.',
+    followLead:'Volg mee op het hoofdscherm. Deze pagina opent wanneer het jouw beurt is om bij te dragen.'
+  }
+};
 
 /* warn if no room was passed */
 var qp=new URLSearchParams(location.search);
+var C=CONFIGS[qp.get('w')]||CONFIGS.fg;
+var LABELS=C.labels;
+
+/* apply workshop chrome */
+document.documentElement.lang=C.htmlLang;
+document.title=C.title;
+document.getElementById('no-room').innerHTML=C.noRoom;
+document.getElementById('timer-cap').textContent=C.timerCap;
+document.getElementById('initial-lead').textContent=C.initialLead;
+
 if(!(qp.get('s')||qp.get('room'))) document.getElementById('no-room').style.display='block';
-document.getElementById('room').textContent='room: '+Sync.sessionId();
+document.getElementById('room').textContent=C.roomPrefix+Sync.sessionId();
 
 /* sync-status dot */
 var dot=document.getElementById('dot'), statusEl=document.getElementById('status');
-if(Sync.online){ dot.className='dot off'; statusEl.textContent='connecting…';
-  Sync.connected(function(ok){ dot.className='dot '+(ok?'on':'off'); statusEl.textContent=ok?'live':'reconnecting…'; });
-} else { dot.className='dot local'; statusEl.textContent='offline (local only)'; }
+if(Sync.online){ dot.className='dot off'; statusEl.textContent=C.connecting;
+  Sync.connected(function(ok){ dot.className='dot '+(ok?'on':'off'); statusEl.textContent=ok?C.live:C.reconnecting; });
+} else { dot.className='dot local'; statusEl.textContent=C.offlineLocal; }
 
 /* register as a connected participant (auto-removed on disconnect) */
 if (Sync.presence) Sync.presence({ role:'phone' });
@@ -124,55 +184,53 @@ var respData={}, notesData={}, ideasData={}, dirData={presets:[],presetsShown:0,
 /* ── panel skeletons (built once per slide so inputs keep focus) ── */
 function setActivity(){
   document.getElementById('step').textContent = slide>=0 ? ('0'+(slide+1)).slice(-2) : '';
-  document.getElementById('activity').textContent = slide>=0 ? LABELS[slide] : 'Waiting for the presenter…';
+  document.getElementById('activity').textContent = slide>=0 ? LABELS[slide] : C.waiting;
 }
 function buildPanel(){
   var p=document.getElementById('panel'); p.innerHTML='';
   if(slide===1){                                   // Opening — responses
-    p.appendChild(el('div','lead','Talk to someone you don’t know well. Then capture what they shared.'));
+    p.appendChild(el('div','lead',C.s1.lead));
     var c=el('div','card');
-    c.appendChild(el('label',null,'Their name (optional)'));
-    var n=el('input'); n.id='f-name'; n.placeholder='Their name…'; c.appendChild(wrap(n));
-    c.appendChild(el('label','btn-mt','What are they quietly proud of?'));
-    var t=el('textarea'); t.id='f-text'; t.placeholder='What did they tell you?…'; c.appendChild(wrap(t));
-    var b=el('button','btn btn-yel btn-mt','Share ✓'); b.onclick=addResp; c.appendChild(b);
+    c.appendChild(el('label',null,C.s1.nameLabel));
+    var n=el('input'); n.id='f-name'; n.placeholder=C.s1.namePh; c.appendChild(wrap(n));
+    c.appendChild(el('label','btn-mt',C.s1.textLabel));
+    var t=el('textarea'); t.id='f-text'; t.placeholder=C.s1.textPh; c.appendChild(wrap(t));
+    var b=el('button','btn btn-yel btn-mt',C.s1.btn); b.onclick=addResp; c.appendChild(b);
     p.appendChild(c);
-    p.appendChild(listBox('what we’re hearing','resp-list'));
+    p.appendChild(listBox(C.s1.listTitle,'resp-list'));
   } else if(slide===3){                            // Post-it wall — notes
-    p.appendChild(el('div','lead','Add a post-it to either column.'));
+    p.appendChild(el('div','lead',C.s3.lead));
     var c2=el('div','card');
-    c2.appendChild(el('label',null,'Your post-it'));
-    var nt=el('textarea'); nt.id='f-note'; nt.placeholder='Type your post-it…'; c2.appendChild(wrap(nt));
+    c2.appendChild(el('label',null,C.s3.noteLabel));
+    var nt=el('textarea'); nt.id='f-note'; nt.placeholder=C.s3.notePh; c2.appendChild(wrap(nt));
     var row=el('div','btn-row');
-    var o=el('button','btn btn-yel','💡 We can offer'); o.onclick=function(){addNote('offer');};
-    var m=el('button','btn btn-blue','🔁 We’re missing'); m.onclick=function(){addNote('miss');};
+    var o=el('button','btn btn-yel',C.s3.offerBtn); o.onclick=function(){addNote('offer');};
+    var m=el('button','btn btn-blue',C.s3.missBtn); m.onclick=function(){addNote('miss');};
     row.appendChild(o); row.appendChild(m); c2.appendChild(row);
     p.appendChild(c2);
-    p.appendChild(listBox('what we can offer','offer-list'));
-    p.appendChild(listBox('what we’re missing','miss-list'));
+    p.appendChild(listBox(C.s3.offerTitle,'offer-list'));
+    p.appendChild(listBox(C.s3.missTitle,'miss-list'));
   } else if(slide===4){                            // Directions — vote + add idea
-    p.appendChild(el('div','lead','Vote for the directions you believe in. Each tap = one dot.'));
-    p.appendChild(listBox('the options','opt-list'));
+    p.appendChild(el('div','lead',C.s4.lead));
+    p.appendChild(listBox(C.s4.optsTitle,'opt-list'));
     var c3=el('div','card');
-    c3.appendChild(el('label',null,'Got another idea?'));
-    var it=el('input'); it.id='f-idea'; it.placeholder='Title…'; c3.appendChild(wrap(it));
-    var idd=el('input'); idd.id='f-idea-desc'; idd.placeholder='Short description (optional)…'; var fw=wrap(idd); fw.className='field'; c3.appendChild(fw);
-    var ib=el('button','btn btn-dark btn-mt','Add idea ✓'); ib.onclick=addIdea; c3.appendChild(ib);
+    c3.appendChild(el('label',null,C.s4.ideaLabel));
+    var it=el('input'); it.id='f-idea'; it.placeholder=C.s4.ideaPh; c3.appendChild(wrap(it));
+    var idd=el('input'); idd.id='f-idea-desc'; idd.placeholder=C.s4.ideaDescPh; var fw=wrap(idd); fw.className='field'; c3.appendChild(fw);
+    var ib=el('button','btn btn-dark btn-mt',C.s4.ideaBtn); ib.onclick=addIdea; c3.appendChild(ib);
     p.appendChild(c3);
   } else if(slide===5){                            // Commitment
-    p.appendChild(el('div','lead','One action. One name. One date.'));
+    p.appendChild(el('div','lead',C.s5.lead));
     var c4=el('div','card');
-    c4.appendChild(el('label',null,'What will happen'));
-    var w=el('input'); w.id='f-what'; w.placeholder='What will happen…'; c4.appendChild(wrap(w));
-    var who=el('input'); who.id='f-who'; who.placeholder='Who does it'; var w1=wrap(who); w1.className='field'; c4.appendChild(w1);
-    var whn=el('input'); whn.id='f-when'; whn.placeholder='By when'; var w2=wrap(whn); w2.className='field'; c4.appendChild(w2);
-    var cb=el('button','btn btn-yel btn-mt','Commit ✓'); cb.onclick=addCommit; c4.appendChild(cb);
+    c4.appendChild(el('label',null,C.s5.whatLabel));
+    var w=el('input'); w.id='f-what'; w.placeholder=C.s5.whatPh; c4.appendChild(wrap(w));
+    var who=el('input'); who.id='f-who'; who.placeholder=C.s5.whoPh; var w1=wrap(who); w1.className='field'; c4.appendChild(w1);
+    var whn=el('input'); whn.id='f-when'; whn.placeholder=C.s5.whenPh; var w2=wrap(whn); w2.className='field'; c4.appendChild(w2);
+    var cb=el('button','btn btn-yel btn-mt',C.s5.btn); cb.onclick=addCommit; c4.appendChild(cb);
     p.appendChild(c4);
-    p.appendChild(listBox('our commitments','commit-list'));
+    p.appendChild(listBox(C.s5.listTitle,'commit-list'));
   } else {                                         // Agenda / Diagnosis / anything else
-    p.appendChild(el('div','lead', slide===2
-      ? 'Write your answers on physical post-its now — we’ll capture them on the next screen. Keep an eye on the main screen for the two questions.'
-      : 'Follow along on the main screen. This page will open up when it’s your turn to contribute.'));
+    p.appendChild(el('div','lead', slide===2 ? C.diagnosisLead : C.followLead));
   }
   p.querySelectorAll('input').forEach(function(i){i.maxLength=200;});
   p.querySelectorAll('textarea').forEach(function(i){i.maxLength=600;});
@@ -203,12 +261,12 @@ function renderResp(){
   var ids=Object.keys(respData);
   fill('resp-list', ids.map(function(id){var r=respData[id]||{};
     return el('div','item',(r.name?'<span class="who">'+esc(r.name)+'</span>':'')+esc(r.text||''));
-  }), 'Be the first to share something.');
+  }), C.s1.empty);
 }
 function renderNotes(){
   var ids=Object.keys(notesData);
-  fill('offer-list', ids.filter(function(id){return (notesData[id]||{}).col!=='miss';}).map(function(id){return el('div','item offer',esc((notesData[id]||{}).text||''));}),'Nothing yet.');
-  fill('miss-list',  ids.filter(function(id){return (notesData[id]||{}).col==='miss';}).map(function(id){return el('div','item miss',esc((notesData[id]||{}).text||''));}),'Nothing yet.');
+  fill('offer-list', ids.filter(function(id){return (notesData[id]||{}).col!=='miss';}).map(function(id){return el('div','item offer',esc((notesData[id]||{}).text||''));}),C.s3.empty);
+  fill('miss-list',  ids.filter(function(id){return (notesData[id]||{}).col==='miss';}).map(function(id){return el('div','item miss',esc((notesData[id]||{}).text||''));}),C.s3.empty);
 }
 function renderOpts(){
   var presets=dirData.presets||[]; var shown=dirData.presetsShown||0; var pv=dirData.presetVotes||{}; var voting=dirData.mode==='vote';
@@ -220,30 +278,30 @@ function renderOpts(){
     var card=el('div','opt');
     card.appendChild(el('div','opt-head','<span class="opt-ltr">'+L[gi%26]+'</span><span class="opt-title">'+esc(o.title)+'</span>'));
     if(o.desc) card.appendChild(el('div','opt-desc',esc(o.desc)));
-    var foot=el('div','opt-foot','<span class="opt-votes">'+o.votes+' vote'+(o.votes===1?'':'s')+'</span>');
-    if(voting){ var vb=el('button','vote-btn','+ vote'); vb.onclick=function(){vote(o.type,o.key);}; foot.appendChild(vb); }
+    var foot=el('div','opt-foot','<span class="opt-votes">'+o.votes+' '+(o.votes===1?C.s4.voteOne:C.s4.voteMany)+'</span>');
+    if(voting){ var vb=el('button','vote-btn',C.s4.voteBtn); vb.onclick=function(){vote(o.type,o.key);}; foot.appendChild(vb); }
     card.appendChild(foot);
     return card;
-  }), voting ? 'No options revealed yet.' : 'Voting opens when the presenter starts it.');
+  }), voting ? C.s4.emptyVoting : C.s4.emptyClosed);
 }
 function renderCommits(){
   var ids=Object.keys(commitData);
   fill('commit-list', ids.map(function(id){var c=commitData[id]||{};
     return el('div','item','<span class="who">'+esc(c.who||'—')+' · '+esc(c.when||'—')+'</span>'+esc(c.what||''));
-  }),'No commitments yet.');
+  }),C.s5.empty);
 }
 
 /* ── writes ── */
 function val(id){var e=document.getElementById(id);return e?e.value.trim():'';}
 function clr(){[].slice.call(arguments).forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});}
-function addResp(){var t=val('f-text');if(!t)return;Sync.push('responses',{name:val('f-name'),text:t});clr('f-name','f-text');toast('Shared ✓');}
-function addNote(col){var t=val('f-note');if(!t)return;Sync.push('notes',{col:(col==='miss'?'miss':'offer'),text:t});clr('f-note');toast('Posted ✓');}
-function addIdea(){var t=val('f-idea');if(!t)return;Sync.push('ideas',{title:t,desc:val('f-idea-desc'),votes:0});clr('f-idea','f-idea-desc');toast('Idea added ✓');}
-function addCommit(){var w=val('f-what');if(!w)return;Sync.push('commitments',{what:w,who:val('f-who')||'—',when:val('f-when')||'—'});clr('f-what','f-who','f-when');toast('Committed ✓');}
+function addResp(){var t=val('f-text');if(!t)return;Sync.push('responses',{name:val('f-name'),text:t});clr('f-name','f-text');toast(C.s1.toast);}
+function addNote(col){var t=val('f-note');if(!t)return;Sync.push('notes',{col:(col==='miss'?'miss':'offer'),text:t});clr('f-note');toast(C.s3.toast);}
+function addIdea(){var t=val('f-idea');if(!t)return;Sync.push('ideas',{title:t,desc:val('f-idea-desc'),votes:0});clr('f-idea','f-idea-desc');toast(C.s4.ideaToast);}
+function addCommit(){var w=val('f-what');if(!w)return;Sync.push('commitments',{what:w,who:val('f-who')||'—',when:val('f-when')||'—'});clr('f-what','f-who','f-when');toast(C.s5.toast);}
 function vote(type,key){
   if(type==='live') Sync.transaction('ideas/'+key+'/votes',function(v){return (v||0)+1;});
   else              Sync.transaction('dir/presetVotes/'+key,function(v){return (v||0)+1;});
-  toast('Vote counted ✓');
+  toast(C.s4.voteToast);
 }
 
 /* ── subscriptions ── */
@@ -262,6 +320,9 @@ Sync.subscribe('present/timer', function(t){
     line.classList.toggle('warn', t.sec<=10);
   } else { line.style.display='none'; }
 });
+
+/* set initial activity label before first slide arrives */
+setActivity();
 </script>
 </body>
 </html>

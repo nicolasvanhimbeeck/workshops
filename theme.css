@@ -1,0 +1,8 @@
+/* Shared theme — brand font, reset and colour palette.
+   Linked by index.html, mobile.html and every workshop session file. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --yellow:#EFAF39;--blue:#00B2DD;--teal:#0DBFA4;--orange:#F8763D;
+  --dark:#413D3B;--mid:#978D87;--light:#C5BDB5;--bg:#F2F0EA;--white:#ffffff;
+}
