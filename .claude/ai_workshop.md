@@ -48,7 +48,9 @@ Facilitator: Nicolas Vanhimbeeck | Organisator: David Pierre
  
 > Hoi allemaal,
 >
-> Op **15 juli, 12:00–13:30 in Poolhouse Kontich**, komen we samen om te bekijken wat we als FD al doen met AI — en wat we nog kunnen doen.
+> Ikzelf mag deze sessie als facilitator begeleiden — dus bij deze al een woordje vooraf.
+>
+> Op **15 juli, 12:00–13:30 in Poolhouse Kontich**, komen we samen om te bekijken wat we als FD al doen met AI — en wat we nog kunnen doen. Doel is om met elkaar onze AI-cases te delen, en samen te kijken waar we de komende periode op willen inzetten.
 >
 > **Huiswerk vooraf (ten laatste 13 juli, 's avonds):** vul 2 à 3 concrete voorbeelden in via [deze pagina](https://nicolasvanhimbeeck.github.io/workshops/preparation.html?s=20260715_AI_FOCUS). We zijn vooral benieuwd hoe AI **jouw werk verlicht**, of hoe het **klanten nieuwe opportuniteiten geeft** — denk aan zaken als Cortex of de Integration Cockpit. Dit is geen vrijblijvende suggestie: we gebruiken jullie input om het rondje op 15 juli kort en efficiënt te houden. Vul per voorbeeld in:
 > - Welke tool gebruik je?
