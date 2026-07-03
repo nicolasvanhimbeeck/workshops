@@ -99,7 +99,11 @@ function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.c
 /* ── per-workshop copy ───────────────────────────────────────────────
    One mobile.html serves every workshop. The desktop deck passes its
    key in the join URL (?w=<key>); without it we fall back to 'fg'.
-   Each deck links to: mobile.html?w=<key>&s=<session>                  */
+   Each deck links to: mobile.html?w=<key>&s=<session>
+
+   `types` maps each slide index to a panel type — this is what lets
+   workshops with a different slide order (e.g. an extra "showcase"
+   step) share the same buildPanel()/renderList() logic below.        */
 var CONFIGS = {
   fg: {
     htmlLang:'en', title:'Join · Workshop',
@@ -109,6 +113,7 @@ var CONFIGS = {
     waiting:'Waiting for the presenter…', timerCap:'left',
     initialLead:'Hang tight — the workshop will appear here automatically.',
     labels:['Agenda','Opening','Diagnosis','Post-it wall','Directions','Commitment'],
+    types:['agenda','opening','freeform','notes','directions','commitment'],
     s1:{lead:'Talk to someone you don’t know well. Then capture what they shared.',
         nameLabel:'Their name (optional)', namePh:'Their name…',
         textLabel:'What are they quietly proud of?', textPh:'What did they tell you?…',
@@ -134,6 +139,7 @@ var CONFIGS = {
     waiting:'Wachten op de presentator…', timerCap:'resterend',
     initialLead:'Even geduld — de workshop verschijnt hier vanzelf.',
     labels:['Agenda','Opening','Diagnose','Post-it muur','Richtingen','Commitment'],
+    types:['agenda','opening','freeform','notes','directions','commitment'],
     s1:{lead:'Deel waar je de afgelopen 6 maanden het meeste tijd aan kwijt was — en wat je liever met die tijd had gedaan.',
         nameLabel:'Domein (optioneel)', namePh:'Domein…',
         textLabel:'Wat vroeg tijd — en wat had je liever gedaan?', textPh:'Jouw antwoord…',
@@ -149,6 +155,40 @@ var CONFIGS = {
         whoPh:'Wie doet het', whenPh:'Tegen wanneer', btn:'Vastleggen ✓', listTitle:'onze acties',
         empty:'Nog geen acties.', toast:'Vastgelegd ✓'},
     diagnosisLead:'Schrijf je antwoorden nu op fysieke post-its — we verzamelen ze op het volgende scherm. Hou het hoofdscherm in de gaten voor de twee vragen.',
+    followLead:'Volg mee op het hoofdscherm. Deze pagina opent wanneer het jouw beurt is om bij te dragen.'
+  },
+  ai: {
+    htmlLang:'nl', title:'Meedoen · AI Workshop',
+    noRoom:'⚠ Geen sessie in de link. Voeg <b>?s=SESSIE-ID</b> toe aan de URL.',
+    roomPrefix:'sessie: ',
+    connecting:'verbinden…', live:'live', reconnecting:'opnieuw verbinden…', offlineLocal:'offline (enkel lokaal)',
+    waiting:'Wachten op de facilitator…', timerCap:'resterend',
+    initialLead:'Even geduld — de workshop verschijnt hier vanzelf.',
+    labels:['Agenda','Opening','Showcase','Stille storm','Post-it muur','Dot voting','Commitment'],
+    types:['agenda','opening','showcase','freeform','notes','directions','commitment'],
+    s1:{lead:'Zeg één woord dat jouw AI-gebruik nu het best beschrijft. Geen uitleg nodig.',
+        nameLabel:'Naam (optioneel)', namePh:'Je naam…',
+        textLabel:'Jouw woord', textPh:'Eén woord…',
+        btn:'Delen ✓', listTitle:'wat we horen', empty:'Wees de eerste om een woord te delen.', toast:'Gedeeld ✓'},
+    s2:{lead:'Vul per voorbeeld één tool, de toepassing en wat je opviel in. Mag meerdere keren (2 à 3 voorbeelden) — we zijn vooral benieuwd hoe AI je werk verlicht, of hoe het klanten nieuwe opportuniteiten geeft.',
+        nameLabel:'Naam (optioneel)', namePh:'Je naam…',
+        toolLabel:'Welke tool gebruik je?', toolPh:'Bv. Claude, Copilot, Cortex, Integration Cockpit…',
+        usecaseLabel:'Waarvoor — verlicht het je werk, of opent het iets voor de klant?', usecasePh:'Waarvoor gebruik je hem…',
+        learningLabel:'Wat viel je op?', learningPh:'Wat werkt goed, wat nog niet…',
+        btn:'Toevoegen ✓', listTitle:'binnengekomen voorbeelden', empty:'Nog geen voorbeelden.', toast:'Toegevoegd ✓'},
+    s3:{lead:'Voeg een post-it toe aan een van beide kolommen.', noteLabel:'Je post-it', notePh:'Typ je post-it…',
+        offerBtn:'🟡 Nieuw idee', missBtn:'🔵 Verbetering',
+        offerTitle:'nieuwe ideeën', missTitle:'verbeteringen', empty:'Nog niets.', toast:'Geplaatst ✓'},
+    s4:{lead:'Stem op de ideeën waar je in gelooft. Elke tik = één stem.', optsTitle:'de ideeën',
+        ideaLabel:'Nog een idee?', ideaPh:'Titel…', ideaDescPh:'Korte beschrijving (optioneel)…', ideaBtn:'Idee toevoegen ✓',
+        emptyVoting:'Nog geen ideeën.', emptyClosed:'Stemmen opent zodra de facilitator start.',
+        voteOne:'stem', voteMany:'stemmen', voteBtn:'+ stem', ideaToast:'Idee toegevoegd ✓', voteToast:'Stem geteld ✓'},
+    s5:{lead:'Eén actie. Eén eigenaar. Eén datum.', whatLabel:'Wat gaat er gebeuren', whatPh:'Wat gaat er gebeuren…',
+        whoPh:'Wie doet het', whenPh:'Tegen wanneer', btn:'Vastleggen ✓', listTitle:'onze team-acties',
+        empty:'Nog geen acties.', toast:'Vastgelegd ✓',
+        personal:{lead:'Persoonlijke commitment — ook goed voor jezelf.', whatLabel:'Ik ga de komende 2 weken…', whatPh:'Ik ga de komende 2 weken…',
+                  btn:'Vastleggen ✓', listTitle:'persoonlijke commitments', empty:'Nog geen persoonlijke commitments.', toast:'Vastgelegd ✓'}},
+    diagnosisLead:'Schrijf nu 4 minuten stil je post-it, daarna volgen 3 rondes van 4 min in groepjes van 3. Hou het hoofdscherm in de gaten voor de timer.',
     followLead:'Volg mee op het hoofdscherm. Deze pagina opent wanneer het jouw beurt is om bij te dragen.'
   }
 };
@@ -179,7 +219,10 @@ if (Sync.presence) Sync.presence({ role:'phone' });
 
 /* ── data caches ── */
 var slide=-1, builtSlide=-1;
-var respData={}, notesData={}, ideasData={}, dirData={presets:[],presetsShown:0,mode:'disc',presetVotes:{}}, commitData={};
+var respData={}, showcaseData={}, notesData={}, ideasData={}, dirData={presets:[],presetsShown:0,mode:'disc',presetVotes:{}}, commitData={}, personalData={};
+
+/* current panel type, from this workshop's slide→type map */
+function curType(){ return (C.types||[])[slide]; }
 
 /* ── panel skeletons (built once per slide so inputs keep focus) ── */
 function setActivity(){
@@ -188,7 +231,8 @@ function setActivity(){
 }
 function buildPanel(){
   var p=document.getElementById('panel'); p.innerHTML='';
-  if(slide===1){                                   // Opening — responses
+  var type = curType();
+  if(type==='opening'){                            // Opening — responses
     p.appendChild(el('div','lead',C.s1.lead));
     var c=el('div','card');
     c.appendChild(el('label',null,C.s1.nameLabel));
@@ -198,7 +242,21 @@ function buildPanel(){
     var b=el('button','btn btn-yel btn-mt',C.s1.btn); b.onclick=addResp; c.appendChild(b);
     p.appendChild(c);
     p.appendChild(listBox(C.s1.listTitle,'resp-list'));
-  } else if(slide===3){                            // Post-it wall — notes
+  } else if(type==='showcase'){                    // Blok 1 — showcase voorbeelden
+    p.appendChild(el('div','lead',C.s2.lead));
+    var cs=el('div','card');
+    cs.appendChild(el('label',null,C.s2.nameLabel));
+    var sn=el('input'); sn.id='f-s-name'; sn.placeholder=C.s2.namePh; cs.appendChild(wrap(sn));
+    cs.appendChild(el('label','btn-mt',C.s2.toolLabel));
+    var st=el('input'); st.id='f-s-tool'; st.placeholder=C.s2.toolPh; cs.appendChild(wrap(st));
+    cs.appendChild(el('label','btn-mt',C.s2.usecaseLabel));
+    var su=el('textarea'); su.id='f-s-usecase'; su.placeholder=C.s2.usecasePh; cs.appendChild(wrap(su));
+    cs.appendChild(el('label','btn-mt',C.s2.learningLabel));
+    var sl=el('textarea'); sl.id='f-s-learning'; sl.placeholder=C.s2.learningPh; cs.appendChild(wrap(sl));
+    var sb=el('button','btn btn-yel btn-mt',C.s2.btn); sb.onclick=addShowcase; cs.appendChild(sb);
+    p.appendChild(cs);
+    p.appendChild(listBox(C.s2.listTitle,'showcase-list'));
+  } else if(type==='notes'){                       // Post-it wall — notes
     p.appendChild(el('div','lead',C.s3.lead));
     var c2=el('div','card');
     c2.appendChild(el('label',null,C.s3.noteLabel));
@@ -210,7 +268,7 @@ function buildPanel(){
     p.appendChild(c2);
     p.appendChild(listBox(C.s3.offerTitle,'offer-list'));
     p.appendChild(listBox(C.s3.missTitle,'miss-list'));
-  } else if(slide===4){                            // Directions — vote + add idea
+  } else if(type==='directions'){                  // Directions — vote + add idea
     p.appendChild(el('div','lead',C.s4.lead));
     p.appendChild(listBox(C.s4.optsTitle,'opt-list'));
     var c3=el('div','card');
@@ -219,7 +277,7 @@ function buildPanel(){
     var idd=el('input'); idd.id='f-idea-desc'; idd.placeholder=C.s4.ideaDescPh; var fw=wrap(idd); fw.className='field'; c3.appendChild(fw);
     var ib=el('button','btn btn-dark btn-mt',C.s4.ideaBtn); ib.onclick=addIdea; c3.appendChild(ib);
     p.appendChild(c3);
-  } else if(slide===5){                            // Commitment
+  } else if(type==='commitment'){                  // Commitment
     p.appendChild(el('div','lead',C.s5.lead));
     var c4=el('div','card');
     c4.appendChild(el('label',null,C.s5.whatLabel));
@@ -229,8 +287,17 @@ function buildPanel(){
     var cb=el('button','btn btn-yel btn-mt',C.s5.btn); cb.onclick=addCommit; c4.appendChild(cb);
     p.appendChild(c4);
     p.appendChild(listBox(C.s5.listTitle,'commit-list'));
-  } else {                                         // Agenda / Diagnosis / anything else
-    p.appendChild(el('div','lead', slide===2 ? C.diagnosisLead : C.followLead));
+    if(C.s5.personal){                             // optional extra: personal commitments
+      p.appendChild(el('div','lead btn-mt',C.s5.personal.lead));
+      var c5=el('div','card');
+      c5.appendChild(el('label',null,C.s5.personal.whatLabel));
+      var pw=el('textarea'); pw.id='f-personal'; pw.placeholder=C.s5.personal.whatPh; c5.appendChild(wrap(pw));
+      var pb=el('button','btn btn-dark btn-mt',C.s5.personal.btn); pb.onclick=addPersonal; c5.appendChild(pb);
+      p.appendChild(c5);
+      p.appendChild(listBox(C.s5.personal.listTitle,'personal-list'));
+    }
+  } else {                                         // Agenda / freeform (stille schrijffase) / anything else
+    p.appendChild(el('div','lead', type==='freeform' ? C.diagnosisLead : C.followLead));
   }
   p.querySelectorAll('input').forEach(function(i){i.maxLength=200;});
   p.querySelectorAll('textarea').forEach(function(i){i.maxLength=600;});
@@ -245,10 +312,12 @@ function listBox(title,id){
 
 /* ── list rendering (on every data change) ── */
 function renderList(){
-  if(slide===1) renderResp();
-  else if(slide===3) renderNotes();
-  else if(slide===4) renderOpts();
-  else if(slide===5) renderCommits();
+  var type=curType();
+  if(type==='opening') renderResp();
+  else if(type==='showcase') renderShowcase();
+  else if(type==='notes') renderNotes();
+  else if(type==='directions') renderOpts();
+  else if(type==='commitment') renderCommits();
 }
 function fill(listId, items, emptyMsg){
   var l=document.getElementById(listId); if(!l) return;
@@ -262,6 +331,14 @@ function renderResp(){
   fill('resp-list', ids.map(function(id){var r=respData[id]||{};
     return el('div','item',(r.name?'<span class="who">'+esc(r.name)+'</span>':'')+esc(r.text||''));
   }), C.s1.empty);
+}
+function renderShowcase(){
+  var ids=Object.keys(showcaseData);
+  fill('showcase-list', ids.map(function(id){var r=showcaseData[id]||{};
+    var html=(r.name?'<span class="who">'+esc(r.name)+'</span>':'')+'<strong>'+esc(r.tool||'')+'</strong>'
+      +(r.usecase?'<br>'+esc(r.usecase):'')+(r.learning?'<br><span style="opacity:.6">'+esc(r.learning)+'</span>':'');
+    return el('div','item',html);
+  }), C.s2.empty);
 }
 function renderNotes(){
   var ids=Object.keys(notesData);
@@ -289,15 +366,21 @@ function renderCommits(){
   fill('commit-list', ids.map(function(id){var c=commitData[id]||{};
     return el('div','item','<span class="who">'+esc(c.who||'—')+' · '+esc(c.when||'—')+'</span>'+esc(c.what||''));
   }),C.s5.empty);
+  if(C.s5.personal){
+    var pids=Object.keys(personalData);
+    fill('personal-list', pids.map(function(id){var pr=personalData[id]||{}; return el('div','item',esc(pr.what||''));}), C.s5.personal.empty);
+  }
 }
 
 /* ── writes ── */
 function val(id){var e=document.getElementById(id);return e?e.value.trim():'';}
 function clr(){[].slice.call(arguments).forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});}
 function addResp(){var t=val('f-text');if(!t)return;Sync.push('responses',{name:val('f-name'),text:t});clr('f-name','f-text');toast(C.s1.toast);}
+function addShowcase(){var tool=val('f-s-tool');if(!tool)return;Sync.push('showcase',{name:val('f-s-name'),tool:tool,usecase:val('f-s-usecase'),learning:val('f-s-learning')});clr('f-s-name','f-s-tool','f-s-usecase','f-s-learning');toast(C.s2.toast);}
 function addNote(col){var t=val('f-note');if(!t)return;Sync.push('notes',{col:(col==='miss'?'miss':'offer'),text:t});clr('f-note');toast(C.s3.toast);}
 function addIdea(){var t=val('f-idea');if(!t)return;Sync.push('ideas',{title:t,desc:val('f-idea-desc'),votes:0});clr('f-idea','f-idea-desc');toast(C.s4.ideaToast);}
 function addCommit(){var w=val('f-what');if(!w)return;Sync.push('commitments',{what:w,who:val('f-who')||'—',when:val('f-when')||'—'});clr('f-what','f-who','f-when');toast(C.s5.toast);}
+function addPersonal(){var w=val('f-personal');if(!w)return;Sync.push('personal',{what:w});clr('f-personal');toast(C.s5.personal.toast);}
 function vote(type,key){
   if(type==='live') Sync.transaction('ideas/'+key+'/votes',function(v){return (v||0)+1;});
   else              Sync.transaction('dir/presetVotes/'+key,function(v){return (v||0)+1;});
@@ -306,11 +389,13 @@ function vote(type,key){
 
 /* ── subscriptions ── */
 Sync.subscribe('present/slide', function(v){ var n=(v==null?0:v|0); if(n!==slide){ slide=n; setActivity(); buildPanel(); } });
-Sync.subscribe('responses',  function(d){ respData=d||{};  if(slide===1) renderList(); });
-Sync.subscribe('notes',      function(d){ notesData=d||{}; if(slide===3) renderList(); });
-Sync.subscribe('ideas',      function(d){ ideasData=d||{}; if(slide===4) renderList(); });
-Sync.subscribe('dir',        function(d){ dirData=d||{presets:[],presetsShown:0,mode:'disc',presetVotes:{}}; if(slide===4){ renderList(); } });
-Sync.subscribe('commitments',function(d){ commitData=d||{}; if(slide===5) renderList(); });
+Sync.subscribe('responses',  function(d){ respData=d||{};  if(curType()==='opening') renderList(); });
+Sync.subscribe('showcase',   function(d){ showcaseData=d||{}; if(curType()==='showcase') renderList(); });
+Sync.subscribe('notes',      function(d){ notesData=d||{}; if(curType()==='notes') renderList(); });
+Sync.subscribe('ideas',      function(d){ ideasData=d||{}; if(curType()==='directions') renderList(); });
+Sync.subscribe('dir',        function(d){ dirData=d||{presets:[],presetsShown:0,mode:'disc',presetVotes:{}}; if(curType()==='directions'){ renderList(); } });
+Sync.subscribe('commitments',function(d){ commitData=d||{}; if(curType()==='commitment') renderList(); });
+Sync.subscribe('personal',   function(d){ personalData=d||{}; if(curType()==='commitment') renderList(); });
 Sync.subscribe('present/timer', function(t){
   var line=document.getElementById('timer-line'), v=document.getElementById('timer-val');
   if(t && t.running && typeof t.sec==='number' && t.sec>0){

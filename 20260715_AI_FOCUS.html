@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>AI @ Flexso Digital — Workshop · 15 juli 2026</title>
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="workshop.css">
+<style>
+/* Extra accent-bar colours for this deck's two new slide types (Showcase, Stille storm & rondes) */
+.s-show::before{background:var(--teal);}
+.s-round::before{background:var(--blue);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <button class="nav-arr" onclick="goSlide(current-1)">&#8592;</button>
+  <button class="nav-dot active" onclick="goSlide(0)" id="nd0">📅</button>
+  <button class="nav-dot" onclick="goSlide(1)" id="nd1">👋</button>
+  <button class="nav-dot" onclick="goSlide(2)" id="nd2">💡</button>
+  <button class="nav-dot" onclick="goSlide(3)" id="nd3">✍️</button>
+  <button class="nav-dot" onclick="goSlide(4)" id="nd4">📌</button>
+  <button class="nav-dot" onclick="goSlide(5)" id="nd5">🗳</button>
+  <button class="nav-dot" onclick="goSlide(6)" id="nd6">✅</button>
+  <button class="nav-arr" onclick="goSlide(current+1)">&#8594;</button>
+  <span class="nav-label" id="nav-label">Agenda</span>
+  <button class="nav-reset pres-only" onclick="exportSlides()" title="Exporteer een gebrande slide-deck (.pptx)">⤓ Slides</button>
+  <button class="nav-reset pres-only" onclick="exportSession()" title="Exporteer alles naar PDF (data blijft bewaard)">⤓ PDF</button>
+  <button class="nav-reset pres-only" onclick="resetSession()" title="Exporteer naar PDF en wis daarna deze sessie">⟲ wissen</button>
+</nav>
+
+<div id="scale-wrap">
+<div class="slides">
+
+<!-- ══════════════════════════════════════════
+     SLIDE 1 — AGENDA
+══════════════════════════════════════════ -->
+<div class="slide s-agenda active" id="slide-0">
+<div class="slide-inner">
+  <div class="ag-top">
+    <div>
+      <h1>AI @ Flexso <em>Digital</em> — Workshop</h1>
+      <div style="font-size:10px;color:var(--mid);margin-top:2px;letter-spacing:.08em;font-weight:600;text-transform:uppercase;">Woensdag 15 juli 2026 · Poolhouse Kontich</div>
+    </div>
+    <div class="right">
+      <strong id="live-time">--:--</strong>
+      <span>Facilitator: Nicolas · Organisator: David</span>
+      <div class="join-qr pres-only"><div id="qr-code"></div><span>Scan om deel te nemen</span></div>
+    </div>
+  </div>
+
+  <div class="ag-grid">
+
+    <div class="ag-slot ag-intro d30">
+      <div class="ag-body">
+        <div class="ag-time">12:00</div>
+        <div class="ag-pill">10 min</div>
+        <div class="ag-title">Opening</div>
+        <div style="font-size:22px;margin:6px 0;text-align:center;">👋</div>
+        <div class="ag-sub"><ul><li>Welkomstwoord & spelregels</li><li>Energizer: Eén woord</li></ul></div>
+      </div>
+      <div class="slot-prog"><div class="slot-prog-fill" id="sp0" style="width:0%"></div></div>
+    </div>
+
+    <div class="ag-slot ag-focus d60">
+      <div class="ag-body">
+        <div class="ag-time">12:10</div>
+        <div class="ag-pill">35 min</div>
+        <div class="ag-title">Blok 1 — AI Showcase</div>
+        <div class="ag-sub">Wat doen we al? Snel rondje op basis van het vooraf ingevulde template.</div>
+        <div class="fg-blocks">
+          <div class="fg-blk"><div class="fg-blk-dot"></div><div class="fg-blk-txt"><span class="fg-blk-lbl">Canvas</span>Tools · Use cases · Learnings</div></div>
+        </div>
+      </div>
+      <div class="slot-prog"><div class="slot-prog-fill" id="sp1" style="width:0%"></div></div>
+    </div>
+
+    <div class="ag-slot ag-region d60">
+      <div class="ag-body">
+        <div class="ag-time">12:45</div>
+        <div class="ag-pill">30 min</div>
+        <div class="ag-title">Blok 2 — Brainstorm</div>
+        <div class="ag-sub">Wat willen we nog? Stille storm, 3 rondes, clusteren en dot voting.</div>
+        <div class="fg-blocks">
+          <div class="fg-blk"><div class="fg-blk-dot"></div><div class="fg-blk-txt"><span class="fg-blk-lbl">Rondes</span>Stille storm · Ronde 1-2-3 · Voting</div></div>
+        </div>
+      </div>
+      <div class="slot-prog"><div class="slot-prog-fill" id="sp2" style="width:0%"></div></div>
+    </div>
+
+    <div class="ag-slot ag-ws d30">
+      <div class="ag-body">
+        <div class="ag-time">13:15</div>
+        <div class="ag-pill">10 min</div>
+        <div class="ag-title">Blok 3 — Commitment wall</div>
+        <div class="ws-blocks">
+          <div class="ws-blk ws-b1"><div class="ws-blk-dot"></div><div class="ws-blk-txt"><span class="ws-blk-lbl">Team-acties</span>Wat + Wie + Wanneer</div></div>
+          <div class="ws-blk ws-b2"><div class="ws-blk-dot"></div><div class="ws-blk-txt"><span class="ws-blk-lbl">Persoonlijk</span>"Ik ga de komende 2 weken..."</div></div>
+        </div>
+      </div>
+      <div class="slot-prog" style="background:rgba(65,61,59,.1);"><div class="slot-prog-fill" id="sp3" style="width:0%;background:rgba(65,61,59,.4);"></div></div>
+    </div>
+
+    <div class="ag-slot ag-dinner d-dn">
+      <div class="ag-body">
+        <div class="ag-time">13:25</div>
+        <div class="ag-pill">5 min</div>
+        <div class="ag-title">Afsluiting</div>
+        <div style="font-size:22px;margin:6px 0;">📸</div>
+        <div class="ag-sub" style="text-align:left;"><ul><li>Samenvatting in 3 zinnen</li><li>Foto van de wall</li><li>Vervolgmodus bepalen</li></ul></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ag-footer">
+    <div class="ag-footer-lbl">Voortgang</div>
+    <div class="ag-prog-bar"><div class="ag-prog-fill" id="day-prog" style="width:0%"></div></div>
+    <div class="ag-prog-time" id="prog-now">--:--</div>
+  </div>
+</div>
+<div class="slide-num">1 / 7</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 2 — OPENING
+══════════════════════════════════════════ -->
+<div class="slide s-opening" id="slide-1">
+<div class="slide-inner">
+  <div class="op-timer chip corner" data-seconds="300" title="Klik om te starten / pauzeren">
+    <span class="op-timer-icon">⏱</span>
+    <span class="op-timer-val">5:00</span>
+    <span class="op-timer-hint">klik om te starten</span>
+    <button class="op-timer-reset" title="Reset">↺</button>
+  </div>
+  <div style="text-align:center;">
+    <div class="eyebrow">Opening · 12:00 · Energizer</div>
+    <div class="slide-title">Eén woord</div>
+    <div class="slide-sub">Iedereen zegt om beurt één woord — geen uitleg, gewoon het woord</div>
+  </div>
+
+  <div class="input-zone">
+    <input class="inp" id="resp-name" placeholder="Naam (optioneel)…" style="width:140px;">
+    <input class="inp" id="resp-text" placeholder="Jouw woord…" style="width:380px;">
+    <button class="btn btn-yel" onclick="addResp()">Delen ↵</button>
+    <button class="btn btn-ghost pres-only" onclick="clearResps()">Alles wissen</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="opening-body">
+    <div class="op-prompt">
+      <div class="op-lbl">De opdracht</div>
+      <div class="op-txt">Zeg <strong>één woord</strong> dat jouw AI-gebruik vandaag het best beschrijft. Geen uitleg — enkel het woord.</div>
+      <div class="op-hint">⏱ Kort rondje — ieder om beurt, geen uitleg</div>
+    </div>
+    <div class="resp-panel">
+      <div class="resp-hdr">
+        <div class="resp-hdr-title">Wat horen we?</div>
+        <div class="resp-cnt" id="resp-cnt">0</div>
+      </div>
+      <div class="resp-grid" id="resp-grid">
+        <div class="resp-empty" id="resp-empty">Woorden verschijnen hier zodra mensen delen.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">2 / 7</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 3 — BLOK 1: AI SHOWCASE
+══════════════════════════════════════════ -->
+<div class="slide s-show" id="slide-2">
+<div class="slide-inner">
+  <div style="text-align:center;">
+    <div class="eyebrow">Blok 1 · 12:10 · AI Showcase (35 min)</div>
+    <div class="slide-title">Wat gebruiken we al?</div>
+    <div class="slide-sub">Voorbeelden uit het vooraf ingevulde template — vul aan of licht toe wat opvalt</div>
+  </div>
+
+  <div class="input-zone">
+    <input class="inp" id="s-tool" placeholder="Tool…" style="width:130px;">
+    <input class="inp" id="s-usecase" placeholder="Waarvoor gebruik je hem…" style="width:270px;">
+    <input class="inp" id="s-learning" placeholder="Wat viel je op…" style="width:270px;">
+    <button class="btn btn-yel" onclick="addShowcase()">Toevoegen ↵</button>
+    <button class="btn btn-ghost pres-only" onclick="clearShowcase()">Alles wissen</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="resp-panel" style="flex:1;">
+    <div class="resp-hdr">
+      <div class="resp-hdr-title">Binnengekomen voorbeelden</div>
+      <div class="resp-cnt" id="showcase-cnt">0</div>
+    </div>
+    <div class="resp-grid" id="showcase-grid">
+      <div class="resp-empty" id="showcase-empty">Voorbeelden verschijnen hier — via deze pagina of via de telefoon-link.</div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">3 / 7</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 4 — BLOK 2: STILLE STORM & RONDES
+══════════════════════════════════════════ -->
+<div class="slide s-round" id="slide-3">
+<div class="slide-inner">
+  <div style="text-align:center;">
+    <div class="eyebrow">Blok 2 · 12:45 · Stille storm & rondes</div>
+    <div class="slide-title">Welke kansen zien we nog?</div>
+    <div class="slide-sub">Welke kansen zien jullie die we als FD nog niet benutten? Wat wil jij uitproberen?</div>
+  </div>
+
+  <div class="diag-cards">
+    <div class="diag-card dc1">
+      <div class="dc-num">🟡 Nieuw idee</div>
+      <div class="dc-icon">💡</div>
+      <div class="dc-q">Een kans of initiatief dat we vandaag nog niet benutten.</div>
+      <div class="dc-hint">Iets nieuws dat je zou willen uitproberen, of wat ons team sterker zou maken.</div>
+    </div>
+    <div class="diag-card dc2">
+      <div class="dc-num">🔵 Verbetering</div>
+      <div class="dc-icon">🔧</div>
+      <div class="dc-q">Iets dat al bestaat, en dat sterker of slimmer kan.</div>
+      <div class="dc-hint">Een bestaande tool, aanpak of gewoonte die een stap verder kan.</div>
+    </div>
+  </div>
+
+  <div class="diag-footer" style="flex-wrap:wrap;row-gap:10px;">
+    <span style="font-size:16px;">🔄</span>
+    <div class="diag-ft"><strong>Eén idee per post-it.</strong> Stille storm → 3 rondes van 4 min in groepjes van 3, telkens schuift 1 persoon door naar een nieuw groepje.</div>
+  </div>
+
+  <div class="mode-row" style="justify-content:center;margin-top:10px;flex-wrap:wrap;gap:16px;">
+    <div style="display:flex;align-items:center;gap:7px;">
+      <span style="font-size:10px;font-weight:700;color:var(--mid);letter-spacing:.04em;">🤫 Stille storm</span>
+      <div class="op-timer chip" data-seconds="240"><span class="op-timer-icon">⏱</span><span class="op-timer-val">4:00</span><span class="op-timer-hint">start</span><button class="op-timer-reset">↺</button></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:7px;">
+      <span style="font-size:10px;font-weight:700;color:var(--mid);letter-spacing:.04em;">1️⃣ Ronde 1</span>
+      <div class="op-timer chip" data-seconds="240"><span class="op-timer-icon">⏱</span><span class="op-timer-val">4:00</span><span class="op-timer-hint">start</span><button class="op-timer-reset">↺</button></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:7px;">
+      <span style="font-size:10px;font-weight:700;color:var(--mid);letter-spacing:.04em;">2️⃣ Ronde 2</span>
+      <div class="op-timer chip" data-seconds="240"><span class="op-timer-icon">⏱</span><span class="op-timer-val">4:00</span><span class="op-timer-hint">start</span><button class="op-timer-reset">↺</button></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:7px;">
+      <span style="font-size:10px;font-weight:700;color:var(--mid);letter-spacing:.04em;">3️⃣ Ronde 3</span>
+      <div class="op-timer chip" data-seconds="240"><span class="op-timer-icon">⏱</span><span class="op-timer-val">4:00</span><span class="op-timer-hint">start</span><button class="op-timer-reset">↺</button></div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">4 / 7</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 5 — BLOK 2: POST-IT MUUR
+══════════════════════════════════════════ -->
+<div class="slide s-wall" id="slide-4">
+<div class="slide-inner">
+  <div class="op-timer chip corner" data-seconds="360" title="Klik om te starten / pauzeren">
+    <span class="op-timer-icon">⏱</span>
+    <span class="op-timer-val">6:00</span>
+    <span class="op-timer-hint">klik om te starten</span>
+    <button class="op-timer-reset" title="Reset">↺</button>
+  </div>
+  <div style="text-align:center;">
+    <div class="eyebrow">Blok 2 · Post-it muur</div>
+    <div class="slide-title">Wat hebben we verzameld?</div>
+    <div class="slide-sub">Typ elke post-it en plaats hem in de juiste kolom — clusteren in 3-5 thema's</div>
+  </div>
+
+  <div class="input-zone">
+    <input class="inp" id="note-text" placeholder="Typ een post-it…" style="width:300px;">
+    <button class="btn btn-yel" onclick="addNote('offer')">🟡 Nieuw idee</button>
+    <button class="btn btn-blue" onclick="addNote('miss')">🔵 Verbetering</button>
+    <button class="btn btn-ghost pres-only" onclick="clearWall()">Alles wissen</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="pres-only" style="display:flex;justify-content:center;margin-bottom:8px;">
+    <input class="inp" id="note-search" placeholder="🔍 Zoek post-its…" oninput="renderWall()" style="width:360px;max-width:90%;">
+  </div>
+
+  <div class="wall-cols">
+    <div class="wall-col">
+      <div class="wcol-hdr">
+        <div class="wcol-dot" style="background:var(--yellow);"></div>
+        <div class="wcol-title" style="color:var(--dark);">Nieuwe ideeën</div>
+        <div class="wcol-cnt" id="cnt-offer">0</div>
+      </div>
+      <div class="notes-area" id="col-offer">
+        <div class="wall-empty" id="he-offer">Nieuwe kansen of initiatieven.</div>
+      </div>
+    </div>
+    <div class="wall-col">
+      <div class="wcol-hdr">
+        <div class="wcol-dot" style="background:var(--blue);"></div>
+        <div class="wcol-title" style="color:var(--dark);">Verbeteringen</div>
+        <div class="wcol-cnt" id="cnt-miss">0</div>
+      </div>
+      <div class="notes-area" id="col-miss">
+        <div class="wall-empty" id="he-miss">Bestaande dingen die sterker kunnen.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">5 / 7</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 6 — BLOK 2: DOT VOTING
+══════════════════════════════════════════ -->
+<div class="slide s-dir" id="slide-5">
+<div class="slide-inner">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;">
+    <div>
+      <div class="eyebrow">Blok 2 · Toelichten & dot voting</div>
+      <div class="slide-title">Welke ideeën gaan naar de commitment wall?</div>
+    </div>
+    <div class="mode-row">
+      <button class="mtbtn active pres-only" id="mb-disc" onclick="setDirMode('disc')">💬 Toelichten</button>
+      <div class="op-timer chip" data-seconds="360" title="Toelichten — klik om te starten / pauzeren">
+        <span class="op-timer-icon">⏱</span>
+        <span class="op-timer-val">6:00</span>
+        <span class="op-timer-hint">toelichten</span>
+        <button class="op-timer-reset" title="Reset">↺</button>
+      </div>
+      <button class="mtbtn pres-only" id="mb-vote" onclick="setDirMode('vote')">🟡 Dot voting</button>
+      <div class="op-timer chip" data-seconds="480" title="Dot voting — klik om te starten / pauzeren">
+        <span class="op-timer-icon">⏱</span>
+        <span class="op-timer-val">8:00</span>
+        <span class="op-timer-hint">voting</span>
+        <button class="op-timer-reset" title="Reset">↺</button>
+      </div>
+      <span class="reset-lnk pres-only" onclick="resetDirVotes()">stemmen resetten</span>
+    </div>
+  </div>
+
+  <!-- Options grid -->
+  <div class="dir-grid" id="dir-grid"></div>
+
+  <!-- Bottom bar: add idea -->
+  <div class="add-option-bar">
+    <span style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--light);">Idee toevoegen</span>
+    <input class="add-opt-inp" id="opt-title" placeholder="Titel…" style="width:200px;">
+    <input class="add-opt-inp" id="opt-desc"  placeholder="Korte beschrijving…" style="width:320px;">
+    <button class="add-opt-btn" onclick="addLiveIdea()">Toevoegen ↵</button>
+  </div>
+</div>
+<div class="slide-num">6 / 7</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 7 — BLOK 3: COMMITMENT WALL
+══════════════════════════════════════════ -->
+<div class="slide s-commit" id="slide-6">
+<div class="slide-inner">
+  <div class="op-timer chip corner" data-seconds="600" title="Klik om te starten / pauzeren">
+    <span class="op-timer-icon">⏱</span>
+    <span class="op-timer-val">10:00</span>
+    <span class="op-timer-hint">klik om te starten</span>
+    <button class="op-timer-reset" title="Reset">↺</button>
+  </div>
+  <div style="text-align:center;">
+    <div class="eyebrow">Blok 3 · 13:15 · Commitment wall</div>
+    <div class="slide-title">Wat + Wie + Wanneer</div>
+    <div class="slide-sub">Elke actie heeft drie verplichte onderdelen</div>
+  </div>
+
+  <div style="display:flex;gap:20px;flex:1;overflow:hidden;margin-top:8px;">
+
+    <div style="flex:1.7;display:flex;flex-direction:column;overflow:hidden;">
+      <div class="input-zone" style="margin-top:0;">
+        <input class="inp" id="c-what" placeholder="Wat gaat er gebeuren…" style="width:260px;">
+        <input class="inp" id="c-who"  placeholder="Wie doet het" style="width:140px;">
+        <input class="inp" id="c-when" placeholder="Tegen wanneer" style="width:120px;">
+        <button class="btn btn-dark" onclick="addCommit()">Vastleggen ↵</button>
+        <button class="btn btn-ghost pres-only" onclick="clearCommits()">Wissen</button>
+      </div>
+      <div class="divider"></div>
+      <div class="col-heads">
+        <div class="col-hd">Wat</div>
+        <div class="col-hd">Wie</div>
+        <div class="col-hd">Wanneer</div>
+        <div></div>
+      </div>
+      <div id="c-empty" class="c-empty">
+        <div class="c-empty-q">"Wie neemt dit op vóór de volgende check-in?"</div>
+        <div class="c-empty-s">Eén actie · één eigenaar · één datum.</div>
+      </div>
+      <div class="c-list" id="c-list" style="display:none;"></div>
+      <div class="c-footer hidden" id="c-footer">
+        <span style="font-size:14px;">✅</span>
+        <div class="cf-txt">Deze acties zijn van <strong>het team</strong>. Neem een foto vóór het einde — dat is het verslag.</div>
+        <div class="cf-pill" id="c-pill">0 acties</div>
+      </div>
+    </div>
+
+    <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;border-left:1px solid var(--bg);padding-left:20px;">
+      <div class="resp-hdr" style="margin-bottom:8px;">
+        <div class="resp-hdr-title">Persoonlijke commitment</div>
+        <div class="resp-cnt" id="personal-cnt">0</div>
+      </div>
+      <div class="input-zone" style="margin-top:0;flex-direction:column;align-items:stretch;">
+        <input class="inp" id="p-what" placeholder="Ik ga de komende 2 weken…" style="width:100%;">
+        <button class="btn btn-yel" onclick="addPersonal()" style="margin-top:8px;">Vastleggen ↵</button>
+      </div>
+      <div class="resp-grid" id="personal-grid" style="margin-top:10px;">
+        <div class="resp-empty" id="personal-empty">Nog geen persoonlijke commitments.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="slide-num">7 / 7</div>
+</div>
+
+</div><!-- /slides -->
+</div><!-- /scale-wrap -->
+
+<div id="join-overlay">
+  <div class="jo-card">
+    <div class="jo-title">Scan om deel te nemen op je telefoon</div>
+    <div id="jo-qr"></div>
+    <div class="jo-url" id="jo-url"></div>
+  </div>
+  <div class="jo-hint">Druk op Q (of tik) om te sluiten</div>
+</div>
+
+<div id="idea-modal" onclick="closeIdeaModal()">
+  <div class="im-card" onclick="event.stopPropagation()">
+    <div class="im-eyebrow" id="im-eyebrow">Idee</div>
+    <input id="im-title" class="im-title" placeholder="Titel">
+    <textarea id="im-desc" class="im-desc" placeholder="Beschrijving…"></textarea>
+    <div class="im-foot">
+      <span class="im-votes" id="im-votes"></span>
+      <button class="im-btn im-save pres-only" onclick="saveIdeaModal()">Opslaan</button>
+      <button class="im-btn im-close" onclick="closeIdeaModal()">Sluiten</button>
+    </div>
+  </div>
+</div>
+
+<!-- Realtime sync: Firebase compat SDK + shared sync layer -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<script src="sync.js"></script>
+<script>
+/* ── NAV ── */
+let current = 0;
+const labels = ['Agenda','Opening','Showcase','Stille storm','Post-it muur','Dot voting','Commitment'];
+const IS_PRESENTER = /[?&]present\b/.test(location.search);   // open the deck with ?present to drive the room
+const TIMERS = [];                                            // each timer registers its pause() here
+function goSlide(n) {
+  n = Math.max(0, Math.min(6, n));
+  TIMERS.forEach(function(pause){ pause(); });                // leaving a slide pauses any running timer
+  document.getElementById('slide-'+current).classList.remove('active');
+  document.getElementById('nd'+current).classList.remove('active');
+  current = n;
+  document.getElementById('slide-'+current).classList.add('active');
+  document.getElementById('nd'+current).classList.add('active');
+  document.getElementById('nav-label').textContent = labels[current];
+  if (IS_PRESENTER) Sync.set('present/slide', current);       // participants' phones follow this
+}
+document.addEventListener('keydown', e => {
+  if (e.key==='Escape') closeIdeaModal();
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key==='ArrowRight'||e.key==='ArrowDown') goSlide(current+1);
+  if (e.key==='ArrowLeft'||e.key==='ArrowUp') goSlide(current-1);
+  if ((e.key==='q'||e.key==='Q') && IS_PRESENTER){
+    if (current===0){ var q=document.querySelector('.join-qr'); if(q) q.style.display=(q.style.display==='none'?'':'none'); }  // agenda: just hide/show the corner QR
+    else if (window.toggleJoin) window.toggleJoin();                                                                          // other slides: full-screen overlay
+  }
+});
+
+/* ── SCALE — fit entire slide in available space ── */
+function scaleSlides() {
+  const wrap = document.getElementById('scale-wrap');
+  const avW = wrap.clientWidth;
+  const avH = wrap.clientHeight;
+  const scale = Math.min(avW / 1280, avH / 720);
+  document.querySelector('.slides').style.transform = 'scale('+scale+')';
+}
+window.addEventListener('resize', scaleSlides);
+scaleSlides();
+
+/* ── AGENDA CLOCK ── */
+function updateClock() {
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2,'0');
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  const t = hh+':'+mm;
+  document.getElementById('live-time').textContent = t;
+  document.getElementById('prog-now').textContent = t;
+  const nowMin = now.getHours()*60 + now.getMinutes();
+  const dayStart = 12*60, dayEnd = 13*60+30;
+  const dayPct = Math.max(0,Math.min(100,(nowMin-dayStart)/(dayEnd-dayStart)*100));
+  document.getElementById('day-prog').style.width = dayPct.toFixed(1)+'%';
+  const slots=[
+    {id:'sp0',s:12*60,      e:12*60+10},
+    {id:'sp1',s:12*60+10,   e:12*60+45},
+    {id:'sp2',s:12*60+45,   e:13*60+15},
+    {id:'sp3',s:13*60+15,   e:13*60+25}
+  ];
+  slots.forEach(sl=>{
+    const p = Math.max(0,Math.min(100,(nowMin-sl.s)/(sl.e-sl.s)*100));
+    document.getElementById(sl.id).style.width = p.toFixed(1)+'%';
+  });
+}
+updateClock(); setInterval(updateClock, 15000);
+
+/* ── HELPERS ── */
+function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+/* ── SLIDE 2: OPENING (synced) ── */
+document.getElementById('resp-text').addEventListener('keydown',e=>{if(e.key==='Enter')addResp();});
+function addResp(){
+  const name=document.getElementById('resp-name').value.trim();
+  const text=document.getElementById('resp-text').value.trim();
+  if(!text) return;
+  Sync.push('responses',{name:name,text:text});
+  document.getElementById('resp-name').value='';
+  document.getElementById('resp-text').value='';
+  document.getElementById('resp-name').focus();
+}
+function removeResp(id){ Sync.remove('responses/'+id); }
+function clearResps(){
+  if(!confirm('Alle woorden wissen?')) return;
+  Sync.remove('responses');
+}
+Sync.subscribe('responses', function(data){
+  const grid=document.getElementById('resp-grid');
+  const ids=data?Object.keys(data):[];
+  document.getElementById('resp-cnt').textContent=ids.length;
+  if(ids.length===0){
+    grid.innerHTML='<div class="resp-empty" id="resp-empty">Woorden verschijnen hier zodra mensen delen.</div>';
+    return;
+  }
+  grid.innerHTML='';
+  ids.forEach(function(id){
+    const r=data[id]||{};
+    const card=document.createElement('div'); card.className='resp-card';
+    card.innerHTML='<span class="resp-del" title="Verwijder">✕</span>'+(r.name?'<div class="resp-name">'+esc(r.name)+'</div>':'')+esc(r.text||'');
+    card.querySelector('.resp-del').addEventListener('click',function(){ removeResp(id); });
+    grid.appendChild(card);
+  });
+});
+
+/* ── SLIDE 3: BLOK 1 SHOWCASE (synced) ── */
+['s-tool','s-usecase'].forEach(function(id){
+  document.getElementById(id).addEventListener('keydown',function(e){
+    if(e.key!=='Enter') return;
+    var next = id==='s-tool' ? 's-usecase' : 's-learning';
+    document.getElementById(next).focus();
+  });
+});
+document.getElementById('s-learning').addEventListener('keydown',e=>{if(e.key==='Enter')addShowcase();});
+function addShowcase(){
+  const tool=document.getElementById('s-tool').value.trim();
+  if(!tool) return;
+  Sync.push('showcase',{
+    tool:tool,
+    usecase:document.getElementById('s-usecase').value.trim(),
+    learning:document.getElementById('s-learning').value.trim()
+  });
+  ['s-tool','s-usecase','s-learning'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('s-tool').focus();
+}
+function removeShowcase(id){ Sync.remove('showcase/'+id); }
+function clearShowcase(){
+  if(!confirm('Alle voorbeelden wissen?')) return;
+  Sync.remove('showcase');
+}
+Sync.subscribe('showcase', function(data){
+  const grid=document.getElementById('showcase-grid');
+  const ids=data?Object.keys(data):[];
+  document.getElementById('showcase-cnt').textContent=ids.length;
+  if(ids.length===0){
+    grid.innerHTML='<div class="resp-empty" id="showcase-empty">Voorbeelden verschijnen hier — via deze pagina of via de telefoon-link.</div>';
+    return;
+  }
+  grid.innerHTML='';
+  ids.forEach(function(id){
+    const r=data[id]||{};
+    const card=document.createElement('div'); card.className='resp-card'; card.style.maxWidth='260px';
+    card.innerHTML='<span class="resp-del" title="Verwijder">✕</span>'
+      +(r.name?'<div class="resp-name">'+esc(r.name)+'</div>':'')
+      +'<strong>'+esc(r.tool||'')+'</strong>'
+      +(r.usecase?'<div style="margin-top:4px;">'+esc(r.usecase)+'</div>':'')
+      +(r.learning?'<div style="margin-top:4px;color:var(--mid);font-size:11px;">'+esc(r.learning)+'</div>':'');
+    card.querySelector('.resp-del').addEventListener('click',function(){ removeShowcase(id); });
+    grid.appendChild(card);
+  });
+});
+
+/* ── REUSABLE COUNTDOWN TIMER (all slides) ──
+   • click the clock  → start / pause (never resets)
+   • − / +            → take a minute off / add a minute
+   • click ↺          → back to original time, does NOT start
+   • at 0:00          → old radio alarm-clock buzzer                     */
+let audioCtx=null;
+function ensureAudio(){
+  if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  return audioCtx;
+}
+/* Old radio alarm-clock buzzer: rapid square-wave beeps. Returns the
+   oscillators so the caller can silence them on reset/restart. */
+const ALARM_BEEPS=14, ALARM_MS=ALARM_BEEPS*250;   // 14 beeps × 0.25s ≈ 3.5s
+function playAlarm(){
+  const ctx=ensureAudio(), oscs=[];
+  let t=ctx.currentTime+0.02;
+  for(let i=0;i<ALARM_BEEPS;i++){       // ~3.5s of "beep beep beep"
+    const osc=ctx.createOscillator(), g=ctx.createGain();
+    osc.type='square';
+    osc.frequency.value=2200;          // harsh, tinny clock-radio tone
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.22,t+0.004);
+    g.gain.setValueAtTime(0.22,t+0.11);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.14);
+    osc.connect(g).connect(ctx.destination);
+    osc.start(t); osc.stop(t+0.15);
+    oscs.push(osc);
+    t+=0.25;                            // beep + gap = ~4 beeps/sec
+  }
+  return oscs;
+}
+/* Shared full-screen glow — owned by whichever timer is in its last 10s */
+const glowEl=document.createElement('div'); glowEl.id='screen-glow'; document.body.appendChild(glowEl);
+let glowOwner=null;
+function screenGlow(owner,on){
+  if(on){ glowOwner=owner; glowEl.classList.add('active'); }
+  else if(glowOwner===owner){ glowOwner=null; glowEl.classList.remove('active'); }
+}
+function createTimer(el){
+  let total = parseInt(el.dataset.seconds||'60',10);
+  const valEl  = el.querySelector('.op-timer-val');
+  const hintEl = el.querySelector('.op-timer-hint');
+  let sec=total, int=null, alarm=[], quietTimer=null;
+  function render(){ const m=Math.floor(sec/60),s=sec%60; valEl.textContent=m+':'+String(s).padStart(2,'0'); }
+  function stopAlarm(){ alarm.forEach(o=>{try{o.stop();}catch(_){}}); alarm=[];
+    clearTimeout(quietTimer); quietTimer=null; el.classList.remove('quiet'); }
+  function updateGlow(){
+    screenGlow(el, !!int && sec>0 && sec<=10);                 // last 10s only
+    if (IS_PRESENTER) Sync.set('present/timer', { sec: sec, running: !!int });  // mirror to phones
+  }
+  function finish(){
+    clearInterval(int); int=null;
+    el.classList.remove('running','quiet'); el.classList.add('done');
+    hintEl.textContent="tijd om — ↺ om te herstarten";
+    updateGlow();
+    alarm=playAlarm();
+    // when the buzzer ends, stop the orange blinking too (keep the "done" look, just static)
+    clearTimeout(quietTimer);
+    quietTimer=setTimeout(()=>el.classList.add('quiet'), ALARM_MS);
+  }
+  function start(){
+    ensureAudio();                     // unlock audio on the click gesture
+    if(int || sec<=0) return;          // already running, or finished (use reset)
+    el.classList.remove('done'); el.classList.add('running');
+    hintEl.textContent='loopt… (klik om te pauzeren)';
+    int=setInterval(()=>{ sec--; render(); updateGlow(); if(sec<=0) finish(); },1000);
+    updateGlow();
+  }
+  function pause(){
+    if(!int) return;
+    clearInterval(int); int=null;
+    el.classList.remove('running');
+    hintEl.textContent='gepauzeerd — klik om verder te gaan';
+    updateGlow();
+  }
+  function reset(){                    // back to original, but do NOT start
+    clearInterval(int); int=null;
+    stopAlarm();
+    sec=total; render();
+    el.classList.remove('running','done');
+    hintEl.textContent='klik om te starten';
+    updateGlow();
+  }
+  function adjust(delta){              // − / + a minute
+    if(el.classList.contains('done')){ stopAlarm(); el.classList.remove('done'); }
+    sec=Math.max(0, sec+delta);
+    if(!int) total=sec;                // when idle, the tweak becomes the new baseline
+    if(int && sec<=0){ finish(); return; }   // ran the remaining time down to zero
+    render();
+    updateGlow();                      // turn glow on/off if the tweak crossed 10s
+    if(!int) hintEl.textContent='klik om te starten';
+  }
+  // Build − / + controls around the clock (− left of the time, + right of it)
+  const mk=(txt,t)=>{const b=document.createElement('button');b.className='op-timer-adj';b.textContent=txt;b.title=t;return b;};
+  const minus=mk('−','−1 min'), plus=mk('+','+1 min');
+  el.insertBefore(minus, valEl);
+  el.insertBefore(plus, valEl.nextSibling);
+  minus.addEventListener('click', e=>{ e.stopPropagation(); adjust(-60); });
+  plus .addEventListener('click', e=>{ e.stopPropagation(); adjust(60); });
+  el.addEventListener('click', ()=> int?pause():start());   // clock toggles, never resets
+  el.querySelector('.op-timer-reset').addEventListener('click', e=>{ e.stopPropagation(); reset(); });
+  TIMERS.push(pause);                  // so goSlide() can pause it when the presenter moves on
+  render();
+}
+document.querySelectorAll('.op-timer').forEach(createTimer);
+
+/* ── SLIDE 5: POST-IT WALL (synced) ── */
+document.getElementById('note-text').addEventListener('keydown',e=>{if(e.key==='Enter')addNote('offer');});
+function addNote(col){
+  const text=document.getElementById('note-text').value.trim();
+  if(!text) return;
+  Sync.push('notes',{col:(col==='miss'?'miss':'offer'),text:text});
+  document.getElementById('note-text').value='';
+  document.getElementById('note-text').focus();
+}
+function removeNote(id){ Sync.remove('notes/'+id); }
+function clearWall(){
+  if(!confirm('Alle post-its wissen?')) return;
+  Sync.remove('notes');
+}
+var notesCache={};
+function renderWall(){
+  const data=notesCache;
+  const cols={offer:document.getElementById('col-offer'), miss:document.getElementById('col-miss')};
+  const se=document.getElementById('note-search');
+  const f=(se?se.value:'').trim().toLowerCase();
+  const counts={offer:0,miss:0};
+  cols.offer.innerHTML=''; cols.miss.innerHTML='';
+  Object.keys(data).forEach(function(id){
+    const n=data[id]||{}; const col=(n.col==='miss')?'miss':'offer'; const text=n.text||'';
+    if(f && text.toLowerCase().indexOf(f)===-1) return;          // search filter
+    counts[col]++;
+    const note=document.createElement('div'); note.className='note note-'+col;
+    note.innerHTML='<span class="note-del" title="Verwijder">✕</span>'+esc(text);
+    note.querySelector('.note-del').addEventListener('click',function(){ removeNote(id); });
+    cols[col].appendChild(note);
+  });
+  if(counts.offer===0) cols.offer.innerHTML='<div class="wall-empty" id="he-offer">'+(f?'Geen resultaten':'Nieuwe kansen of initiatieven.')+'</div>';
+  if(counts.miss===0)  cols.miss.innerHTML='<div class="wall-empty" id="he-miss">'+(f?'Geen resultaten':'Bestaande dingen die sterker kunnen.')+'</div>';
+  document.getElementById('cnt-offer').textContent=counts.offer;
+  document.getElementById('cnt-miss').textContent=counts.miss;
+}
+Sync.subscribe('notes', function(data){ notesCache=data||{}; renderWall(); });
+
+/* ── SLIDE 6: DOT VOTING (synced, live ideas only — no preset reveal) ── */
+var ideasData = {};                                   // synced live ideas  {id:{title,desc,votes}}
+var dirState  = { mode:'disc' };                       // synced shared state
+
+document.getElementById('opt-desc').addEventListener('keydown', function(e){ if(e.key==='Enter') addLiveIdea(); });
+document.getElementById('opt-title').addEventListener('keydown', function(e){ if(e.key==='Enter') document.getElementById('opt-desc').focus(); });
+
+function addLiveIdea() {
+  var title = document.getElementById('opt-title').value.trim();
+  var desc  = document.getElementById('opt-desc').value.trim();
+  if (!title) { document.getElementById('opt-title').focus(); return; }
+  Sync.push('ideas', { title: title, desc: desc, votes: 0 });
+  document.getElementById('opt-title').value = '';
+  document.getElementById('opt-desc').value  = '';
+  document.getElementById('opt-title').focus();
+}
+function removeLiveIdea(id) { Sync.remove('ideas/' + id); }
+
+function addDirVote(id) { Sync.transaction('ideas/' + id + '/votes', function(v){ return (v||0) + 1; }); }
+function remDirVote(id) { Sync.transaction('ideas/' + id + '/votes', function(v){ return Math.max(0,(v||0) - 1); }); }
+function resetDirVotes() {
+  if (!confirm('Alle stemmen resetten?')) return;
+  Object.keys(ideasData).forEach(function(id){ Sync.set('ideas/' + id + '/votes', 0); });
+}
+
+function setDirMode(m) { Sync.set('dir/mode', m); }
+function updateModeButtons() {
+  var m = dirState.mode;
+  document.getElementById('mb-disc').classList.toggle('active', m === 'disc');
+  document.getElementById('mb-vote').classList.toggle('active', m === 'vote');
+  document.getElementById('mb-vote').classList.toggle('voting', m === 'vote');
+}
+
+var LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+var EMOJIS  = ['💡','📣','🗺️','🤝','🔗','🌱','⚡','🎯','🔍','📚','🛠️','🚀'];
+var COLORS  = [0,1,2,3,4,5];
+
+function renderDirGrid() {
+  var grid = document.getElementById('dir-grid');
+  grid.innerHTML = '';
+
+  var all = Object.keys(ideasData).map(function(id){
+    var o = ideasData[id] || {};
+    return { title:o.title, desc:o.desc, votes:o.votes||0, key:id };
+  });
+
+  if (all.length === 0) {
+    var hint = document.createElement('div');
+    hint.style.cssText = 'grid-column:1/-1;color:var(--light);font-size:13px;font-style:italic;text-align:center;padding:48px 0;line-height:1.8;';
+    hint.textContent = 'Typ een idee hieronder — het verschijnt hier meteen, op elk scherm.';
+    grid.appendChild(hint);
+    return;
+  }
+
+  all.forEach(function(opt, gi) {
+    var letter   = LETTERS[gi % LETTERS.length];
+    var emoji    = EMOJIS[gi % EMOJIS.length];
+    var colorCls = 'dc-' + COLORS[gi % COLORS.length];
+    var votes    = opt.votes || 0;
+
+    var card = document.createElement('div');
+    card.className = 'dir-card ' + colorCls;
+    card.dataset.key = opt.key;
+
+    var badgeDots = '';
+    for (var bd = 0; bd < Math.min(votes, 6); bd++) badgeDots += '<span class="bdot"></span>';
+    var voteHtml = '<div class="vote-zone' + (dirState.mode === 'vote' ? ' show' : '') + '">'
+      + '<div class="vote-btns">'
+      + '<button class="vbtn dir-vote-add">+ stem</button>'
+      + '<button class="vbtn dir-vote-rem">−</button>'
+      + '</div></div>';
+
+    card.innerHTML =
+      '<div class="dir-ltr"><span>Idee ' + letter + '</span><span class="dir-votes">' + badgeDots + '<span class="dv-num">' + votes + '</span></span></div>'
+      + '<div class="dir-head"><span class="dir-icon">' + emoji + '</span><span class="dir-title">' + esc(opt.title) + '</span></div>'
+      + '<div class="dir-desc' + (opt.desc ? '' : ' empty') + '">' + (opt.desc ? esc(opt.desc) : 'Geen beschrijving toegevoegd') + '</div>'
+      + voteHtml
+      + '<span class="opt-del-btn" style="position:absolute;top:7px;right:9px;font-size:9px;color:var(--light);cursor:pointer;opacity:0;transition:opacity .15s;">&#x2715;</span>';
+
+    card.querySelector('.dir-vote-add').addEventListener('click', function(e){ e.stopPropagation(); addDirVote(opt.key); });
+    card.querySelector('.dir-vote-rem').addEventListener('click', function(e){ e.stopPropagation(); remDirVote(opt.key); });
+    card.style.cursor='pointer';
+    card.addEventListener('click', function(){ openIdeaModal(opt, letter); });   // open detail modal (read / edit)
+
+    var del = card.querySelector('.opt-del-btn');
+    del.addEventListener('click', function(e){ e.stopPropagation(); removeLiveIdea(opt.key); });
+    card.addEventListener('mouseenter', function(){ del.style.opacity='1'; });
+    card.addEventListener('mouseleave', function(){ del.style.opacity='0'; });
+
+    grid.appendChild(card);
+  });
+}
+
+/* ── Idea detail modal: read it bigger; edit it in present mode ── */
+var imTarget = null;
+function openIdeaModal(opt, letter){
+  imTarget = opt.key;
+  document.getElementById('im-eyebrow').textContent = 'Idee ' + letter;
+  var t = document.getElementById('im-title'), d = document.getElementById('im-desc');
+  t.value = opt.title || ''; d.value = opt.desc || '';
+  t.readOnly = !IS_PRESENTER; d.readOnly = !IS_PRESENTER;
+  document.getElementById('im-votes').textContent = (opt.votes||0) + ' stem' + ((opt.votes||0)===1?'':'men');
+  document.getElementById('idea-modal').classList.add('show');
+}
+function closeIdeaModal(){ var m=document.getElementById('idea-modal'); if(m) m.classList.remove('show'); imTarget=null; }
+function saveIdeaModal(){
+  if(!IS_PRESENTER || !imTarget) return;
+  var t = document.getElementById('im-title').value.trim();
+  var d = document.getElementById('im-desc').value.trim();
+  if(!t){ document.getElementById('im-title').focus(); return; }
+  Sync.set('ideas/'+imTarget+'/title', t); Sync.set('ideas/'+imTarget+'/desc', d);
+  closeIdeaModal();
+}
+
+Sync.subscribe('ideas', function(data){ ideasData = data || {}; renderDirGrid(); });
+Sync.subscribe('dir', function(data){
+  dirState = { mode:(data&&data.mode)||'disc' };
+  updateModeButtons(); renderDirGrid();
+});
+
+/* ── SLIDE 7: COMMITMENT (synced) ── */
+['c-what','c-who','c-when'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')addCommit();}));
+function addCommit(){
+  const what=document.getElementById('c-what').value.trim();
+  const who=document.getElementById('c-who').value.trim();
+  const when=document.getElementById('c-when').value.trim();
+  if(!what){document.getElementById('c-what').focus();return;}
+  Sync.push('commitments',{what:what,who:who||'—',when:when||'—'});
+  ['c-what','c-who','c-when'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('c-what').focus();
+}
+function removeCommit(id){ Sync.remove('commitments/'+id); }
+function clearCommits(){ if(!confirm('Alle acties wissen?'))return; Sync.remove('commitments'); }
+Sync.subscribe('commitments', function(data){
+  const list=document.getElementById('c-list');
+  const empty=document.getElementById('c-empty');
+  const footer=document.getElementById('c-footer');
+  const pill=document.getElementById('c-pill');
+  const ids=data?Object.keys(data):[];
+  if(ids.length===0){list.style.display='none';empty.style.display='flex';footer.classList.add('hidden');list.innerHTML='';return;}
+  empty.style.display='none';list.style.display='flex';footer.classList.remove('hidden');
+  pill.textContent=ids.length+' acti'+(ids.length!==1?'es':'e');
+  list.innerHTML='';
+  ids.forEach(function(id){
+    const c=data[id]||{};
+    const row=document.createElement('div');row.className='c-row';
+    row.innerHTML='<div class="c-what">'+esc(c.what||'')+'</div><div><span class="c-who-badge">'+esc(c.who||'—')+'</span></div><div class="c-when">'+esc(c.when||'—')+'</div><div class="c-del" title="Verwijder">✕</div>';
+    row.querySelector('.c-del').addEventListener('click',function(){ removeCommit(id); });
+    list.appendChild(row);
+  });
+});
+
+document.getElementById('p-what').addEventListener('keydown',e=>{if(e.key==='Enter')addPersonal();});
+function addPersonal(){
+  const what=document.getElementById('p-what').value.trim();
+  if(!what) return;
+  Sync.push('personal',{what:what});
+  document.getElementById('p-what').value='';
+  document.getElementById('p-what').focus();
+}
+function removePersonal(id){ Sync.remove('personal/'+id); }
+Sync.subscribe('personal', function(data){
+  const grid=document.getElementById('personal-grid');
+  const ids=data?Object.keys(data):[];
+  document.getElementById('personal-cnt').textContent=ids.length;
+  if(ids.length===0){
+    grid.innerHTML='<div class="resp-empty" id="personal-empty">Nog geen persoonlijke commitments.</div>';
+    return;
+  }
+  grid.innerHTML='';
+  ids.forEach(function(id){
+    const r=data[id]||{};
+    const card=document.createElement('div'); card.className='resp-card';
+    card.innerHTML='<span class="resp-del" title="Verwijder">✕</span>'+esc(r.what||'');
+    card.querySelector('.resp-del').addEventListener('click',function(){ removePersonal(id); });
+    grid.appendChild(card);
+  });
+});
+
+/* ── PRESENTER: drive the room + sync-status indicator ── */
+document.body.classList.toggle('presenter', IS_PRESENTER);   // gates destructive controls (CSS)
+const syncDot = document.createElement('div');
+syncDot.id = 'sync-dot';
+syncDot.title = 'Realtime sync status';
+document.querySelector('.nav').appendChild(syncDot);
+function setSyncDot(state){ syncDot.className = state; }      // 'on' | 'off' | 'local'
+if (Sync.online) {
+  setSyncDot('off');
+  Sync.connected(function(ok){ setSyncDot(ok ? 'on' : 'off'); });
+} else {
+  setSyncDot('local');
+}
+// live participant count (phones connected) — the deck only counts, it doesn't register itself
+const pcount = document.createElement('div');
+pcount.id = 'pcount';
+pcount.textContent = '👥 0';
+document.querySelector('.nav').appendChild(pcount);
+Sync.subscribe('present/online', function(d){
+  var n = d ? Object.keys(d).length : 0;
+  pcount.textContent = '👥 ' + n;
+});
+if (IS_PRESENTER) {
+  // resume where the room left off → a presenter reload no longer kicks everyone back to the Agenda
+  Sync.once('present/slide').then(function(v){
+    if (typeof v === 'number' && v >= 0 && v <= 6) goSlide(v);
+    else Sync.set('present/slide', current);
+  });
+}
+
+/* ── Join QR: small on the agenda + a full-screen overlay toggled with Q (any slide) ──
+   gedeelde join-pagina mobile.html, met workshop-config via ?w= (zelfde room dankzij sync.js) */
+(function(){
+  var joinUrl = location.origin + location.pathname.replace(/[^/]+$/, 'mobile.html') + '?w=ai&s=' + Sync.sessionId();
+  var box = document.getElementById('qr-code');
+  if (box && window.QRCode) new QRCode(box, { text: joinUrl, width:140, height:140, correctLevel: QRCode.CorrectLevel.L });
+  else if (box) box.parentElement.style.display = 'none';
+  var ov = document.getElementById('join-overlay');
+  if (ov) {
+    document.getElementById('jo-url').textContent = joinUrl;
+    if (window.QRCode) new QRCode(document.getElementById('jo-qr'), { text: joinUrl, width:300, height:300, correctLevel: QRCode.CorrectLevel.L });
+    window.toggleJoin = function(){ ov.style.display = (ov.style.display==='flex' ? 'none' : 'flex'); };
+    ov.addEventListener('click', function(){ ov.style.display='none'; });
+  }
+})();
+
+/* ── Reset session: export everything to PDF, then wipe the room (presenter only) ── */
+function exportPdf(responses, showcase, notes, ideas, commitments, personal){
+  if (!(window.jspdf && window.jspdf.jsPDF)) { alert('PDF-bibliotheek niet geladen — export afgebroken, niets werd gewist.'); return false; }
+  var doc = new window.jspdf.jsPDF({unit:'pt', format:'a4'});
+  var M=48, W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight(), y=M;
+  function nl(h){ y+=h; if(y>H-M){ doc.addPage(); y=M; } }
+  function heading(t){ nl(8); doc.setFont('helvetica','bold'); doc.setFontSize(14); doc.setTextColor(40); doc.text(t,M,y); nl(6); doc.setDrawColor(205); doc.line(M,y,W-M,y); nl(16); }
+  function line(t,o){ o=o||{}; doc.setFont('helvetica',o.bold?'bold':'normal'); doc.setFontSize(o.size||10); doc.setTextColor(o.color!=null?o.color:60);
+    doc.splitTextToSize(t, W-2*M-(o.indent||0)).forEach(function(w){ doc.text(w, M+(o.indent||0), y); nl((o.size||10)+4); }); }
+  doc.setFont('helvetica','bold'); doc.setFontSize(20); doc.setTextColor(20); doc.text('Workshop-export', M, y); nl(24);
+  doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(120);
+  doc.text('Sessie: '+Sync.sessionId()+'   ·   '+new Date().toLocaleString(), M, y); nl(18);
+
+  heading('Opening — wat we hoorden');
+  var rk=responses?Object.keys(responses):[]; if(!rk.length) line('(geen)',{color:150});
+  rk.forEach(function(id){ var r=responses[id]||{}; line('• '+(r.name?r.name+': ':'')+(r.text||'')); });
+
+  heading('Blok 1 — AI Showcase');
+  var sk=showcase?Object.keys(showcase):[]; if(!sk.length) line('(geen)',{color:150});
+  sk.forEach(function(id){ var s=showcase[id]||{};
+    line((s.name?s.name+' — ':'')+(s.tool||''),{bold:true});
+    if(s.usecase) line(s.usecase,{indent:14});
+    if(s.learning) line(s.learning,{indent:14,color:110});
+  });
+
+  heading('Blok 2 — Post-it muur');
+  var nk=notes?Object.keys(notes):[];
+  line('Nieuwe ideeën', {bold:true});
+  var off=nk.filter(function(id){return (notes[id]||{}).col!=='miss';});
+  if(!off.length) line('(geen)',{color:150,indent:14}); else off.forEach(function(id){ line('• '+(notes[id].text||''),{indent:14}); });
+  line('Verbeteringen', {bold:true});
+  var mis=nk.filter(function(id){return (notes[id]||{}).col==='miss';});
+  if(!mis.length) line('(geen)',{color:150,indent:14}); else mis.forEach(function(id){ line('• '+(notes[id].text||''),{indent:14}); });
+
+  heading('Blok 2 — dot voting');
+  var opts=[];
+  if(ideas) Object.keys(ideas).forEach(function(id){var o=ideas[id]||{};opts.push({t:o.title,d:o.desc,v:o.votes||0});});
+  opts.sort(function(a,b){return b.v-a.v;});
+  if(!opts.length) line('(geen)',{color:150});
+  opts.forEach(function(o){ line(o.v+' stem'+(o.v===1?'':'men')+'  —  '+(o.t||''),{bold:true}); if(o.d) line(o.d,{indent:14,color:110}); });
+
+  heading('Blok 3 — team-acties');
+  var ck=commitments?Object.keys(commitments):[]; if(!ck.length) line('(geen)',{color:150});
+  ck.forEach(function(id){var c=commitments[id]||{}; line('• '+(c.what||'')+'   ['+(c.who||'—')+' · '+(c.when||'—')+']'); });
+
+  heading('Blok 3 — persoonlijke commitments');
+  var pk=personal?Object.keys(personal):[]; if(!pk.length) line('(geen)',{color:150});
+  pk.forEach(function(id){var p=personal[id]||{}; line('• '+(p.what||'')); });
+
+  doc.save('ai-workshop-'+Sync.sessionId()+'-'+new Date().toISOString().slice(0,10)+'.pdf');
+  return true;
+}
+function exportSession(){    // PDF only — keeps all data
+  Promise.all([Sync.once('responses'),Sync.once('showcase'),Sync.once('notes'),Sync.once('ideas'),Sync.once('commitments'),Sync.once('personal')])
+    .then(function(r){ exportPdf(r[0],r[1],r[2],r[3],r[4],r[5]); });
+}
+
+/* ── Branded slide deck (.pptx) export (presenter only) ── */
+function exportSlides(){
+  if(!window.PptxGenJS){ alert('Slide-bibliotheek niet geladen — internet nodig (laadt via CDN). Ben je online?'); return; }
+  Promise.all([Sync.once('responses'),Sync.once('showcase'),Sync.once('notes'),Sync.once('ideas'),Sync.once('commitments'),Sync.once('personal')])
+    .then(function(r){
+      var p;
+      try { p = buildSlides(r[0],r[1],r[2],r[3],r[4],r[5]); }
+      catch(e){ console.error('[Slides] build failed:', e); alert('Slide-export mislukt tijdens het bouwen: '+e.message); return; }
+      if (p && p.catch) p.catch(function(e){ console.error('[Slides] download failed:', e); alert('Slide-download mislukt: '+e.message); });
+    })
+    .catch(function(e){ console.error('[Slides] data read failed:', e); alert('Kon sessiedata niet lezen: '+e.message); });
+}
+function buildSlides(responses, showcase, notes, ideas, commitments, personal){
+  var Y='EFAF39',B='00B2DD',T='0DBFA4',O='F8763D',D='413D3B',MID='978D87',LIGHT='C5BDB5',INK='1A1917',W='FFFFFF';
+  var pptx=new PptxGenJS(); pptx.layout='LAYOUT_WIDE'; var PW=13.33;
+  function chunk(a,n){var o=[];for(var i=0;i<a.length;i+=n)o.push(a.slice(i,i+n));return o;}
+  function sec(title,band,eyebrow){
+    var s=pptx.addSlide(); s.background={color:W};
+    s.addShape(pptx.ShapeType.rect,{x:0,y:0,w:PW,h:0.16,fill:{color:band}});
+    if(eyebrow) s.addText(eyebrow.toUpperCase(),{x:0.7,y:0.5,w:12,h:0.3,fontFace:'Inter',fontSize:11,bold:true,color:MID});
+    s.addText(title,{x:0.7,y:0.8,w:12,h:0.7,fontFace:'Inter',fontSize:28,bold:true,color:INK});
+    return s;
+  }
+  // ── gather data ──
+  var resp=Object.keys(responses||{}).map(function(id){return responses[id]||{};});
+  var show=Object.keys(showcase||{}).map(function(id){return showcase[id]||{};});
+  var nk=notes?Object.keys(notes):[];
+  var offers=nk.filter(function(id){return (notes[id]||{}).col!=='miss';}).map(function(id){return notes[id].text||'';});
+  var misses=nk.filter(function(id){return (notes[id]||{}).col==='miss';}).map(function(id){return notes[id].text||'';});
+  var opts=[]; if(ideas) Object.keys(ideas).forEach(function(id){var o=ideas[id]||{};opts.push({t:o.title,d:o.desc,v:o.votes||0});});
+  opts.sort(function(a,b){return b.v-a.v;});
+  var comm=Object.keys(commitments||{}).map(function(id){return commitments[id]||{};});
+  var pers=Object.keys(personal||{}).map(function(id){return personal[id]||{};});
+  var dateStr=new Date().toLocaleDateString('nl-BE',{day:'numeric',month:'long',year:'numeric'});
+
+  // ── cover ──
+  var c=pptx.addSlide(); c.background={color:INK};
+  c.addShape(pptx.ShapeType.rect,{x:0.7,y:2.35,w:1.1,h:0.09,fill:{color:Y}});
+  c.addText('FLEXSO DIGITAL · AI WORKSHOP',{x:0.7,y:2.55,w:12,h:0.4,fontFace:'Inter',fontSize:13,bold:true,color:Y});
+  c.addText('AI @ Flexso Digital',{x:0.7,y:3.0,w:12,h:1.2,fontFace:'Inter',fontSize:40,bold:true,color:W});
+  c.addText(dateStr+'   ·   '+resp.length+' woorden · '+show.length+' voorbeelden · '+(offers.length+misses.length)+' post-its · '+comm.length+' acties',
+    {x:0.7,y:4.35,w:12,h:0.5,fontFace:'Inter',fontSize:14,color:LIGHT});
+
+  // ── opening ──
+  if(resp.length) chunk(resp,10).forEach(function(ch,i,arr){
+    var s=sec('Eén woord',Y,'Opening'+(arr.length>1?' · '+(i+1)+'/'+arr.length:''));
+    var runs=[];
+    ch.forEach(function(r){
+      if(r.name){ runs.push({text:r.name+' — ',options:{bold:true,color:INK,fontSize:14,bullet:true,breakLine:false}});
+        runs.push({text:r.text||'',options:{color:D,fontSize:14,breakLine:true}}); }
+      else runs.push({text:r.text||'',options:{color:D,fontSize:14,bullet:true,breakLine:true}});
+    });
+    s.addText(runs,{x:0.7,y:1.75,w:12,h:5.3,valign:'top',lineSpacingMultiple:1.35});
+  });
+
+  // ── showcase ──
+  if(show.length) chunk(show,8).forEach(function(ch,i,arr){
+    var s=sec('Wat gebruiken we al?',T,'Blok 1 — AI Showcase'+(arr.length>1?' · '+(i+1)+'/'+arr.length:''));
+    var runs=[];
+    ch.forEach(function(r){
+      runs.push({text:(r.tool||'')+' — ',options:{bold:true,color:INK,fontSize:14,bullet:true,breakLine:false}});
+      runs.push({text:(r.usecase||'')+(r.learning?'  ('+r.learning+')':''),options:{color:D,fontSize:13,breakLine:true}});
+    });
+    s.addText(runs,{x:0.7,y:1.75,w:12,h:5.3,valign:'top',lineSpacingMultiple:1.35});
+  });
+
+  // ── post-it wall ──
+  if(offers.length||misses.length){
+    var pgs=Math.max(1,Math.ceil(offers.length/10),Math.ceil(misses.length/10));
+    var col=function(s,title,color,items,x){
+      s.addShape(pptx.ShapeType.roundRect,{x:x,y:1.7,w:5.7,h:0.5,fill:{color:color},rectRadius:0.08});
+      s.addText(title,{x:x,y:1.7,w:5.7,h:0.5,align:'center',valign:'middle',bold:true,fontSize:14,fontFace:'Inter',color:(color===Y?INK:W)});
+      var runs=items.length?items.map(function(t){return {text:t,options:{bullet:true,breakLine:true,fontSize:12,color:D}};})
+                          :[{text:'(geen)',options:{italic:true,color:MID,fontSize:12}}];
+      s.addText(runs,{x:x,y:2.35,w:5.7,h:4.7,valign:'top',lineSpacingMultiple:1.2});
+    };
+    for(var p=0;p<pgs;p++){
+      var s=sec('Post-it muur',Y,'Blok 2 — Brainstorm'+(pgs>1?' · '+(p+1)+'/'+pgs:''));
+      col(s,'Nieuwe ideeën',Y,offers.slice(p*10,p*10+10),0.7);
+      col(s,'Verbeteringen',B,misses.slice(p*10,p*10+10),6.95);
+    }
+  }
+
+  // ── dot voting (vote chart) ──
+  if(opts.length){
+    var sd=sec('Waarop stemden we?',T,'Blok 2 — Dot voting');
+    var top=opts.slice(0,12);
+    try{
+      sd.addChart(pptx.ChartType.bar,[{name:'Stemmen',labels:top.map(function(o){return o.t||'(zonder titel)';}),values:top.map(function(o){return o.v;})}],
+        {x:0.7,y:1.7,w:12,h:5.0,barDir:'bar',chartColors:[T],showValue:true,showLegend:false,catAxisLabelColor:D,valAxisLabelColor:MID,dataLabelColor:D,catAxisLabelFontSize:11,valAxisLabelFontSize:9});
+    }catch(e){
+      sd.addText(top.map(function(o){return {text:o.v+' — '+(o.t||''),options:{bullet:true,breakLine:true,fontSize:15,color:D}};}),{x:0.7,y:1.8,w:12,h:5,valign:'top'});
+    }
+    if(top[0]) sd.addText('★ '+(top[0].t||'')+'  —  '+top[0].v+' stem'+(top[0].v===1?'':'men'),{x:0.7,y:6.8,w:12,h:0.4,fontSize:13,bold:true,color:T,fontFace:'Inter'});
+  }
+
+  // ── commitments ──
+  if(comm.length){
+    var hdr={bold:true,color:W,fill:{color:D},fontSize:13,valign:'middle',fontFace:'Inter'};
+    var hdrC={bold:true,color:W,fill:{color:D},fontSize:13,valign:'middle',align:'center',fontFace:'Inter'};
+    var cell={fontSize:12,color:D,valign:'middle',fontFace:'Inter'};
+    var cellC={fontSize:12,color:D,valign:'middle',align:'center',fontFace:'Inter'};
+    chunk(comm,8).forEach(function(ch,i,arr){
+      var s=sec('Onze team-acties',O,'Blok 3 — Commitment wall'+(arr.length>1?' · '+(i+1)+'/'+arr.length:''));
+      var rows=[[{text:'Wat',options:hdr},{text:'Wie',options:hdrC},{text:'Wanneer',options:hdrC}]];
+      ch.forEach(function(x){ rows.push([{text:x.what||'',options:cell},{text:x.who||'—',options:cellC},{text:x.when||'—',options:cellC}]); });
+      s.addTable(rows,{x:0.7,y:1.75,w:11.9,colW:[7.3,2.3,2.3],border:{type:'solid',color:'E5E1DA',pt:1},rowH:0.5});
+    });
+  }
+
+  // ── persoonlijke commitments ──
+  if(pers.length) chunk(pers,12).forEach(function(ch,i,arr){
+    var s=sec('Persoonlijke commitments',O,'Blok 3'+(arr.length>1?' · '+(i+1)+'/'+arr.length:''));
+    s.addText(ch.map(function(p){return {text:p.what||'',options:{bullet:true,breakLine:true,fontSize:14,color:D}};}),{x:0.7,y:1.75,w:12,h:5.3,valign:'top',lineSpacingMultiple:1.4});
+  });
+
+  // ── closing ──
+  var cl=pptx.addSlide(); cl.background={color:INK};
+  cl.addText('Wat doe ik anders of meer met AI na vandaag?',{x:0.7,y:2.9,w:12,h:1,fontFace:'Inter',fontSize:32,bold:true,color:W,align:'center'});
+  cl.addText('Bedankt — blijf delen en uitproberen.',{x:0.7,y:4.0,w:12,h:0.5,fontFace:'Inter',fontSize:15,color:LIGHT,align:'center'});
+
+  return pptx.writeFile({fileName:'ai-workshop-'+Sync.sessionId()+'-'+new Date().toISOString().slice(0,10)+'.pptx'});
+}
+function resetSession(){
+  if (!confirm('Alles exporteren naar PDF en daarna ALLE bijdrages voor deze sessie WISSEN?')) return;
+  Promise.all([Sync.once('responses'),Sync.once('showcase'),Sync.once('notes'),Sync.once('ideas'),Sync.once('commitments'),Sync.once('personal')])
+    .then(function(r){
+      if (exportPdf(r[0],r[1],r[2],r[3],r[4],r[5]) === false) return;   // export failed → keep data
+      Sync.remove('responses'); Sync.remove('showcase'); Sync.remove('notes'); Sync.remove('ideas'); Sync.remove('commitments'); Sync.remove('personal');
+      Sync.set('dir', { mode:'disc' });   // fresh voting state
+      alert('Geëxporteerd naar PDF en gewist — een nieuwe sessie staat klaar.');
+    });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Voorbereiding · AI @ Flexso Digital</title>
+<link rel="stylesheet" href="theme.css">
+<style>
+html,body{background:#1a1917;color:var(--white);font-family:'Inter',sans-serif;-webkit-text-size-adjust:100%;}
+body{min-height:100dvh;display:flex;flex-direction:column;}
+
+.hdr{position:sticky;top:0;z-index:10;background:rgba(26,25,23,.97);backdrop-filter:blur(8px);
+  padding:16px 18px calc(16px + env(safe-area-inset-top,0));padding-top:max(16px,env(safe-area-inset-top));
+  border-bottom:1px solid rgba(255,255,255,.08);}
+.hdr-top{display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(255,255,255,.4);font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);flex-shrink:0;}
+.dot.on{background:var(--teal);box-shadow:0 0 7px var(--teal);}
+.dot.off{background:var(--orange);}
+.dot.local{background:var(--light);}
+.title{font-size:22px;font-weight:800;letter-spacing:-.4px;margin-top:6px;}
+.title em{font-style:normal;color:var(--yellow);}
+.deadline{margin-top:9px;display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;
+  background:rgba(239,175,57,.16);color:var(--yellow);padding:6px 13px;border-radius:9px;}
+
+main{flex:1;padding:18px;display:flex;flex-direction:column;gap:14px;max-width:600px;width:100%;margin:0 auto;}
+.lead{font-size:14px;color:rgba(255,255,255,.6);line-height:1.55;}
+.lead strong{color:rgba(255,255,255,.85);}
+.card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:16px;}
+label{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px;}
+input,textarea{width:100%;font-family:inherit;font-size:16px;color:var(--white);background:rgba(255,255,255,.07);
+  border:1.5px solid rgba(255,255,255,.14);border-radius:10px;padding:13px 14px;outline:none;transition:border-color .15s;}
+input:focus,textarea:focus{border-color:var(--yellow);}
+input::placeholder,textarea::placeholder{color:rgba(255,255,255,.3);}
+textarea{resize:none;min-height:70px;line-height:1.45;}
+.field+.field{margin-top:10px;}
+.btn{width:100%;border:none;border-radius:11px;padding:15px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .08s;}
+.btn:active{transform:scale(.98);opacity:.85;}
+.btn-yel{background:var(--yellow);color:#1a1917;margin-top:12px;}
+
+.stat-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:24px 16px;text-align:center;}
+.stat-num{font-size:42px;font-weight:800;color:var(--yellow);line-height:1;font-variant-numeric:tabular-nums;}
+.stat-label{margin-top:6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.4);}
+.motivate{font-size:13.5px;color:rgba(255,255,255,.55);line-height:1.55;text-align:center;font-style:italic;padding:0 6px;}
+
+.banner{background:var(--orange);color:#fff;font-size:13px;font-weight:600;padding:11px 16px;text-align:center;line-height:1.4;}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--teal);color:#08312a;
+  font-weight:700;font-size:14px;padding:11px 20px;border-radius:30px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:50;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div id="no-room" class="banner" style="display:none;">⚠ Geen sessie in de link. Gebruik de link uit de mail (met <b>?s=...</b> erin).</div>
+
+<header class="hdr">
+  <div class="hdr-top"><span class="dot" id="dot"></span><span id="status"></span></div>
+  <div class="title">AI @ Flexso <em>Digital</em> — Voorbereiding</div>
+  <div class="deadline">⏳ In te dienen ten laatste 13 juli, 's avonds</div>
+</header>
+
+<main>
+  <div class="lead">
+    Op <strong>15 juli</strong> bekijken we samen wat we als FD al doen met AI. Deel hier <strong>2 à 3 voorbeelden</strong> — je mag dit meerdere keren invullen. We zijn vooral benieuwd hoe AI <strong>jouw werk verlicht</strong>, of hoe het <strong>klanten nieuwe opportuniteiten geeft</strong> (denk aan Cortex, Integration Cockpit, ...). Je inzending wordt pas op 15 juli zelf getoond — hieronder zie je enkel hoeveel er al binnen zijn.
+  </div>
+
+  <div class="card">
+    <label>Naam (optioneel)</label>
+    <div class="field"><input id="f-name" placeholder="Je naam…"></div>
+
+    <label class="btn-mt" style="margin-top:12px;">Welke tool gebruik je?</label>
+    <div class="field"><input id="f-tool" placeholder="Bv. Claude, Copilot, Cortex, Integration Cockpit…"></div>
+
+    <label style="margin-top:12px;">Waarvoor — verlicht het je werk, of opent het iets voor de klant?</label>
+    <div class="field"><textarea id="f-usecase" placeholder="Waarvoor gebruik je hem…"></textarea></div>
+
+    <label style="margin-top:12px;">Wat viel je op?</label>
+    <div class="field"><textarea id="f-learning" placeholder="Wat werkt goed, wat nog niet…"></textarea></div>
+
+    <button class="btn btn-yel" onclick="addShowcase()">Toevoegen ✓</button>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-num" id="showcase-cnt">0</div>
+    <div class="stat-label">voorbeelden al binnen</div>
+  </div>
+  <div class="motivate" id="motivate-msg"></div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<!-- Realtime sync: Firebase compat SDK + shared sync layer — writes into the SAME
+     Firebase room as the main deck (via ?s=<session>), so entries show up live on
+     the Blok 1 screen on the day itself, no matter what slide the deck is on. -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="sync.js"></script>
+<script>
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1100);}
+function val(id){return document.getElementById(id).value.trim();}
+function clr(){[].slice.call(arguments).forEach(function(id){document.getElementById(id).value='';});}
+
+var qp=new URLSearchParams(location.search);
+if(!(qp.get('s')||qp.get('room'))) document.getElementById('no-room').style.display='block';
+
+var dot=document.getElementById('dot'), statusEl=document.getElementById('status');
+if(Sync.online){ dot.className='dot off'; statusEl.textContent='verbinden…';
+  Sync.connected(function(ok){ dot.className='dot '+(ok?'on':'off'); statusEl.textContent=ok?'live':'opnieuw verbinden…'; });
+} else { dot.className='dot local'; statusEl.textContent='offline (enkel lokaal)'; }
+
+function addShowcase(){
+  var tool=val('f-tool');
+  if(!tool){ document.getElementById('f-tool').focus(); return; }
+  Sync.push('showcase',{ name:val('f-name'), tool:tool, usecase:val('f-usecase'), learning:val('f-learning') });
+  clr('f-name','f-tool','f-usecase','f-learning');
+  document.getElementById('f-tool').focus();
+  toast('Toegevoegd ✓');
+  showMotivation();
+}
+['f-tool','f-usecase'].forEach(function(id){
+  document.getElementById(id).addEventListener('keydown',function(e){
+    if(e.key!=='Enter') return;
+    e.preventDefault();
+    document.getElementById(id==='f-tool'?'f-usecase':'f-learning').focus();
+  });
+});
+
+/* Deliberately no preview of what was submitted — just the count, plus
+   a nudge to lower the "is mine good enough" hesitation to contribute. */
+var MOTIVATIONS=[
+  'Jouw voorbeeld kan een collega net het duwtje geven om een tool uit te proberen.',
+  'Ook een klein of "voor de hand liggend" voorbeeld telt — niet alles moet baanbrekend zijn.',
+  'Hoe meer voorbeelden, hoe rijker het beeld dat we samen schetsen op 15 juli.',
+  'Nieuwsgierig wat anderen al deelden? Dat ontdek je pas live op 15 juli.',
+  'Twijfel je of het de moeite is? Vermoedelijk wel — deel het gewoon.',
+  'Elke tool die jij deelt, is er mogelijk één die een collega nog niet kende.'
+];
+function showMotivation(){
+  document.getElementById('motivate-msg').textContent = '💬 ' + MOTIVATIONS[Math.floor(Math.random()*MOTIVATIONS.length)];
+}
+showMotivation();
+
+Sync.subscribe('showcase', function(data){
+  var ids=data?Object.keys(data):[];
+  document.getElementById('showcase-cnt').textContent=ids.length;
+});
+</script>
+</body>
+</html>
